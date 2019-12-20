@@ -3,7 +3,7 @@ import { MenuButtonWrapper } from "./MenuButtonStyles";
 
 function MenuButton(props) {
   return (
-    <MenuButtonWrapper>
+    <MenuButtonWrapper onClick={props.openMenu}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 100 100"

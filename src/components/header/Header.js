@@ -9,15 +9,16 @@ import {
 import Logo from "../logo/Logo";
 import Search from "../search/Search";
 import MenuButton from "../mobileMenu/menuButton/MenuButton";
+import MobileMenu from "../mobileMenu/MobileMenu";
 import Button from "./button/Button";
 
 function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(true);
 
   return (
     <HeaderWrapper>
       <HeaderContainer>
-        <MenuButton />
+        <MenuButton openMenu={() => setMobileMenuOpen(true)} />
         <HeaderLogo>
           <Logo />
         </HeaderLogo>
@@ -29,6 +30,9 @@ function Header() {
           <Button text={"Sign Up"} />
         </AuthButtons>
       </HeaderContainer>
+      {mobileMenuOpen && (
+        <MobileMenu closeMenu={() => setMobileMenuOpen(false)} />
+      )}
     </HeaderWrapper>
   );
 }
