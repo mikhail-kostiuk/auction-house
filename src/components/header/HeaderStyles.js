@@ -28,7 +28,7 @@ export const HeaderLogo = styled.div`
 
   @media screen and (min-width: 768px) {
     margin-left: 0;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
   }
 `;
 
@@ -43,5 +43,20 @@ export const SearchContainer = styled.div`
     width: auto;
     margin-top: 0;
     margin-left: 22px;
+  }
+`;
+
+export const AuthButtons = styled.div`
+  order: 1;
+  margin-left: auto;
+  display: flex;
+
+  @media screen and (min-width: 768px) {
+    order: 2;
+    margin-left: 14px;
+  }
+
+  & button {
+    margin-left: 8px;
   }
 `;
