@@ -1,0 +1,782 @@
+[
+  {
+    "name": "Archaeology",
+    "categories": [
+      {
+        "name": "Archaeological Finds & Remains",
+        "categories": [
+          {
+            "name": "Ancient Art & Antiquitie",
+            "categories": []
+          },
+          {
+            "name": "Exclusive Archeology",
+            "categories": []
+          },
+          {
+            "name": "Fossils",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Minerals & Meteorites",
+        "categories": [
+          {
+            "name": "Decorative Minerals",
+            "categories": []
+          },
+          {
+            "name": "Meteorites",
+            "categories": []
+          },
+          {
+            "name": "Minerals",
+            "categories": []
+          },
+          {
+            "name": "Premium-Grade Minerals",
+            "categories": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Art",
+    "categories": [
+      {
+        "name": "Classical Art",
+        "categories": [
+          {
+            "name": "Classical Paintings",
+            "categories": []
+          },
+          {
+            "name": "Classical Italian Paintings",
+            "categories": []
+          },
+          {
+            "name": "Dutch & Belgian Classical Paintings",
+            "categories": []
+          },
+          {
+            "name": "Antique Prints Pre-1800",
+            "categories": []
+          },
+          {
+            "name": "Prints from 1800 to 1945",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Modern & Contemporary Art",
+        "categories": [
+          {
+            "name": "Dutch & Belgian Modern & Contemporary Art",
+            "categories": []
+          },
+          {
+            "name": "French Modern & Contemporary Art",
+            "categories": []
+          },
+          {
+            "name": "Italian Modern & Contemporary Art",
+            "categories": []
+          },
+          {
+            "name": "Modern & Contemporary Artworks",
+            "categories": []
+          },
+          {
+            "name": "Pop Art",
+            "categories": []
+          },
+          {
+            "name": "Prints & Limited Editions",
+            "categories": []
+          },
+          {
+            "name": "Street Art",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Photography",
+        "categories": [
+          {
+            "name": "Photography",
+            "categories": []
+          },
+          {
+            "name": "Press Photo",
+            "categories": []
+          },
+          {
+            "name": "Posters",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Asian Art & Ethnography",
+        "categories": [
+          {
+            "name": "Asian Antiques",
+            "categories": []
+          },
+          {
+            "name": "Asian Curio",
+            "categories": []
+          },
+          {
+            "name": "Exclusive Asian Art & Objects",
+            "categories": []
+          },
+          {
+            "name": "Exclusive Japanese Antiques",
+            "categories": []
+          },
+          {
+            "name": "Japanese Antiques",
+            "categories": []
+          },
+          {
+            "name": "Japanese Woodblock Prints - Ukiyoe",
+            "categories": []
+          },
+          {
+            "name": "Samurai",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Ethnographic & Tribal Art",
+        "categories": [
+          {
+            "name": "African Tribal Art",
+            "categories": []
+          },
+          {
+            "name": "Asian, Oceanian & American Tribal Art",
+            "categories": []
+          },
+          {
+            "name": "Ethnic Jewellery & Textiles",
+            "categories": []
+          },
+          {
+            "name": "Exclusive Tribal Art",
+            "categories": []
+          },
+          {
+            "name": "Tribal Decor",
+            "categories": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Books",
+    "categories": [
+      {
+        "name": "Books",
+        "categories": [
+          {
+            "name": "Art & Photography Books",
+            "categories": []
+          },
+          {
+            "name": "Autographs & Manuscripts",
+            "categories": []
+          },
+          {
+            "name": "Dutch Literature & Illustrated Books",
+            "categories": []
+          },
+          {
+            "name": "French Literature &Illustrated Books",
+            "categories": []
+          },
+          {
+            "name": "Geography & Travel Books",
+            "categories": []
+          },
+          {
+            "name": "History & Military Books",
+            "categories": []
+          },
+          {
+            "name": "Literature & Illustrated Books",
+            "categories": []
+          },
+          {
+            "name": "Science & Nature Books",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Cartography",
+        "categories": [
+          {
+            "name": "Cartography (Europe)",
+            "categories": []
+          },
+          {
+            "name": "Cartography (Rest of World)",
+            "categories": []
+          },
+          {
+            "name": "Dutch Cartography",
+            "categories": []
+          },
+          {
+            "name": "Exclusive Cartography",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Comics",
+        "categories": [
+          {
+            "name": "Artist & Series Special of the Wee",
+            "categories": []
+          },
+          {
+            "name": "Comics in Dutch",
+            "categories": []
+          },
+          {
+            "name": "Comics in French",
+            "categories": []
+          },
+          {
+            "name": "Disney",
+            "categories": []
+          },
+          {
+            "name": "Exclusive Comics",
+            "categories": []
+          },
+          {
+            "name": "Hergé / Tintin",
+            "categories": []
+          },
+          {
+            "name": "Italian Comics & Original Comic Art",
+            "categories": []
+          },
+          {
+            "name": "Original Animation Art",
+            "categories": []
+          },
+          {
+            "name": "Original Comic Art (Various Artists)",
+            "categories": []
+          },
+          {
+            "name": "US Comics & Original Comic Art",
+            "categories": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Vehicles",
+    "categories": [
+      {
+        "name": "Automobilia & Motobilia",
+        "categories": [
+          {
+            "name": "Automobilia",
+            "categories": []
+          },
+          {
+            "name": "Ferrari Automobilia",
+            "categories": []
+          },
+          {
+            "name": "Motobilia",
+            "categories": []
+          },
+          {
+            "name": "Porsche Automobilia",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Bicycles",
+        "categories": [
+          {
+            "name": "Bicycles",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Classic Cars",
+        "categories": [
+          {
+            "name": "Barn Finds",
+            "categories": []
+          },
+          {
+            "name": "Classic Cars",
+            "categories": []
+          },
+          {
+            "name": "Modern Classic Cars (Youngtimers)",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Classic Motorcycles & Scooters",
+        "categories": [
+          {
+            "name": "Classic Motorcycles",
+            "categories": []
+          },
+          {
+            "name": "Mopeds",
+            "categories": []
+          },
+          {
+            "name": "Motorcycle Barn Finds",
+            "categories": []
+          },
+          {
+            "name": "Vespa, Lambretta &Classic Scooters",
+            "categories": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Coins",
+    "categories": [
+      {
+        "name": "Bullions",
+        "categories": [
+          {
+            "name": "Bullions",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Coins & Banknotes",
+        "categories": [
+          {
+            "name": "Ancient Coins",
+            "categories": []
+          },
+          {
+            "name": "Asian Coins",
+            "categories": []
+          },
+          {
+            "name": "Banknotes",
+            "categories": []
+          },
+          {
+            "name": "Coin Accessories",
+            "categories": []
+          },
+          {
+            "name": "Coins (World)",
+            "categories": []
+          },
+          {
+            "name": "Coins from German Speaking Countries",
+            "categories": []
+          },
+          {
+            "name": "Dutch & Belgian Coins",
+            "categories": []
+          },
+          {
+            "name": "Euro Coins",
+            "categories": []
+          },
+          {
+            "name": "French Coins",
+            "categories": []
+          },
+          {
+            "name": "Gold Coins",
+            "categories": []
+          },
+          {
+            "name": "Italian Coins",
+            "categories": []
+          },
+          {
+            "name": "Portuguese Coins",
+            "categories": []
+          },
+          {
+            "name": "Silver Coins",
+            "categories": []
+          },
+          {
+            "name": "Spanish Coins",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Postcards",
+        "categories": [
+          {
+            "name": "Dutch & Belgian Postcards",
+            "categories": []
+          },
+          {
+            "name": "International Postcard",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Stamps",
+        "categories": [
+          {
+            "name": "Austrian & Swiss Stamps",
+            "categories": []
+          },
+          {
+            "name": "Belgian Stamps",
+            "categories": []
+          },
+          {
+            "name": "British Commonwealth Stamps",
+            "categories": []
+          },
+          {
+            "name": "China & East Asian Stamps",
+            "categories": []
+          },
+          {
+            "name": "Dutch Stamps",
+            "categories": []
+          },
+          {
+            "name": "French Stamps",
+            "categories": []
+          },
+          {
+            "name": "German Stamps",
+            "categories": []
+          },
+          {
+            "name": "International Stamps",
+            "categories": []
+          },
+          {
+            "name": "Italian Stamps",
+            "categories": []
+          },
+          {
+            "name": "Spanish & Portuguese Stamps",
+            "categories": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Gemstones",
+    "categories": [
+      {
+        "name": "Diamonds",
+        "categories": [
+          {
+            "name": "Colour Treated Diamonds",
+            "categories": []
+          },
+          {
+            "name": "Diamonds",
+            "categories": []
+          },
+          {
+            "name": "Mixed Diamonds",
+            "categories": []
+          },
+          {
+            "name": "Natural Fancy Colour Diamonds",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Gemstones",
+        "categories": [
+          {
+            "name": "Exclusive Gemstones",
+            "categories": []
+          },
+          {
+            "name": "Gemstones",
+            "categories": []
+          },
+          {
+            "name": "Gemstones (IGL, EGL, IJGC & AIG Certificates)",
+            "categories": []
+          },
+          {
+            "name": "Gemstones Certified by Gemmologists",
+            "categories": []
+          },
+          {
+            "name": "Parcels of Gemstones",
+            "categories": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Jewellery",
+    "categories": [
+      {
+        "name": "Jewellery",
+        "categories": [
+          {
+            "name": "Antique & Vintage Amber Jewellery",
+            "categories": []
+          },
+          {
+            "name": "Antique & Vintage Silver Jewellery",
+            "categories": []
+          },
+          {
+            "name": "Antique Jewellery",
+            "categories": []
+          },
+          {
+            "name": "Brand Jewellery",
+            "categories": []
+          },
+          {
+            "name": "Enhanced  Diamond Jewellery",
+            "categories": []
+          },
+          {
+            "name": "Pearl Jewellery",
+            "categories": []
+          },
+          {
+            "name": "Vintage Jeweller",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Lighters & Pens",
+        "categories": [
+          {
+            "name": "Lighters & Smoking Accessories",
+            "categories": []
+          },
+          {
+            "name": "Pens & Stationery",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Watches",
+        "categories": [
+          {
+            "name": "Breitling Watches",
+            "categories": []
+          },
+          {
+            "name": "Cartier Watches",
+            "categories": []
+          },
+          {
+            "name": "Omega Watches",
+            "categories": []
+          },
+          {
+            "name": "Pocket Watches",
+            "categories": []
+          },
+          {
+            "name": "Rolex Watches",
+            "categories": []
+          },
+          {
+            "name": "Tudor Watches",
+            "categories": []
+          },
+          {
+            "name": "Vintage Watches",
+            "categories": []
+          },
+          {
+            "name": "Zenith Watches",
+            "categories": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Models",
+    "categories": [
+      {
+        "name": "Model Cars",
+        "categories": [
+          {
+            "name": "Dinky Toys & Corgi Toys Model Cars",
+            "categories": []
+          },
+          {
+            "name": "Model Cars",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Model Trains",
+        "categories": [
+          {
+            "name": "Dutch H0 Model Trains",
+            "categories": []
+          },
+          {
+            "name": "Fleischmann H0 Model Trains",
+            "categories": []
+          },
+          {
+            "name": "Märklin H0 Model Trains",
+            "categories": []
+          },
+          {
+            "name": "Model Trains Gauge 1/0/G",
+            "categories": []
+          },
+          {
+            "name": "N Model Trains",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Toys",
+        "categories": [
+          {
+            "name": "Dolls & Bears",
+            "categories": []
+          },
+          {
+            "name": "Iconic Toys & Figures",
+            "categories": []
+          },
+          {
+            "name": "LEGO",
+            "categories": []
+          },
+          {
+            "name": "Tin Toys",
+            "categories": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Alcohol",
+    "categories": [
+      {
+        "name": "Champagne",
+        "categories": [
+          {
+            "name": "Champagne",
+            "categories": []
+          },
+          {
+            "name": "Dom Perignon Champagne",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Port & Sweet Wines",
+        "categories": [
+          {
+            "name": "Dessert & Sweet Wines",
+            "categories": []
+          },
+          {
+            "name": "Port, Sherry & Madeira",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Rum, Cognac & Fine Spirits",
+        "categories": [
+          {
+            "name": "Cognac & Armagnac",
+            "categories": []
+          },
+          {
+            "name": "Fine Spirits &amp; Liqueurs",
+            "categories": []
+          },
+          {
+            "name": "Rum",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Whisky",
+        "categories": [
+          {
+            "name": "Exclusive Whisky",
+            "categories": []
+          },
+          {
+            "name": "Whisky",
+            "categories": []
+          }
+        ]
+      },
+      {
+        "name": "Wine",
+        "categories": [
+          {
+            "name": "Bordeaux Grand Cru Classé & Pomerol Wine",
+            "categories": []
+          },
+          {
+            "name": "Burgundy Crus Wine",
+            "categories": []
+          },
+          {
+            "name": "Italian Wines",
+            "categories": []
+          },
+          {
+            "name": "Spanish & Portuguese Wines",
+            "categories": []
+          }
+        ]
+      }
+    ]
+  }
+]
