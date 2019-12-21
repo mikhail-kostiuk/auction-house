@@ -60,3 +60,28 @@ export const AuthButtons = styled.div`
     margin-left: 8px;
   }
 `;
+
+export const NavigationWrapper = styled.div`
+  display: none;
+  order: 3;
+  width: 100%;
+  border-top: 1px solid ${props => props.theme.bluegrey8};
+  background-color: #fff;
+
+  @media screen and (min-width: 768px) {
+    display: block;
+  }
+`;
+
+export const NavigationContainer = styled.div`
+  padding: 10px;
+
+  @media screen and (min-width: 768px) {
+    padding: 10px 20px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+`;

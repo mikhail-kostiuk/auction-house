@@ -5,12 +5,15 @@ import {
   SearchContainer,
   HeaderLogo,
   AuthButtons,
+  NavigationContainer,
+  NavigationWrapper,
 } from "./HeaderStyles";
 import Logo from "../logo/Logo";
 import Search from "../search/Search";
 import MenuButton from "../mobileMenu/menuButton/MenuButton";
 import MobileMenu from "../mobileMenu/MobileMenu";
 import Button from "./button/Button";
+import Navigation from "./navigation/Navigation";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(true);
@@ -30,6 +33,11 @@ function Header() {
           <Button text={"Sign Up"} />
         </AuthButtons>
       </HeaderContainer>
+      <NavigationWrapper>
+        <NavigationContainer>
+          <Navigation />
+        </NavigationContainer>
+      </NavigationWrapper>
       {mobileMenuOpen && (
         <MobileMenu closeMenu={() => setMobileMenuOpen(false)} />
       )}
