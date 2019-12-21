@@ -101,5 +101,4 @@ export const MenuListLink = styled.a`
   height: 100%;
   width: 100%;
   color: inherit;
-  text-decoration: none;
 `;
