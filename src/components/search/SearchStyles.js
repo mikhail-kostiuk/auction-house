@@ -29,6 +29,7 @@ export const SearchButton = styled.button`
   right: 0;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   width: 40px;
   height: 40px;
   border: none;
