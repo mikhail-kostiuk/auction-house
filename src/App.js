@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Home from "./pages/Home";
+import Sell from "./pages/Sell";
 import { theme } from "./theme";
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Route exact path="/" component={Home} />
+        <Route exact path="/sell" component={Sell} />
       </BrowserRouter>
     </ThemeProvider>
   );
