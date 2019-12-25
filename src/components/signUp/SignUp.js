@@ -1,20 +1,79 @@
-import React from "react";
-import { SignUpForm, Label, Input, Button, BottomText, LinkButton } from "./SignUpStyles";
+import React, { useState } from "react";
+import { auth, firestore } from "../../firebase";
+import {
+  SignUpForm,
+  Label,
+  Input,
+  Button,
+  BottomText,
+  LinkButton,
+} from "./SignUpStyles";
 import Modal from "../modal/Modal";
 
 function SignUp(props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  function isInputValid() {
+    if (password !== confirmPassword) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function onSubmitForm(e) {
+    e.preventDefault();
+
+    if (isInputValid()) {
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(function(createdUser) {
+          firestore.collection("users").add({
+            uid: createdUser.user.uid,
+          });
+          props.closeSignUp();
+        })
+        .catch(function(error) {
+          let errorCode = error.code;
+          let errorMessage = error.message;
+          console.log(errorCode);
+          console.log(errorMessage);
+        });
+    }
+  }
+
   return (
     <Modal
       text={"Sign up and begin your treasure hunt."}
       close={props.closeSignUp}
     >
-      <SignUpForm>
+      <SignUpForm onSubmit={onSubmitForm}>
         <Label htmlFor="email">Email address</Label>
-        <Input type="email" name="email" id="email" />
+        <Input
+          type="email"
+          name="email"
+          id="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
         <Label htmlFor="password">Password</Label>
-        <Input type="password" name="password" id="password" />
+        <Input
+          type="password"
+          name="password"
+          id="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        />
         <Label htmlFor="confirmPassword">Confirm password</Label>
-        <Input type="password" name="confirmPassword" id="confirmPassword" />
+        <Input
+          type="password"
+          name="confirmPassword"
+          id="confirmPassword"
+          value={confirmPassword}
+          onChange={e => setConfirmPassword(e.target.value)}
+        />
         <Button type="submit">Sign up</Button>
       </SignUpForm>
       <BottomText>
