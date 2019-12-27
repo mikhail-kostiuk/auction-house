@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import categories from "../../data/categories.json";
+import { storage, firestore } from "../../firebase";
 import { FormWrapper, Label } from "./SellFormStyles.js";
 
 function SellForm() {
-  const tomorrow = new Date();
+  console.log(storage);
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState(categories[0]);
@@ -18,7 +19,9 @@ function SellForm() {
   const [description, setDescription] = useState("");
   const [startingBid, setStartingBid] = useState(0);
   const [endDate, setEndDate] = useState(new Date().toDateString());
+  const [image, setImage] = useState(null);
 
+  console.log(image);
   function onCategoryChange(e) {
     const selectId = e.target.id;
     const selectedOption = e.target.value;
@@ -55,8 +58,90 @@ function SellForm() {
     }
   }
 
+  function onFormSubmit(e) {
+    e.preventDefault();
+    // var storageRef = storage.ref();
+    // File or Blob named mountains.jpg
+    var file = image;
+
+    // Create the file metadata
+    var metadata = {
+      contentType: "image/jpeg",
+    };
+
+    // Upload file and metadata to the object 'images/mountains.jpg'
+    var uploadTask = storage
+      .ref(`images`)
+      .child(file.name)
+      .put(file, metadata);
+
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(
+      "state_changed", // or 'state_changed'
+      function(snapshot) {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused": // or 'paused'
+            console.log("Upload is paused");
+            break;
+          case "running": // or 'running'
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      function(error) {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            break;
+
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+
+          case "storage/unknown":
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+
+          default:
+            break;
+        }
+      },
+      function() {
+        // Upload completed successfully, now we can get the download URL
+        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+          console.log("File available at", downloadURL);
+          firestore
+            .collection("lots")
+            .add({
+              title,
+              category: category.name,
+              subcategory,
+              subsubcategory,
+              description,
+              startingBid,
+              endDate,
+              imageUrl: downloadURL,
+            })
+            .then(function() {
+              console.log("Document successfully written!");
+            })
+            .catch(function(error) {
+              console.error("Error writing document: ", error);
+            });
+        });
+      }
+    );
+  }
+
   return (
-    <FormWrapper method="post">
+    <FormWrapper onSubmit={onFormSubmit}>
       <Label htmlFor="title">Title</Label>
       <input
         type="text"
@@ -119,7 +204,16 @@ function SellForm() {
         onChange={e => setEndDate(new Date(e.target.value).getTime())}
       />
       <Label htmlFor="image">Image of the item</Label>
-      <input type="file" name="image" id="image" />
+      <input
+        type="file"
+        name="image"
+        id="image"
+        onChange={e => {
+          if (e.target.files[0]) {
+            setImage(e.target.files[0]);
+          }
+        }}
+      />
       <button type="submit">Place Item</button>
     </FormWrapper>
   );
