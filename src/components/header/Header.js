@@ -15,13 +15,16 @@ import MobileMenu from "../mobileMenu/MobileMenu";
 import Button from "./button/Button";
 import Navigation from "./navigation/Navigation";
 import SignUp from "../signUp/SignUp";
+import SignIn from "../signIn/SignIn";
 
 function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(true);
-  const [signUpModalOpen, setSignUpModalOpen] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [signUpModalOpen, setSignUpModalOpen] = useState(false);
+  const [signInModalOpen, setSignInModalOpen] = useState(false);
 
   return (
     <HeaderWrapper>
+      {console.log(signInModalOpen)}
       <HeaderContainer>
         <MenuButton openMenu={() => setMobileMenuOpen(true)} />
         <HeaderLogo>
@@ -31,8 +34,8 @@ function Header() {
           <Search />
         </SearchContainer>
         <AuthButtons>
-          <Button text={"Log In"} />
-          <Button text={"Sign Up"} />
+          <Button onClick={() => setSignInModalOpen(true)} text={"Sign In"} />
+          <Button onClick={() => setSignUpModalOpen(true)} text={"Sign Up"} />
         </AuthButtons>
       </HeaderContainer>
       <NavigationWrapper>
@@ -45,6 +48,9 @@ function Header() {
       )}
       {signUpModalOpen && (
         <SignUp closeSignUp={() => setSignUpModalOpen(false)} />
+      )}
+      {signInModalOpen && (
+        <SignIn closeSignIn={() => setSignInModalOpen(false)} />
       )}
     </HeaderWrapper>
   );
