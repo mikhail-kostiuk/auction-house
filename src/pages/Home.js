@@ -1,17 +1,23 @@
 import React from "react";
 import Header from "../components/header/Header";
-import { PageContent, PageContentContainer } from "./HomeStyles";
+import {
+  PageContent,
+  PageContentContainer,
+  SidebarContainer,
+} from "./HomeStyles";
 import Sidebar from "../components/sidebar/Sidebar";
 
 function Home() {
   return (
     <div>
       <Header />
-      <PageContent>
-        <PageContentContainer>
-          <Sidebar />
-        </PageContentContainer>
-      </PageContent>
+      <PageContentContainer>
+        <PageContent>
+          <SidebarContainer>
+            <Sidebar />
+          </SidebarContainer>
+        </PageContent>
+      </PageContentContainer>
     </div>
   );
 }

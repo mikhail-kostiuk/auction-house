@@ -1,13 +1,7 @@
 import styled from "styled-components";
 
-export const PageContent = styled.div`
-  display: flex;
-`;
-
 export const PageContentContainer = styled.div`
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
   width: 100%;
   padding: 10px;
 
@@ -19,4 +13,12 @@ export const PageContentContainer = styled.div`
     max-width: 1240px;
     margin: 0 auto;
   }
+`;
+export const PageContent = styled.div`
+  display: flex;
+`;
+
+export const SidebarContainer = styled.div`
+  flex-shrink: 0;
+  width: 210px;
 `;
