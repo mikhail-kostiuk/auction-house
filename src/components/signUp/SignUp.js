@@ -77,7 +77,15 @@ function SignUp(props) {
         <Button type="submit">Sign up</Button>
       </SignUpForm>
       <BottomText>
-        Already have an account? <LinkButton>Log In</LinkButton>
+        Already have an account?{" "}
+        <LinkButton
+          onClick={() => {
+            props.closeSignUp();
+            props.openSignIn();
+          }}
+        >
+          Sign In
+        </LinkButton>
       </BottomText>
     </Modal>
   );

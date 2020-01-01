@@ -47,10 +47,16 @@ function Header() {
         <MobileMenu closeMenu={() => setMobileMenuOpen(false)} />
       )}
       {signUpModalOpen && (
-        <SignUp closeSignUp={() => setSignUpModalOpen(false)} />
+        <SignUp
+          closeSignUp={() => setSignUpModalOpen(false)}
+          openSignIn={() => setSignInModalOpen(true)}
+        />
       )}
       {signInModalOpen && (
-        <SignIn closeSignIn={() => setSignInModalOpen(false)} />
+        <SignIn
+          closeSignIn={() => setSignInModalOpen(false)}
+          openSignUp={() => setSignUpModalOpen(true)}
+        />
       )}
     </HeaderWrapper>
   );

@@ -56,7 +56,15 @@ function SignUp(props) {
         <Button type="submit">Sign In</Button>
       </SignInForm>
       <BottomText>
-        Don't have an account? <LinkButton>Sign Up</LinkButton>
+        Don't have an account?{" "}
+        <LinkButton
+          onClick={() => {
+            props.closeSignIn();
+            props.openSignUp();
+          }}
+        >
+          Sign Up
+        </LinkButton>
       </BottomText>
     </Modal>
   );
