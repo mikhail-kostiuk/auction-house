@@ -1,19 +1,13 @@
 import styled from "styled-components";
 
-export const Navigation = styled.nav`
-  display: none;
-
-  @media screen and (min-width: 768px) {
-    display: block;
-  }
-`;
+export const Navigation = styled.nav``;
 
 export const NavigationList = styled.ul`
   padding: 0;
   margin: 0;
   margin-left: ${props => (props.withMargin ? "20px" : 0)};
-  list-style-type: none;
   color: ${props => props.theme.blue5};
+  list-style-type: none;
 `;
 export const NavigationListItem = styled.li`
   position: relative;

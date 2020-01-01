@@ -1,5 +1,8 @@
 import styled from "styled-components";
 
+export const HomeWrapper = styled.div`
+  background-color: ${props => props.theme.bluegrey10};
+`;
 export const PageContentContainer = styled.div`
   display: flex;
   width: 100%;
@@ -21,4 +24,10 @@ export const PageContent = styled.div`
 export const SidebarContainer = styled.div`
   flex-shrink: 0;
   width: 210px;
+
+  display: none;
+
+  @media screen and (min-width: 768px) {
+    display: block;
+  }
 `;
