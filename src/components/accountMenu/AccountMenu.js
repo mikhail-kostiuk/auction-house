@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import {
-  AccountMenuWrapper,
   MenuList,
   MenuListItem,
   MenuLink,
   Icon,
   ArrowIcon,
   Button,
-  MenuTitle
+  MenuTitle,
 } from "./AccountMenuStyles";
+import AccountSubmenu from "./accountSubmenu/AccountSubmenu";
 
 function AccountMenu() {
+  const [submenuOpen, setSubmenuOpen] = useState(false);
+  const myAccountButton = useRef();
+
   return (
-    <AccountMenuWrapper>
+    <div>
       <MenuList>
         <MenuListItem>
           <MenuLink href="#">
@@ -49,7 +52,10 @@ function AccountMenu() {
           </MenuLink>
         </MenuListItem>
         <MenuListItem>
-          <Button>
+          <Button
+            ref={myAccountButton}
+            onClick={() => setSubmenuOpen(!submenuOpen)}
+          >
             <Icon>
               <svg
                 aria-hidden="true"
@@ -76,9 +82,16 @@ function AccountMenu() {
             </ArrowIcon>
             <MenuTitle>My Account</MenuTitle>
           </Button>
+          {submenuOpen && (
+            <AccountSubmenu
+              myAccountButton={myAccountButton}
+              submenuOpen={submenuOpen}
+              closeSubmenu={() => setSubmenuOpen(false)}
+            />
+          )}
         </MenuListItem>
       </MenuList>
-    </AccountMenuWrapper>
+    </div>
   );
 }
 

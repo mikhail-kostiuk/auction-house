@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-export const AccountMenuWrapper = styled.div``;
-
 export const MenuList = styled.ul`
   display: flex;
   height: 40px;
@@ -12,8 +10,9 @@ export const MenuList = styled.ul`
 `;
 
 export const MenuListItem = styled.li`
+  position: relative;
   border-left: none;
-  color: ${props => props.theme.blue1};
+  color: ${props => props.theme.bluegrey1};
 
   @media screen and (min-width: 440px) {
     border-left: 1px solid ${props => props.theme.bluegrey8};
