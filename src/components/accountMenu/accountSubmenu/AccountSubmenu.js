@@ -6,6 +6,7 @@ import {
   SubmenuLink,
   LogoutButton,
 } from "./AccountSubmenuStyles";
+import { auth } from "../../../firebase";
 
 function AccountSubmenu(props) {
   const node = useRef();
@@ -38,6 +39,15 @@ function AccountSubmenu(props) {
     };
   }, [myAccountButton, submenuOpen, closeSubmenu]);
 
+  function logout() {
+    auth.signOut().catch(function(error) {
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      console.log(errorCode);
+      console.log(errorMessage);
+    });
+  }
+
   return (
     <AccountSubmenuList ref={node}>
       <Arrow />
@@ -48,7 +58,7 @@ function AccountSubmenu(props) {
         <SubmenuLink href="#">Won Items</SubmenuLink>
       </SubmenuListItem>
       <SubmenuListItem>
-        <LogoutButton>Log Out</LogoutButton>
+        <LogoutButton onClick={logout}>Log Out</LogoutButton>
       </SubmenuListItem>
     </AccountSubmenuList>
   );

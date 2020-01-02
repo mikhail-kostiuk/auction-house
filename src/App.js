@@ -7,7 +7,7 @@ import Sell from "./pages/Sell";
 import { theme } from "./theme";
 import store from "./store";
 import { auth } from "./firebase";
-import { loginUser } from "./actions/authActions";
+import { loginUser, logoutUser } from "./actions/authActions";
 
 function App() {
   useEffect(() => {
@@ -15,6 +15,8 @@ function App() {
       if (user) {
         console.log("user");
         store.dispatch(loginUser(user));
+      } else {
+        store.dispatch(logoutUser());
       }
     });
   }, []);

@@ -6,3 +6,9 @@ export const loginUser = userData => {
     dispatch({ type: actionTypes.SET_CURRENT_USER, payload: userData });
   };
 };
+
+export const logoutUser = () => {
+  return dispatch => {
+    dispatch({ type: actionTypes.SET_CURRENT_USER, payload: null });
+  };
+};
