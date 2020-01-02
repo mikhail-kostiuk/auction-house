@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import {
   HeaderWrapper,
   HeaderContainer,
   SearchContainer,
   HeaderLogo,
+  AccountActions,
   AuthButtons,
   NavigationContainer,
   NavigationWrapper,
@@ -16,11 +18,21 @@ import Button from "./button/Button";
 import Navigation from "./navigation/Navigation";
 import SignUp from "../signUp/SignUp";
 import SignIn from "../signIn/SignIn";
+import AccountMenu from "../accountMenu/AccountMenu";
 
-function Header() {
+function Header(props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
   const [signInModalOpen, setSignInModalOpen] = useState(false);
+  // console.log(props.user);
+  const accountActions = props.auth.user ? (
+    <AccountMenu />
+  ) : (
+    <AuthButtons>
+      <Button onClick={() => setSignInModalOpen(true)} text={"Sign In"} />
+      <Button onClick={() => setSignUpModalOpen(true)} text={"Sign Up"} />
+    </AuthButtons>
+  );
 
   return (
     <HeaderWrapper>
@@ -33,10 +45,10 @@ function Header() {
         <SearchContainer>
           <Search />
         </SearchContainer>
-        <AuthButtons>
-          <Button onClick={() => setSignInModalOpen(true)} text={"Sign In"} />
-          <Button onClick={() => setSignUpModalOpen(true)} text={"Sign Up"} />
-        </AuthButtons>
+        <AccountActions >
+
+        {accountActions}
+        </AccountActions>
       </HeaderContainer>
       <NavigationWrapper>
         <NavigationContainer>
@@ -62,4 +74,10 @@ function Header() {
   );
 }
 
-export default Header;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps)(Header);

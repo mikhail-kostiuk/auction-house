@@ -46,7 +46,7 @@ export const SearchContainer = styled.div`
   }
 `;
 
-export const AuthButtons = styled.div`
+export const AccountActions = styled.div`
   order: 1;
   margin-left: auto;
   display: flex;
@@ -55,7 +55,9 @@ export const AuthButtons = styled.div`
     order: 2;
     margin-left: 14px;
   }
+`;
 
+export const AuthButtons = styled.div`
   & button {
     margin-left: 8px;
   }
