@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import Home from "./pages/Home";
 import Sell from "./pages/Sell";
+import Item from "./pages/Item";
 import { theme } from "./theme";
 import store from "./store";
 import { auth } from "./firebase";
@@ -27,6 +28,7 @@ function App() {
         <BrowserRouter>
           <Route exact path="/" component={Home} />
           <Route exact path="/sell" component={Sell} />
+          <Route exact path="/item" component={Item} />
         </BrowserRouter>
       </ThemeProvider>
     </Provider>

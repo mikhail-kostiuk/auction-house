@@ -1,6 +1,16 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const HomeWrapper = styled.div`
+export const BackLink = styled(Link)`
+  display: block;
+  color: ${props => props.theme.bluegrey5};
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 18px;
+  border-bottom: 1px solid ${props => props.theme.bluegrey5};
+`;
+
+export const Page = styled.div`
   background-color: ${props => props.theme.bluegrey10};
 `;
 export const PageContentContainer = styled.div`
@@ -18,17 +28,5 @@ export const PageContentContainer = styled.div`
   }
 `;
 export const PageContent = styled.div`
-  display: flex;
-  width: 100%;
-`;
-
-export const SidebarContainer = styled.div`
-  flex-shrink: 0;
-  width: 210px;
-
-  display: none;
-
-  @media screen and (min-width: 768px) {
-    display: block;
-  }
+  /* display: flex; */
 `;
