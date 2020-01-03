@@ -11,11 +11,11 @@ import {
 } from "./CardStyles";
 
 function Card(props) {
-  const { imageUrl, title, currentBid, timeLeft } = props;
+  const { id, imageUrl, title, currentBid, timeLeft } = props;
   console.log(imageUrl);
   return (
     <CardWrapper>
-      <CardLink href="#">
+      <CardLink to={`/item?id=${id}`}>
         <ImageContainer>
           <Image src={imageUrl} alt={title} />
         </ImageContainer>

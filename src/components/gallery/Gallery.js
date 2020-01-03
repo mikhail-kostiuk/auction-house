@@ -37,6 +37,7 @@ function Gallery() {
         {items.map(item => (
           <GalleryItem key={item.id}>
             <Card
+              id={item.id}
               imageUrl={item.imageUrl}
               title={item.title}
               currentBid={item.currentBid}
