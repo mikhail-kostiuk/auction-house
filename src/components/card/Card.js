@@ -12,7 +12,6 @@ import {
 
 function Card(props) {
   const { id, imageUrl, title, currentBid, timeLeft } = props;
-  console.log(imageUrl);
   return (
     <CardWrapper>
       <CardLink to={`/item?id=${id}`}>

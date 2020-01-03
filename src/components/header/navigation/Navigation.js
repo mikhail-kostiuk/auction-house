@@ -9,7 +9,6 @@ import {
 } from "./NavigationStyles";
 
 function Navigation() {
-  console.log(navigationData);
   return (
     <NavigationWrapper>
       <NavigationList>

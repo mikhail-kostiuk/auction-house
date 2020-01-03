@@ -24,7 +24,6 @@ function Header(props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
   const [signInModalOpen, setSignInModalOpen] = useState(false);
-  // console.log(props.user);
   const accountActions = props.auth.user ? (
     <AccountMenu />
   ) : (
@@ -36,7 +35,6 @@ function Header(props) {
 
   return (
     <HeaderWrapper>
-      {console.log(signInModalOpen)}
       <HeaderContainer>
         <MenuButton openMenu={() => setMobileMenuOpen(true)} />
         <HeaderLogo>
@@ -45,10 +43,7 @@ function Header(props) {
         <SearchContainer>
           <Search />
         </SearchContainer>
-        <AccountActions >
-
-        {accountActions}
-        </AccountActions>
+        <AccountActions>{accountActions}</AccountActions>
       </HeaderContainer>
       <NavigationWrapper>
         <NavigationContainer>

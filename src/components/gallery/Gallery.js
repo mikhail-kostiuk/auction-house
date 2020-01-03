@@ -13,8 +13,6 @@ function Gallery() {
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           // doc.data() is never undefined for query doc snapshots
-          console.log(doc);
-          console.log(doc.id, " => ", doc.data());
           resultSet.push({ id: doc.id, ...doc.data() });
         });
         setItems(resultSet);
@@ -33,7 +31,6 @@ function Gallery() {
         </select>
       </form>
       <GalleryList>
-        {console.log("items: ", items)}
         {items.map(item => (
           <GalleryItem key={item.id}>
             <Card
