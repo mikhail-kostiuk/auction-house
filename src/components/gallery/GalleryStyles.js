@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const GalleryWrapper = styled.div`
+  width: 100%;
   margin-left: 0;
 
   @media screen and (min-width: 768px) {
@@ -11,6 +12,7 @@ export const GalleryWrapper = styled.div`
 export const GalleryList = styled.ul`
   display: flex;
   flex-wrap: wrap;
+  width: calc(100% + 20px);
   padding: 0;
   margin: 0 -10px;
   list-style-type: none;
@@ -18,6 +20,7 @@ export const GalleryList = styled.ul`
 
 export const GalleryItem = styled.li`
   width: 100%;
+  /* flex-shrink: 0; */
   padding: 10px;
 
   @media screen and (min-width: 470px) {
