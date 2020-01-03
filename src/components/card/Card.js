@@ -10,17 +10,19 @@ import {
   TimeLeft,
 } from "./CardStyles";
 
-function Card() {
+function Card(props) {
+  const { imageUrl, title, currentBid, timeLeft } = props;
+  console.log(imageUrl);
   return (
     <CardWrapper>
       <CardLink href="#">
         <ImageContainer>
-          <Image src="https://placeimg.com/640/480/arch" alt="Lot name" />
+          <Image src={imageUrl} alt={title} />
         </ImageContainer>
-        <Title>Hand Painted Asian Lacquer jewelry Box</Title>
+        <Title>{title}</Title>
         <Details>
-          <CurrentBid>$1200</CurrentBid>
-          <TimeLeft>1 Day Left</TimeLeft>
+          <CurrentBid>{`$${currentBid}`}</CurrentBid>
+          <TimeLeft>{timeLeft.seconds}</TimeLeft>
         </Details>
       </CardLink>
     </CardWrapper>
