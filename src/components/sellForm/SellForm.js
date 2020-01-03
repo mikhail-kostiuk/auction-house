@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import categories from "../../data/categories.json";
 import { storage, firestore } from "../../firebase";
 import { FormWrapper, Label } from "./SellFormStyles.js";
 
-function SellForm() {
-  console.log(storage);
-
-  const [title, setTitle] = useState("");
+function SellForm(props) {
+  const [title, setTitle] = useState(
+    `Item ${Math.round(Math.random() * 1000000)}`
+  );
   const [category, setCategory] = useState(categories[0]);
   const [subcategory, setSubcategory] = useState(categories[0].categories[0]);
   const [subsubcategory, setSubsubcategory] = useState(
@@ -16,9 +17,12 @@ function SellForm() {
   const [subsubcategories, setSubsubcategories] = useState(
     categories[0].categories[0].categories
   );
-  const [description, setDescription] = useState("");
-  const [startingBid, setStartingBid] = useState(0);
-  const [endDate, setEndDate] = useState(new Date().toDateString());
+  const [description, setDescription] = useState(
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos dolore facere sed dolorum fugiat accusamus provident ducimus sit iusto! Sapiente nesciunt fuga esse neque rerum suscipit assumenda molestias placeat repudiandae."
+  );
+  const [startingBid, setStartingBid] = useState(
+    `${Math.round(Math.random() * 1000)}`
+  );
   const [image, setImage] = useState(null);
 
   console.log(image);
@@ -117,17 +121,23 @@ function SellForm() {
         // Upload completed successfully, now we can get the download URL
         uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
           console.log("File available at", downloadURL);
+          let date = new Date();
+          date.setDate(date.getDate() + 7);
+
           firestore
-            .collection("lots")
+            .collection("items")
             .add({
               title,
               category: category.name,
-              subcategory,
-              subsubcategory,
+              subcategory: subcategory.name,
+              subsubcategory: subsubcategory.name,
               description,
               startingBid,
-              endDate,
+              currentBid: startingBid,
+              bids: 0,
+              endDate: date,
               imageUrl: downloadURL,
+              ownerID: props.auth.user.uid,
             })
             .then(function() {
               console.log("Document successfully written!");
@@ -147,6 +157,7 @@ function SellForm() {
         type="text"
         title="name"
         id="name"
+        value={title}
         onChange={e => setTitle(e.target.value)}
       />
 
@@ -187,6 +198,7 @@ function SellForm() {
         type="text"
         title="description"
         id="description"
+        value={description}
         onChange={e => setDescription(e.target.value)}
       />
       <Label htmlFor="startingBid">Starting bid</Label>
@@ -194,14 +206,8 @@ function SellForm() {
         type="number"
         title="startingBid"
         id="startingBid"
+        value={startingBid}
         onChange={e => setStartingBid(e.target.value)}
-      />
-      <Label htmlFor="endDate">Auction end date</Label>
-      <input
-        type="date"
-        name="endDate"
-        id="endDate"
-        onChange={e => setEndDate(new Date(e.target.value).getTime())}
       />
       <Label htmlFor="image">Image of the item</Label>
       <input
@@ -219,4 +225,10 @@ function SellForm() {
   );
 }
 
-export default SellForm;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps)(SellForm);
