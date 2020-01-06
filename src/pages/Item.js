@@ -21,7 +21,16 @@ import {
   Form,
   BidsInfo,
   CurrentBid,
-  Bids
+  Bids,
+  BidControls,
+  QuickBid,
+  QuickBidButtons,
+  QuickBidButton,
+  BidDirectly,
+  Label,
+  Input,
+  BidButton,
+  AddButton,
 } from "./ItemStyles";
 
 function Item(props) {
@@ -84,23 +93,23 @@ function Item(props) {
               </LotInfo>
               <Form>
                 <BidsInfo>
-                  <CurrentBid>{item.currentBid}</CurrentBid>
-                  <Bids>{item.bids}</Bids>
+                  <CurrentBid>${item.currentBid}</CurrentBid>
+                  <Bids>{item.bids} bids</Bids>
                 </BidsInfo>
-                <div>
-                  <span>Quick bid</span>
-                  <div>
-                    <button>{`$${item.currentBid * 1.1}`}</button>
-                    <button>{`$${item.currentBid * 1.5}`}</button>
-                    <button>{`$${item.currentBid * 2}`}</button>
-                  </div>
-                  <div>
-                    <label htmlFor="directBid">Bid directly</label>
-                    <input type="number" name="directBid" id="directBid" />
-                    <button>Place bid</button>
-                  </div>
-                  <button>Add to favorites</button>
-                </div>
+                <BidControls>
+                  <QuickBid>Quick bid</QuickBid>
+                  <QuickBidButtons>
+                    <QuickBidButton>${item.currentBid * 1.1}</QuickBidButton>
+                    <QuickBidButton>${item.currentBid * 1.5}</QuickBidButton>
+                    <QuickBidButton>${item.currentBid * 2}</QuickBidButton>
+                  </QuickBidButtons>
+                  <BidDirectly>
+                    <Label htmlFor="directBid">Bid directly</Label>
+                    <Input type="number" name="directBid" id="directBid" />
+                    <BidButton>Place bid</BidButton>
+                  </BidDirectly>
+                </BidControls>
+                <AddButton>Add to favorites</AddButton>
               </Form>
             </Right>
           </PageContent>
