@@ -31,6 +31,7 @@ import {
   Label,
   Input,
   BidButton,
+  Error,
   AddButton,
 } from "./ItemStyles";
 
@@ -42,6 +43,7 @@ function Item(props) {
 
   const [item, setItem] = useState(null);
   const [directBid, setDirectBid] = useState(0);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const itemRef = firestore.collection("items").doc(id);
@@ -54,16 +56,34 @@ function Item(props) {
     };
   }, [id]);
 
+  function validateBid(bid) {
+    const minimumBid = Math.round(item.currentBid + item.startingBid * 0.1);
+
+    if (bid < minimumBid) {
+      setError(`The next minimum bid is $${minimumBid}`);
+      setTimeout(() => setError(null), 5000);
+
+      return false;
+    } else {
+      setError(null);
+      return true;
+    }
+  }
+
   function bid(n) {
     const newBid = parseInt(n, 10);
-    const itemRef = firestore.collection("items").doc(id);
-    console.log(itemRef);
 
-    itemRef.update({
-      bidsCount: item.bidsCount + 1,
-      currentBid: newBid,
-      lastBidder: user.uid,
-    });
+    if (validateBid(newBid)) {
+      const itemRef = firestore.collection("items").doc(id);
+
+      itemRef.update({
+        bidsCount: item.bidsCount + 1,
+        currentBid: newBid,
+        lastBidder: user.uid,
+      });
+    } else {
+      return;
+    }
   }
 
   function onFormSubmit(e) {
@@ -150,11 +170,12 @@ function Item(props) {
                       id="directBid"
                       value={directBid}
                       onChange={e => {
-                        console.log(typeof e.target.value);
                         setDirectBid(e.target.value);
                       }}
+                      error={error}
                     />
                     <BidButton>Place bid</BidButton>
+                    {error && <Error>{error}</Error>}
                   </BidDirectly>
                 </BidControls>
                 <AddButton>Add to favorites</AddButton>
