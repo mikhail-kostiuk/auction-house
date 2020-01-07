@@ -217,9 +217,10 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-  margin-top: 20px;
+  width: 100%;
   height: 40px;
   padding: 4px 8px;
+  margin-top: 20px;
   border: 1px solid ${props => props.theme.bluegrey8};
 
   &:focus {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import queryString from "query-string";
 import { firestore } from "../firebase";
 import Header from "../components/header/Header";
@@ -37,25 +38,38 @@ function Item(props) {
   const parsedQuery = queryString.parse(props.location.search);
   const { id } = parsedQuery;
 
+  const user = props.auth.user;
+
   const [item, setItem] = useState(null);
+  const [directBid, setDirectBid] = useState(0);
 
   useEffect(() => {
-    const docRef = firestore.collection("items").doc(id);
+    const itemRef = firestore.collection("items").doc(id);
+    const unsubscribe = itemRef.onSnapshot(function(doc) {
+      setItem(doc.data());
+    });
 
-    docRef
-      .get()
-      .then(function(doc) {
-        if (doc.exists) {
-          setItem(doc.data());
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      })
-      .catch(function(error) {
-        console.log("Error getting document:", error);
-      });
+    return () => {
+      unsubscribe();
+    };
   }, [id]);
+
+  function bid(n) {
+    const newBid = parseInt(n, 10);
+    const itemRef = firestore.collection("items").doc(id);
+    console.log(itemRef);
+
+    itemRef.update({
+      bidsCount: item.bidsCount + 1,
+      currentBid: newBid,
+      lastBidder: user.uid,
+    });
+  }
+
+  function onFormSubmit(e) {
+    e.preventDefault();
+    bid(directBid);
+  }
 
   return (
     <Page>
@@ -91,27 +105,55 @@ function Item(props) {
                 <StartingBid>{`Starting bid $${item.startingBid}`}</StartingBid>
                 <TimeLeft>{item.endDate.seconds}</TimeLeft>
               </LotInfo>
-              <Form>
+              <Form onSubmit={onFormSubmit}>
                 <BidsInfo>
                   <CurrentBid>${item.currentBid}</CurrentBid>
-                  <Bids>{item.bids} bids</Bids>
+                  <Bids>{item.bidsCount} bids</Bids>
                 </BidsInfo>
                 <BidControls>
                   <QuickBid>Quick bid</QuickBid>
                   <QuickBidButtons>
-                    <QuickBidButton>
-                      ${Math.round(item.currentBid * 1.1)}
+                    <QuickBidButton
+                      type="button"
+                      onClick={() =>
+                        bid(
+                          Math.round(item.currentBid + item.startingBid * 0.1)
+                        )
+                      }
+                    >
+                      ${Math.round(item.currentBid + item.startingBid * 0.1)}
                     </QuickBidButton>
-                    <QuickBidButton>
-                      ${Math.round(item.currentBid * 1.5)}
+                    <QuickBidButton
+                      type="button"
+                      onClick={() =>
+                        bid(
+                          Math.round(item.currentBid + item.startingBid * 0.5)
+                        )
+                      }
+                    >
+                      ${Math.round(item.currentBid + item.startingBid * 0.5)}
                     </QuickBidButton>
-                    <QuickBidButton>
-                      ${Math.round(item.currentBid * 2)}
+                    <QuickBidButton
+                      type="button"
+                      onClick={() =>
+                        bid(Math.round(item.currentBid + item.startingBid))
+                      }
+                    >
+                      ${Math.round(item.currentBid + item.startingBid)}
                     </QuickBidButton>
                   </QuickBidButtons>
                   <BidDirectly>
                     <Label htmlFor="directBid">Bid directly</Label>
-                    <Input type="number" name="directBid" id="directBid" />
+                    <Input
+                      type="number"
+                      name="directBid"
+                      id="directBid"
+                      value={directBid}
+                      onChange={e => {
+                        console.log(typeof e.target.value);
+                        setDirectBid(e.target.value);
+                      }}
+                    />
                     <BidButton>Place bid</BidButton>
                   </BidDirectly>
                 </BidControls>
@@ -125,4 +167,10 @@ function Item(props) {
   );
 }
 
-export default Item;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps)(Item);
