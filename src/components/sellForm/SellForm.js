@@ -134,7 +134,7 @@ function SellForm(props) {
               description,
               startingBid,
               currentBid: startingBid,
-              bids: 0,
+              bidsCount: 0,
               endDate: date,
               imageUrl: downloadURL,
               ownerID: props.auth.user.uid,
