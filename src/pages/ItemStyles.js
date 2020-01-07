@@ -38,8 +38,13 @@ export const ArrowIcon = styled.div`
 
 export const PageContent = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   margin-top: 20px;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
 
 export const Title = styled.h1`
@@ -47,8 +52,12 @@ export const Title = styled.h1`
   width: 100%;
   margin: 0;
   color: ${props => props.theme.bluegrey1};
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 400;
+
+  @media screen and (min-width: 768px) {
+    font-size: 32px;
+  }
 `;
 
 export const DescriptionTitle = styled.span`
@@ -56,20 +65,40 @@ export const DescriptionTitle = styled.span`
   padding-top: 20px;
   margin-top: 20px;
   border-top: 1px solid ${props => props.theme.bluegrey8};
+
   color: ${props => props.theme.bluegrey3};
   text-transform: uppercase;
+
+  @media screen and (min-width: 768px) {
+    border-bottom: none;
+  }
 `;
 
 export const DescriptionText = styled.p`
+  padding-bottom: 20px;
+  border-bottom: 1px solid ${props => props.theme.bluegrey8};
   color: ${props => props.theme.bluegrey3};
+
+  @media screen and (min-width: 768px) {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
 `;
 
 export const Left = styled.div`
-  width: 56%;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    width: 52%;
+  }
 `;
 
 export const Right = styled.div`
-  width: 40%;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    width: 44%;
+  }
 `;
 
 export const ImageContainer = styled.div`
@@ -99,10 +128,18 @@ export const TimeLeft = styled.span`
 `;
 
 export const Form = styled.form`
-  padding: 30px;
+  padding: 20px;
   margin-top: 20px;
   background-color: ${props => props.theme.bluegrey10};
   border: 1px solid ${props => props.theme.bluegrey8};
+
+  @media screen and (min-width: 550px) {
+    padding: 20px;
+  }
+
+  @media screen and (min-width: 768px) {
+    padding: 50px 30px;
+  }
 `;
 
 export const BidsInfo = styled.div`
@@ -130,26 +167,37 @@ export const BidControls = styled.div`
 
 export const QuickBid = styled.span`
   display: block;
-  margin-top: 30px;
+  margin-top: 40px;
   color: ${props => props.theme.bluegrey3};
   text-transform: uppercase;
 `;
 
 export const QuickBidButtons = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   margin-top: 20px;
+
+  @media screen and (min-width: 550px) {
+    flex-direction: row;
+  }
 `;
 
 export const QuickBidButton = styled.button`
   white-space: nowrap;
-  width: 30%;
+  width: 100%;
   height: 40px;
   padding: 0 10px;
   border: none;
+  margin-top: 10px;
   color: #fff;
   background-color: ${props => props.theme.blue5};
   font-size: 18px;
+
+  @media screen and (min-width: 550px) {
+    width: 30%;
+    margin-top: 0;
+  }
 
   &:hover {
     background-color: ${props => props.theme.blue4};
@@ -160,10 +208,10 @@ export const QuickBidButton = styled.button`
 export const BidDirectly = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 40px;
 `;
 
 export const Label = styled.label`
-  margin-top: 30px;
   color: ${props => props.theme.bluegrey3};
   text-transform: uppercase;
 `;

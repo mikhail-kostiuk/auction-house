@@ -99,9 +99,15 @@ function Item(props) {
                 <BidControls>
                   <QuickBid>Quick bid</QuickBid>
                   <QuickBidButtons>
-                    <QuickBidButton>${item.currentBid * 1.1}</QuickBidButton>
-                    <QuickBidButton>${item.currentBid * 1.5}</QuickBidButton>
-                    <QuickBidButton>${item.currentBid * 2}</QuickBidButton>
+                    <QuickBidButton>
+                      ${Math.round(item.currentBid * 1.1)}
+                    </QuickBidButton>
+                    <QuickBidButton>
+                      ${Math.round(item.currentBid * 1.5)}
+                    </QuickBidButton>
+                    <QuickBidButton>
+                      ${Math.round(item.currentBid * 2)}
+                    </QuickBidButton>
                   </QuickBidButtons>
                   <BidDirectly>
                     <Label htmlFor="directBid">Bid directly</Label>
