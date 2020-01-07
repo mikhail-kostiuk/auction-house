@@ -133,7 +133,7 @@ function SellForm(props) {
               subsubcategory: subsubcategory.name,
               description,
               startingBid,
-              currentBid: startingBid,
+              currentBid: parseInt(startingBid, 10),
               bidsCount: 0,
               endDate: date,
               imageUrl: downloadURL,
