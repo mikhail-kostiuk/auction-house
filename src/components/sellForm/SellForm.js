@@ -21,7 +21,7 @@ function SellForm(props) {
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos dolore facere sed dolorum fugiat accusamus provident ducimus sit iusto! Sapiente nesciunt fuga esse neque rerum suscipit assumenda molestias placeat repudiandae."
   );
   const [startingBid, setStartingBid] = useState(
-    `${Math.round(Math.random() * 1000)}`
+    Math.round(Math.random() * 1000)
   );
   const [image, setImage] = useState(null);
 
