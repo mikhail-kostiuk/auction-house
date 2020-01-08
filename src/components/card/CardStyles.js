@@ -1,13 +1,40 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const CardWrapper = styled.div`
+  position: relative;
   height: 370px;
   background-color: #fff;
 
   &:hover {
     /* box-shadow: 0 4px 8px rgba(34, 34, 34, 0.08); */
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  }
+`;
+
+export const FavoriteButton = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background-color: ${props => props.theme.blue10};
+  /* background-color: ${props => props.theme.yellow2}; */
+  /* padding: 20px 10px; */
+`;
+
+export const Icon = styled.div`
+  height: 26px;
+  /* color: ${props => props.theme.blue10}; */
+  color: ${props => props.theme.yellow2};
+
+  & svg {
+    height: 100%;
   }
 `;
 
