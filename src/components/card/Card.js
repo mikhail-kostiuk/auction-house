@@ -19,7 +19,6 @@ import {
 
 function Card(props) {
   const { id, imageUrl, title, currentBid, endDate } = props.item;
-  console.log(props.auth);
   const { user } = props.auth;
   const { favorites } = props.items;
 
