@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 export const MenuList = styled.ul`
   display: flex;
@@ -23,7 +24,7 @@ export const MenuListItem = styled.li`
   }
 `;
 
-export const MenuLink = styled.a`
+export const MenuLink = styled(Link)`
   display: flex;
   flex-direction: column;
   justify-content: space-around;

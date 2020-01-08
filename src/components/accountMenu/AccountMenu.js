@@ -18,7 +18,7 @@ function AccountMenu() {
     <div>
       <MenuList>
         <MenuListItem>
-          <MenuLink href="#">
+          <MenuLink to="/favorites">
             <Icon>
               <svg
                 aria-hidden="true"
@@ -35,7 +35,7 @@ function AccountMenu() {
           </MenuLink>
         </MenuListItem>
         <MenuListItem>
-          <MenuLink href="#">
+          <MenuLink to="/my-bids">
             <Icon>
               <svg
                 aria-hidden="true"
