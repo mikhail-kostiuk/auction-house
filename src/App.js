@@ -5,16 +5,32 @@ import { ThemeProvider } from "styled-components";
 import Home from "./pages/Home";
 import Sell from "./pages/Sell";
 import Item from "./pages/Item";
+import Favorites from "./pages/Favorites";
 import { theme } from "./theme";
 import store from "./store";
-import { auth } from "./firebase";
+import { auth, firestore } from "./firebase";
 import { loginUser, logoutUser } from "./actions/authActions";
+import { setFavorites } from "./actions/itemsActions";
 
 function App() {
   useEffect(() => {
-    auth.onAuthStateChanged(function(user) {
-      if (user) {
-        store.dispatch(loginUser(user));
+    auth.onAuthStateChanged(function(firebaseUser) {
+      if (firebaseUser) {
+        let user = null;
+
+        firestore
+          .collection("users")
+          .where("uid", "==", `${firebaseUser.uid}`)
+          .limit(1)
+          .get()
+          .then(function(querySnapshot) {
+            user = querySnapshot.docs[0].data();
+            store.dispatch(loginUser({ uid: user.uid }));
+            store.dispatch(setFavorites(user.favorites));
+          })
+          .catch(function(error) {
+            console.log("Error getting documents: ", error);
+          });
       } else {
         store.dispatch(logoutUser());
       }
@@ -28,6 +44,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/sell" component={Sell} />
           <Route exact path="/item" component={Item} />
+          <Route exact path="/favorites" component={Favorites} />
         </BrowserRouter>
       </ThemeProvider>
     </Provider>

@@ -30,9 +30,13 @@ function SignUp(props) {
       auth
         .createUserWithEmailAndPassword(email, password)
         .then(function(createdUser) {
-          firestore.collection("users").add({
-            uid: createdUser.user.uid,
-          });
+          firestore
+            .collection("users")
+            .doc(createdUser.user.uid)
+            .set({
+              uid: createdUser.user.uid,
+              favorites: [],
+            });
           props.closeSignUp();
         })
         .catch(function(error) {
