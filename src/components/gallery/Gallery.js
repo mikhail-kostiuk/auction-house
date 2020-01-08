@@ -3,8 +3,9 @@ import { firestore } from "../../firebase";
 import Card from "../card/Card";
 import { GalleryWrapper, GalleryList, GalleryItem } from "./GalleryStyles";
 
+// TODO: Refactor repeated code from the "Gallery" type components into a single reusable component
 function Gallery() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(null);
   useEffect(() => {
     const resultSet = [];
     firestore
@@ -30,19 +31,15 @@ function Gallery() {
           <option value="startingDate">Starting Date</option>
         </select>
       </form>
-      <GalleryList>
-        {items.map(item => (
-          <GalleryItem key={item.id}>
-            <Card
-              id={item.id}
-              imageUrl={item.imageUrl}
-              title={item.title}
-              currentBid={item.currentBid}
-              timeLeft={item.endDate}
-            />
-          </GalleryItem>
-        ))}
-      </GalleryList>
+      {items && (
+        <GalleryList>
+          {items.map(item => (
+            <GalleryItem key={item.id}>
+              <Card item={item} />
+            </GalleryItem>
+          ))}
+        </GalleryList>
+      )}
     </GalleryWrapper>
   );
 }
