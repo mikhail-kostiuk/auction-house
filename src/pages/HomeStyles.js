@@ -4,7 +4,7 @@ export const HomeWrapper = styled.div`
   background-color: #fff;
 `;
 export const PageContentContainer = styled.div`
-  display: flex;
+  /* display: flex; */
   width: 100%;
   padding: 10px;
 
