@@ -26,7 +26,6 @@ function SellForm(props) {
   const [startingBid, setStartingBid] = useState(10);
   const [image, setImage] = useState(null);
   const [imagePreviewURL, setImagePreviewURL] = useState(null);
-  console.log(image);
 
   function onCategoryChange(e) {
     const selectId = e.target.id;

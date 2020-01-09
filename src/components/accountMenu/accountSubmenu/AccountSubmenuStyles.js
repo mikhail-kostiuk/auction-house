@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const AccountSubmenuList = styled.ul`
   position: absolute;
@@ -60,7 +61,7 @@ export const SubmenuListItem = styled.li`
   }
 `;
 
-export const SubmenuLink = styled.a`
+export const SubmenuLink = styled(Link)`
   display: block;
   padding: 20px;
   color: inherit;

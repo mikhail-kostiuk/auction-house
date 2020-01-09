@@ -52,10 +52,13 @@ function AccountSubmenu(props) {
     <AccountSubmenuList ref={node}>
       <Arrow />
       <SubmenuListItem>
-        <SubmenuLink href="#">My Auctions</SubmenuLink>
+        <SubmenuLink to="/">My Auctions</SubmenuLink>
       </SubmenuListItem>
       <SubmenuListItem>
-        <SubmenuLink href="#">Won Items</SubmenuLink>
+        <SubmenuLink to="/">Won Items</SubmenuLink>
+      </SubmenuListItem>
+      <SubmenuListItem>
+        <SubmenuLink to="/sell">Sell Item</SubmenuLink>
       </SubmenuListItem>
       <SubmenuListItem>
         <LogoutButton onClick={logout}>Log Out</LogoutButton>
