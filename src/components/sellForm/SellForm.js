@@ -2,30 +2,32 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import categories from "../../data/categories.json";
 import { storage, firestore } from "../../firebase";
-import { FormWrapper, Label } from "./SellFormStyles.js";
+import {
+  FormWrapper,
+  Label,
+  Input,
+  TextArea,
+  Select,
+  ImageContainer,
+  Image,
+  Button,
+} from "./SellFormStyles.js";
 
 function SellForm(props) {
-  const [title, setTitle] = useState(
-    `Item ${Math.round(Math.random() * 1000000)}`
-  );
+  const [title, setTitle] = useState("");
   const [category, setCategory] = useState(categories[0]);
-  const [subcategory, setSubcategory] = useState(categories[0].categories[0]);
-  const [subsubcategory, setSubsubcategory] = useState(
-    categories[0].categories[0].categories[0]
+  const [subcategory, setSubcategory] = useState(
+    categories[0].subcategories[0]
   );
-  const [subcategories, setSubcategories] = useState(categories[0].categories);
-  const [subsubcategories, setSubsubcategories] = useState(
-    categories[0].categories[0].categories
+  const [subcategories, setSubcategories] = useState(
+    categories[0].subcategories
   );
-  const [description, setDescription] = useState(
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos dolore facere sed dolorum fugiat accusamus provident ducimus sit iusto! Sapiente nesciunt fuga esse neque rerum suscipit assumenda molestias placeat repudiandae."
-  );
-  const [startingBid, setStartingBid] = useState(
-    Math.round(Math.random() * 1000)
-  );
+  const [description, setDescription] = useState("");
+  const [startingBid, setStartingBid] = useState(10);
   const [image, setImage] = useState(null);
-
+  const [imagePreviewURL, setImagePreviewURL] = useState(null);
   console.log(image);
+
   function onCategoryChange(e) {
     const selectId = e.target.id;
     const selectedOption = e.target.value;
@@ -36,25 +38,15 @@ function SellForm(props) {
           category => category.name === selectedOption
         )[0];
         setCategory(selectedCategory);
-        setSubsubcategory(selectedCategory.categories[0]);
-        setSubcategories(selectedCategory.categories);
-        setSubsubcategories(selectedCategory.categories[0].categories);
+        setSubcategory(selectedCategory.subcategories);
+        setSubcategories(selectedCategory.subcategories);
         break;
 
       case "subcategories":
         const selectedSubcategory = subcategories.filter(
-          category => category.name === selectedOption
+          subcategory => subcategory.name === selectedOption
         )[0];
         setSubcategory(selectedSubcategory);
-        setSubsubcategory(selectedSubcategory.categories[0]);
-        setSubsubcategories(selectedSubcategory.categories);
-        break;
-
-      case "subsubcategories":
-        const selectedSubsubcategory = subsubcategories.filter(
-          category => category.name === selectedOption
-        )[0];
-        setSubsubcategory(selectedSubsubcategory);
         break;
 
       default:
@@ -130,7 +122,6 @@ function SellForm(props) {
               title,
               category: category.name,
               subcategory: subcategory.name,
-              subsubcategory: subsubcategory.name,
               description,
               startingBid,
               currentBid: parseInt(startingBid, 10),
@@ -153,24 +144,25 @@ function SellForm(props) {
   return (
     <FormWrapper onSubmit={onFormSubmit}>
       <Label htmlFor="title">Title</Label>
-      <input
+      <Input
         type="text"
         title="name"
         id="name"
         value={title}
-        onChange={e => setTitle(e.target.value)}
+        onChange={e => setTitle(e.target.value.trim())}
       />
 
       <Label htmlFor="categories">Select category</Label>
-      <select name="categories" id="categories" onChange={onCategoryChange}>
+      <Select name="categories" id="categories" onChange={onCategoryChange}>
         {categories.map(category => (
           <option key={category.name} value={category.name}>
             {category.name}
           </option>
         ))}
-      </select>
+      </Select>
 
-      <select
+      <Label htmlFor="categories">Select subcategory</Label>
+      <Select
         name="subcategories"
         id="subcategories"
         onChange={onCategoryChange}
@@ -180,36 +172,30 @@ function SellForm(props) {
             {category.name}
           </option>
         ))}
-      </select>
+      </Select>
 
-      <select
-        name="subsubcategories"
-        id="subsubcategories"
-        onChange={onCategoryChange}
-      >
-        {subsubcategories.map(category => (
-          <option key={category.name} value={category.name}>
-            {category.name}
-          </option>
-        ))}
-      </select>
       <Label htmlFor="description">Description</Label>
-      <input
-        type="text"
+      <TextArea
+        rows="10"
         title="description"
         id="description"
         value={description}
-        onChange={e => setDescription(e.target.value)}
+        onChange={e => setDescription(e.target.value.trim())}
       />
       <Label htmlFor="startingBid">Starting bid</Label>
-      <input
+      <Input
         type="number"
         title="startingBid"
         id="startingBid"
         value={startingBid}
-        onChange={e => setStartingBid(e.target.value)}
+        onChange={e => setStartingBid(e.target.value.trim())}
       />
       <Label htmlFor="image">Image of the item</Label>
+      {imagePreviewURL && (
+        <ImageContainer>
+          <Image src={imagePreviewURL} alt="Upload Preview" />
+        </ImageContainer>
+      )}
       <input
         type="file"
         name="image"
@@ -217,10 +203,11 @@ function SellForm(props) {
         onChange={e => {
           if (e.target.files[0]) {
             setImage(e.target.files[0]);
+            setImagePreviewURL(URL.createObjectURL(e.target.files[0]));
           }
         }}
       />
-      <button type="submit">Place Item</button>
+      <Button type="submit">Place Item</Button>
     </FormWrapper>
   );
 }
