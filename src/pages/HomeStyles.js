@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const HomeWrapper = styled.div`
-  background-color: ${props => props.theme.bluegrey10};
+  background-color: #fff;
 `;
 export const PageContentContainer = styled.div`
   display: flex;
