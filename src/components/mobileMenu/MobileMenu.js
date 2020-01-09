@@ -16,41 +16,29 @@ import {
 
 function MobileMenu(props) {
   const [activeCategories, setActiveCategories] = useState(categories);
-  const [previousCategories, setPreviousCategories] = useState([]);
-  const [activeHeaderTitle, setActiveHeaderTitle] = useState("Categories");
-  const [previousHeaderTitles, setPreviousHeaderTitles] = useState([]);
+  const [activeSubcategories, setActiveSubcategories] = useState(null);
+  const [headerTitle, setHeaderTitle] = useState("All categories");
 
-  function changeCategories(name) {
-    const category = activeCategories.filter(
-      category => category.name === name
-    );
+  function showSubcategories(name) {
+    const category = categories.filter(category => category.name === name)[0];
 
-    setPreviousCategories([...previousCategories, activeCategories]);
-    setActiveCategories(category[0].categories);
-
-    setPreviousHeaderTitles([...previousHeaderTitles, activeHeaderTitle]);
-    setActiveHeaderTitle(category[0].name);
+    setActiveCategories(null);
+    setActiveSubcategories(category.subcategories);
+    setHeaderTitle(category.name);
   }
 
-  function showPreviousCategories() {
-    const updatedPreviousCategories = [...previousCategories];
-    const latestPreviousCategories = updatedPreviousCategories.pop();
-    const updatedPreviousHeaderTitles = [...previousHeaderTitles];
-    const latestPreviousTitle = updatedPreviousHeaderTitles.pop();
-
-    setActiveCategories(latestPreviousCategories);
-    setPreviousCategories(updatedPreviousCategories);
-
-    setActiveHeaderTitle(latestPreviousTitle);
-    setPreviousHeaderTitles(updatedPreviousHeaderTitles);
+  function showAllCategories() {
+    setActiveCategories(categories);
+    setActiveSubcategories(null);
+    setHeaderTitle("All categories");
   }
 
   return (
     <Menu>
       <Header>
-        <HeaderTitle>{activeHeaderTitle}</HeaderTitle>
-        {previousCategories.length > 0 && (
-          <BackButton onClick={showPreviousCategories}>
+        <HeaderTitle>{headerTitle}</HeaderTitle>
+        {activeSubcategories && (
+          <BackButton onClick={showAllCategories}>
             <BackIcon
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 14 14"
@@ -72,19 +60,13 @@ function MobileMenu(props) {
           </CloseIcon>
         </CloseButton>
       </Header>
-      <MenuList>
-        {activeCategories.map(category => {
-          const name = category.name;
+      {activeCategories && (
+        <MenuList>
+          {categories.map(category => {
+            const name = category.name;
 
-          if (category.categories.length === 0) {
             return (
-              <MenuListItem key={name}>
-                <MenuListLink href="#">{name}</MenuListLink>
-              </MenuListItem>
-            );
-          } else {
-            return (
-              <MenuListItem key={name} onClick={() => changeCategories(name)}>
+              <MenuListItem key={name} onClick={() => showSubcategories(name)}>
                 {name}
                 <ArrowIcon
                   xmlns="http://www.w3.org/2000/svg"
@@ -96,9 +78,22 @@ function MobileMenu(props) {
                 </ArrowIcon>
               </MenuListItem>
             );
-          }
-        })}
-      </MenuList>
+          })}
+        </MenuList>
+      )}
+      {activeSubcategories && (
+        <MenuList>
+          {activeSubcategories.map(category => {
+            const name = category.name;
+
+            return (
+              <MenuListItem key={name}>
+                <MenuListLink href="#">{name}</MenuListLink>
+              </MenuListItem>
+            );
+          })}
+        </MenuList>
+      )}
     </Menu>
   );
 }

@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 export const Menu = styled.div`
-  position: absolute;
+  position: fixed;
   z-index: 10;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
+  overflow-y: scroll;
   background-color: #fff;
   font-size: 14px;
   text-align: center;

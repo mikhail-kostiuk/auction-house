@@ -16,33 +16,11 @@ function Navigation() {
           <NavigationListItem key={category.name}>
             <NavigationLink href="#">{category.name}</NavigationLink>
             <NavigationNestedList>
-              {category.categories.map(category => {
-                if (
-                  category.categories !== undefined &&
-                  category.categories.length !== 0
-                ) {
-                  return (
-                    <li key={category.name}>
-                      <NavigationLink href="#">{category.name}</NavigationLink>
-                      <ul>
-                        {category.categories.map(category => (
-                          <li key={category.name}>
-                            <NavigationLink href="#">
-                              {category.name}
-                            </NavigationLink>
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
-                  );
-                } else {
-                }
-                return (
-                  <li>
-                    <NavigationLink href="#">{category.name}</NavigationLink>
-                  </li>
-                );
-              })}
+              {category.subcategories.map(subcategory => (
+                <li key={subcategory.name}>
+                  <NavigationLink href="#">{subcategory.name}</NavigationLink>
+                </li>
+              ))}
             </NavigationNestedList>
           </NavigationListItem>
         ))}

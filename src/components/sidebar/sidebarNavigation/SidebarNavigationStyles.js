@@ -5,8 +5,9 @@ export const Navigation = styled.nav``;
 export const NavigationList = styled.ul`
   padding: 0;
   margin: 0;
-  margin-left: ${props => (props.withMargin ? "20px" : 0)};
-  color: ${props => props.theme.blue5};
+  margin-left: ${props => (props.nested ? "20px" : 0)};
+  color: #0097ba;
+  font-size: 15px;
   list-style-type: none;
 `;
 export const NavigationListItem = styled.li`
@@ -40,10 +41,10 @@ export const BackButton = styled.button`
   margin-bottom: 10px;
   border: none;
   background: none;
-  color: ${props => props.theme.blue5};
+  color: #0097ba;
   cursor: pointer;
 
   &:hover {
-    color: ${props => props.theme.blue1};
+    color: #00677f;
   }
 `;
