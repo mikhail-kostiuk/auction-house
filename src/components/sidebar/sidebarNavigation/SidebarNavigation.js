@@ -25,12 +25,18 @@ function SidebarNavigation(props) {
   function showAllCategories() {
     setActiveCategories(categories);
     setActiveSubcategories(null);
+    props.setCategory(null);
   }
 
   return (
     <Navigation>
       {activeSubcategories && (
-        <BackButton onClick={showAllCategories}>
+        <BackButton
+          onClick={() => {
+            showAllCategories();
+            props.setCategory(null);
+          }}
+        >
           <BackIcon
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 14 14"
@@ -52,6 +58,7 @@ function SidebarNavigation(props) {
                 key={name}
                 onClick={() => {
                   showSubcategories(name);
+                  props.setCategory(name);
                 }}
               >
                 {name}
@@ -75,8 +82,10 @@ function SidebarNavigation(props) {
 
             return (
               <NavigationListItem
-                onClick={() => props.setSubsubcategory(name)}
                 key={name}
+                onClick={() => {
+                  props.setSubcategory(name);
+                }}
               >
                 {name}
               </NavigationListItem>
