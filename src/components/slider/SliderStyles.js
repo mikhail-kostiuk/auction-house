@@ -6,11 +6,26 @@ export const SliderWrapper = styled.div`
   }
 `;
 
-export const Slide = styled.li`
+export const Title = styled.h2`
+  margin: 20px 0 10px 0;
+  background-color: #fff;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+
+  @media screen and (min-width: 768px) {
+    margin: 30px 0 20px 0;
+  }
+`;
+
+export const SlideContainer = styled.li`
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
   width: 100%;
-  height: 360px;
+  height: 330px;
   padding: 10px;
+  border: 1px solid ${props => props.theme.bluegrey8};
   background-color: #fff;
   transition: all ease 1s;
 
@@ -32,20 +47,15 @@ export const Slide = styled.li`
   }
 `;
 
-export const SliderList = styled.ul`
+export const List = styled.ul`
   position: relative;
-  overflow-x: hidden;
-  /* overflow-x: scroll; */
   display: flex;
-  margin: 0;
+  overflow-x: hidden;
   padding: 10px 0;
+  margin: 0;
   list-style-type: none;
 
-  /* @media screen and (min-width: 1200px) {
-    overflow-x: hidden;
-  } */
-
-  ${Slide}:first-of-type {
+  ${SlideContainer}:first-of-type {
     margin-left: ${props => `${props.currentSlide * -100}%`};
 
     @media screen and (min-width: 450px) {
@@ -62,58 +72,18 @@ export const SliderList = styled.ul`
   }
 `;
 
-export const ItemImage = styled.img`
-  display: block;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  object-fit: contain;
-`;
-
-export const ItemImageContainer = styled.div`
-  width: 100%;
-  height: 200px;
-`;
-
-export const ItemName = styled.p`
-  /* padding: 0; */
-  margin: 0;
-  margin-top: 12px;
-  color: #000;
-  border-top: 1px solid #d7d8d9;
-  padding-top: 10px;
-  /* text-decoration: none; */
-`;
-
-export const TimeDetails = styled.div`
-  /* display: flex; */
-  /* justify-content: space-between; */
-  /* align-items: flex-end; */
-  /* color: #525f7f; */
-  /* text-decoration: none; */
-`;
-
-export const TimeLeft = styled.p`
-  display: flex;
-  margin: 0;
-  margin-top: 10px;
-  color: red;
-  /* color: #525f7f; */
-  /* text-decoration: none; */
-`;
-
 export const ArrowButton = styled.button`
   position: absolute;
   top: 10px;
   display: none;
   justify-content: space-around;
-  width: 60px;
-  height: 360px;
+  width: 40px;
+  height: 330px;
   padding: 0;
   border: none;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: ${props => props.theme.blue5};
   font: inherit;
-  background: rgba(255, 255, 255, 0.7);
-  color: #579aff;
 `;
 
 export const ArrowButtonLeft = styled(ArrowButton)`
@@ -131,6 +101,6 @@ export const ArrowButtonRight = styled(ArrowButton)`
 `;
 
 export const ArrowIcon = styled.svg`
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
 `;

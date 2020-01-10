@@ -1,24 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { firestore } from "../../firebase";
 import {
   SliderWrapper,
-  SliderList,
+  Title,
+  List,
   ArrowButtonLeft,
   ArrowButtonRight,
   ArrowIcon,
-  Slide,
-  ItemImageContainer,
-  ItemImage,
-  ItemName,
-  TimeDetails,
-  TimeLeft,
+  SlideContainer,
 } from "./SliderStyles";
+import Slide from "./slide/Slide";
 
 function Slider() {
   const [currentSlide, setCurrentSlide] = useState(6);
+  const [items, setItems] = useState([]);
+  // const [slideDirection, setSlideDirection] = useState("left");
+
   const totalSlides = 16;
 
+  useEffect(() => {
+    const resultSet = [];
+
+    firestore
+      .collection("items")
+      .limit(totalSlides)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          // doc.data() is never undefined for query doc snapshots
+          resultSet.push({ id: doc.id, ...doc.data() });
+        });
+        setItems(resultSet);
+      });
+  }, []);
+
+  // useEffect(() => {
+  //   const id = setInterval(() => {
+  //     console.log("setInterval");
+  //     console.log(currentSlide);
+
+  //     if (currentSlide === 1) {
+  //       setSlideDirection("left");
+  //     } else if (currentSlide === 11) {
+  //       setSlideDirection("right");
+  //       console.log(slideDirection);
+  //     }
+
+  //     if (slideDirection === "left") {
+  //       slideToLeft();
+  //     } else {
+  //       slideToRight();
+  //     }
+  //   }, 3000);
+  //   return () => {
+  //     clearInterval(id);
+  //   };
+  // }, [currentSlide]);
+
   function slideToRight() {
-    console.log(currentSlide);
     setCurrentSlide(currentSlide - 1);
   }
 
@@ -26,27 +65,10 @@ function Slider() {
     setCurrentSlide(currentSlide + 1);
   }
 
-  function createSlides() {
-    let slides = [];
-
-    for (let i = 0; i < 16; i++) {
-      slides.push(
-        <Slide key={i}>
-          <ItemImageContainer>
-            <ItemImage src="https://placeimg.com/640/480/arch" alt="Item1" />
-          </ItemImageContainer>
-          <ItemName>Hand Painted Asian Lacquer jewelry Box</ItemName>
-          <TimeDetails>
-            <TimeLeft>1 Day Left</TimeLeft>
-          </TimeDetails>
-        </Slide>
-      );
-    }
-    return slides;
-  }
   return (
     <SliderWrapper totalSlides={totalSlides} currentSlide={currentSlide}>
-      <SliderList totalSlides={totalSlides} currentSlide={currentSlide}>
+      <Title>Ending Soon</Title>
+      <List totalSlides={totalSlides} currentSlide={currentSlide}>
         <ArrowButtonLeft
           onClick={slideToRight}
           totalSlides={totalSlides}
@@ -71,8 +93,12 @@ function Slider() {
             <path d="M7,5.59,1.41,0,0,1.41,5.59,7,0,12.59,1.41,14,7,8.41,8.41,7" />
           </ArrowIcon>
         </ArrowButtonRight>
-        {createSlides()}
-      </SliderList>
+        {items.map(item => (
+          <SlideContainer key={item.id}>
+            <Slide item={item} />
+          </SlideContainer>
+        ))}
+      </List>
     </SliderWrapper>
   );
 }

@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const HomeWrapper = styled.div`
   background-color: #fff;
 `;
+
 export const PageContentContainer = styled.div`
   /* display: flex; */
   width: 100%;
@@ -17,6 +18,7 @@ export const PageContentContainer = styled.div`
     margin: 0 auto;
   }
 `;
+
 export const PageContent = styled.div`
   display: flex;
   width: 100%;
