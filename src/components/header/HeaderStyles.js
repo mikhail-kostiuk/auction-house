@@ -5,7 +5,7 @@ export const HeaderWrapper = styled.header`
   border-bottom: 1px solid ${props => props.theme.bluegrey8};
 `;
 
-export const HeaderContainer = styled.div`
+export const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -22,7 +22,7 @@ export const HeaderContainer = styled.div`
   }
 `;
 
-export const HeaderLogo = styled.div`
+export const LogoContainer = styled.div`
   margin-bottom: 4px;
   margin-left: 10px;
 

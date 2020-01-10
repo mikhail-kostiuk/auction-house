@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import {
   HeaderWrapper,
-  HeaderContainer,
+  ContentContainer,
   SearchContainer,
-  HeaderLogo,
+  LogoContainer,
   AccountActions,
   AuthButtons,
   NavigationContainer,
@@ -19,6 +19,7 @@ import Navigation from "./navigation/Navigation";
 import SignUp from "../signUp/SignUp";
 import SignIn from "../signIn/SignIn";
 import AccountMenu from "../accountMenu/AccountMenu";
+import SiteMenu from "./siteMenu/SiteMenu";
 
 function Header(props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -35,16 +36,17 @@ function Header(props) {
 
   return (
     <HeaderWrapper>
-      <HeaderContainer>
+      <SiteMenu />
+      <ContentContainer>
         <MenuButton openMenu={() => setMobileMenuOpen(true)} />
-        <HeaderLogo>
+        <LogoContainer>
           <Logo />
-        </HeaderLogo>
+        </LogoContainer>
         <SearchContainer>
           <Search />
         </SearchContainer>
         <AccountActions>{accountActions}</AccountActions>
-      </HeaderContainer>
+      </ContentContainer>
       <NavigationWrapper>
         <NavigationContainer>
           <Navigation />
