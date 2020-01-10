@@ -45,6 +45,7 @@ export const Map = styled.div`
 
   @media screen and (min-width: 768px) {
     width: 48%;
+    margin-top: 0;
   }
 
   & iframe {
