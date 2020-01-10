@@ -2,12 +2,21 @@ import styled from "styled-components";
 
 export const PageContent = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
 export const ContactsColumn = styled.div`
-  width: 48%;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    width: 48%;
+  }
 `;
 
 export const Intro = styled.p`
@@ -31,7 +40,12 @@ export const ContactText = styled.p`
 `;
 
 export const Map = styled.div`
-  width: 48%;
+  width: 100%;
+  margin-top: 30px;
+
+  @media screen and (min-width: 768px) {
+    width: 48%;
+  }
 
   & iframe {
     width: 100%;
