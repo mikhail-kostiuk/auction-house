@@ -11,6 +11,7 @@ import store from "./store";
 import { auth, firestore } from "./firebase";
 import { loginUser, logoutUser } from "./actions/authActions";
 import { setFavorites } from "./actions/itemsActions";
+import Contacts from "./pages/Contacts";
 
 function App() {
   useEffect(() => {
@@ -45,6 +46,7 @@ function App() {
           <Route exact path="/sell" component={Sell} />
           <Route exact path="/item" component={Item} />
           <Route exact path="/favorites" component={Favorites} />
+          <Route exact path="/contacts" component={Contacts} />
         </BrowserRouter>
       </ThemeProvider>
     </Provider>

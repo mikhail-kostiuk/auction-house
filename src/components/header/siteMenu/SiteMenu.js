@@ -12,7 +12,7 @@ function SiteMenu() {
     <SiteMenuWrapper>
       <MenuContainer>
         <Menu>
-          <MenuItem key={"contacts"}>
+          <MenuItem>
             <MenuLink to="/contacts">Contacts</MenuLink>
           </MenuItem>
         </Menu>
