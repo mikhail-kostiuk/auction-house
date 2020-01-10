@@ -2,16 +2,16 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
-import Home from "./pages/Home";
-import Sell from "./pages/Sell";
-import Item from "./pages/Item";
-import Favorites from "./pages/Favorites";
+import Home from "./pages/home/Home";
+import Sell from "./pages/sell/Sell";
+import Item from "./pages/item/Item";
 import { theme } from "./theme";
 import store from "./store";
 import { auth, firestore } from "./firebase";
 import { loginUser, logoutUser } from "./actions/authActions";
 import { setFavorites } from "./actions/itemsActions";
-import Contacts from "./pages/Contacts";
+import Contacts from "./pages/contacts/Contacts";
+import Favorites from "./pages/favorites/Favorites";
 
 function App() {
   useEffect(() => {
