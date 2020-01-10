@@ -35,22 +35,18 @@ export const Title = styled.h1`
   flex-shrink: 0;
   width: 100%;
   margin: 0;
-  color: ${props => props.theme.bluegrey1};
   font-size: 24px;
   font-weight: 400;
-
-  @media screen and (min-width: 768px) {
-    font-size: 32px;
-  }
+  letter-spacing: 0.5px;
 `;
 
 export const DescriptionTitle = styled.span`
   display: block;
   padding-top: 20px;
   margin-top: 20px;
-  border-top: 1px solid ${props => props.theme.bluegrey8};
+  /* border-top: 1px solid ${props => props.theme.bluegrey8}; */
 
-  color: ${props => props.theme.bluegrey3};
+  color: ${props => props.theme.bluegrey1};
   text-transform: uppercase;
 
   @media screen and (min-width: 768px) {
@@ -61,7 +57,9 @@ export const DescriptionTitle = styled.span`
 export const DescriptionText = styled.p`
   padding-bottom: 20px;
   border-bottom: 1px solid ${props => props.theme.bluegrey8};
-  color: ${props => props.theme.bluegrey3};
+  color: ${props => props.theme.bluegrey4};
+  font-size: 14px;
+  line-height: 21px;
 
   @media screen and (min-width: 768px) {
     padding-bottom: 0;
@@ -109,6 +107,7 @@ export const StartingBid = styled.span`
 
 export const TimeLeft = styled.span`
   color: red;
+  font-size: 14px;
 `;
 
 export const Form = styled.form`
