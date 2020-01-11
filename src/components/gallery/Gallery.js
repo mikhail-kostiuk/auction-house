@@ -2,15 +2,20 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { firestore } from "../../firebase";
 import Card from "../card/Card";
-import { GalleryWrapper, GalleryList, GalleryItem } from "./GalleryStyles";
+import {
+  GalleryWrapper,
+  CategoryTitle,
+  GalleryList,
+  GalleryItem,
+} from "./GalleryStyles";
 
 // TODO: Refactor repeated code from the "Gallery" type components into a single reusable component
 function Gallery(props) {
   const [items, setItems] = useState(null);
+  const category = props.category;
 
   useEffect(() => {
     const resultSet = [];
-    const category = props.category;
     let query;
 
     if (category.category) {
@@ -32,11 +37,15 @@ function Gallery(props) {
       });
       setItems(resultSet);
     });
-  }, [props.category]);
+  }, [category]);
+
+  function getSelectedCategoryName(category) {
+    return category.subcategory || category.category || "All categories";
+  }
 
   return (
     <GalleryWrapper>
-      <h1>Category name</h1>
+      <CategoryTitle>{getSelectedCategoryName(category)}</CategoryTitle>
       <form>
         <select name="sort" id="sort">
           <option value="lowestBid">Lowest Bid</option>

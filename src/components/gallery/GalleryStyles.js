@@ -9,6 +9,18 @@ export const GalleryWrapper = styled.div`
   }
 `;
 
+export const CategoryTitle = styled.h1`
+  margin: 20px 0 10px 0;
+  background-color: #fff;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+
+  @media screen and (min-width: 768px) {
+    margin: 30px 0 20px 0;
+  }
+`;
+
 export const GalleryList = styled.ul`
   display: flex;
   flex-wrap: wrap;
