@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import queryString from "query-string";
 import { firestore } from "../../firebase";
 import PageTemplate from "../pageTemplate/PageTemplate";
+import useInterval from "../../hooks/useInterval";
+import { showPreciseTimeLeft } from "../../helpers/showTimeLeft";
 import {
   BackLink,
   ArrowIcon,
@@ -43,10 +45,17 @@ function Item(props) {
   const [directBid, setDirectBid] = useState(0);
   const [error, setError] = useState(null);
 
+  const [timeLeft, setTimeLeft] = useState(100);
+
+  useInterval(() => {
+    setTimeLeft(timeLeft - 1);
+  }, 1000);
+
   useEffect(() => {
     const itemRef = firestore.collection("items").doc(id);
     const unsubscribe = itemRef.onSnapshot(function(doc) {
       setItem(doc.data());
+      setTimeLeft(doc.data().endDate.seconds - Date.now() / 1000);
     });
 
     return () => {
@@ -119,7 +128,7 @@ function Item(props) {
           <Right>
             <LotInfo>
               <StartingBid>{`Starting bid $${item.startingBid}`}</StartingBid>
-              <TimeLeft>{item.endDate.seconds}</TimeLeft>
+              <TimeLeft>{showPreciseTimeLeft(timeLeft)}</TimeLeft>
             </LotInfo>
             <Form onSubmit={onFormSubmit}>
               <BidsInfo>

@@ -34,29 +34,6 @@ function Slider() {
       });
   }, []);
 
-  // useEffect(() => {
-  //   const id = setInterval(() => {
-  //     console.log("setInterval");
-  //     console.log(currentSlide);
-
-  //     if (currentSlide === 1) {
-  //       setSlideDirection("left");
-  //     } else if (currentSlide === 11) {
-  //       setSlideDirection("right");
-  //       console.log(slideDirection);
-  //     }
-
-  //     if (slideDirection === "left") {
-  //       slideToLeft();
-  //     } else {
-  //       slideToRight();
-  //     }
-  //   }, 3000);
-  //   return () => {
-  //     clearInterval(id);
-  //   };
-  // }, [currentSlide]);
-
   function slideToRight() {
     setCurrentSlide(currentSlide - 1);
   }
@@ -67,7 +44,7 @@ function Slider() {
 
   return (
     <SliderWrapper totalSlides={totalSlides} currentSlide={currentSlide}>
-      <Title>Ending Soon</Title>
+      <Title>Auctions closing soon</Title>
       <List totalSlides={totalSlides} currentSlide={currentSlide}>
         <ArrowButtonLeft
           onClick={slideToRight}

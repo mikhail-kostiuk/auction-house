@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import {
+  addToFavorites,
+  removeFromFavorites,
+} from "../../actions/itemsActions";
+import useInterval from "../../hooks/useInterval";
+import { showApproximateTimeLeft } from "../../helpers/showTimeLeft";
+import {
   CardWrapper,
   FavoriteButton,
   Icon,
@@ -12,15 +18,17 @@ import {
   CurrentBid,
   TimeLeft,
 } from "./CardStyles";
-import {
-  addToFavorites,
-  removeFromFavorites,
-} from "../../actions/itemsActions";
 
 function Card(props) {
   const { id, imageUrl, title, currentBid, endDate } = props.item;
   const { user } = props.auth;
   const { favorites } = props.items;
+
+  const [timeLeft, setTimeLeft] = useState(endDate.seconds - Date.now() / 1000);
+
+  useInterval(() => {
+    setTimeLeft(timeLeft - 60000);
+  }, 60000);
 
   const inFavorites = user ? favorites.includes(id) : false;
 
@@ -73,7 +81,7 @@ function Card(props) {
         <Title>{title}</Title>
         <Details>
           <CurrentBid>{`$${currentBid}`}</CurrentBid>
-          <TimeLeft>{endDate.seconds}</TimeLeft>
+          <TimeLeft>{showApproximateTimeLeft(timeLeft)}</TimeLeft>
         </Details>
       </CardLink>
     </CardWrapper>
