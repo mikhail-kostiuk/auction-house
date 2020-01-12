@@ -5,7 +5,7 @@ export const GalleryWrapper = styled.div`
   margin-left: 0;
 
   @media screen and (min-width: 768px) {
-    margin-left: 20px;
+    margin-left: 30px;
   }
 `;
 
@@ -32,13 +32,12 @@ export const GalleryList = styled.ul`
 
 export const GalleryItem = styled.li`
   width: 100%;
-  /* flex-shrink: 0; */
   padding: 10px;
 
   @media screen and (min-width: 470px) {
     width: 50%;
   }
-  @media screen and (min-width: 1100px) {
+  @media screen and (min-width: 900px) {
     width: 33.33333%;
   }
 `;

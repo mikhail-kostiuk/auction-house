@@ -15,12 +15,14 @@ import {
   Image,
   Title,
   Details,
+  BidsInfo,
+  Bids,
   CurrentBid,
   TimeLeft,
 } from "./CardStyles";
 
 function Card(props) {
-  const { id, imageUrl, title, currentBid, endDate } = props.item;
+  const { id, imageUrl, title, currentBid, bidsCount, endDate } = props.item;
   const { user } = props.auth;
   const { favorites } = props.items;
 
@@ -69,6 +71,16 @@ function Card(props) {
     }
   }
 
+  function showBidsCount(bidsCount) {
+    if (!bidsCount) {
+      return null;
+    } else if (bidsCount === 1) {
+      return `${bidsCount} bid`;
+    } else {
+      return `${bidsCount} bids`;
+    }
+  }
+
   return (
     <CardWrapper>
       <FavoriteButton onClick={toggleFavorite}>
@@ -80,7 +92,10 @@ function Card(props) {
         </ImageContainer>
         <Title>{title}</Title>
         <Details>
-          <CurrentBid>{`$${currentBid}`}</CurrentBid>
+          <BidsInfo>
+            <CurrentBid>{`$${currentBid}`}</CurrentBid>
+            <Bids>{showBidsCount(bidsCount)}</Bids>
+          </BidsInfo>
           <TimeLeft>{showApproximateTimeLeft(timeLeft)}</TimeLeft>
         </Details>
       </CardLink>
