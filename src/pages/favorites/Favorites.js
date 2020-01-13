@@ -1,7 +1,7 @@
 import React from "react";
 import { PageContent } from "./FavoritesStyles";
 import PageTemplate from "../pageTemplate/PageTemplate";
-import FavoritesGallery from "../../components/favorites/FavoritesGallery";
+import FavoritesGallery from "../../components/galleries/favoritesGallery/FavoritesGallery";
 
 function Favorites() {
   return (
