@@ -2,14 +2,9 @@ import styled from "styled-components";
 
 export const GalleryWrapper = styled.div`
   width: 100%;
-  margin-left: 0;
-
-  @media screen and (min-width: 768px) {
-    margin-left: 30px;
-  }
 `;
 
-export const CategoryTitle = styled.h1`
+export const GalleryTitle = styled.h1`
   margin: 20px 0 10px 0;
   background-color: #fff;
   font-size: 24px;
@@ -26,18 +21,21 @@ export const GalleryList = styled.ul`
   flex-wrap: wrap;
   width: calc(100% + 20px);
   padding: 0;
-  margin: 0 -10px;
+  margin: 10px -10px 0 -10px;
   list-style-type: none;
 `;
 
 export const GalleryItem = styled.li`
-  width: 100%;
+  width: calc(100% / 2);
   padding: 10px;
 
-  @media screen and (min-width: 470px) {
-    width: 50%;
+  @media screen and (min-width: 620px) {
+    width: calc(100% / 3);
+  }
+  @media screen and (min-width: 768px) {
+    width: ${props => 100 / (props.maxColumns - 1)}%;
   }
   @media screen and (min-width: 900px) {
-    width: 33.33333%;
+    width: ${props => 100 / props.maxColumns}%;
   }
 `;
