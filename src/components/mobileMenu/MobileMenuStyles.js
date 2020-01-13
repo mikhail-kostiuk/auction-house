@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const Menu = styled.div`
-  position: fixed;
-  z-index: 10;
+  position: absolute;
+  z-index: 40;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   overflow-y: scroll;
   background-color: #fff;
   font-size: 14px;
@@ -18,6 +18,8 @@ export const Menu = styled.div`
 `;
 
 export const Header = styled.div`
+  position: fixed;
+  width: 100%;
   display: flex;
   justify-content: space-around;
   background-color: ${props => props.theme.blue5};

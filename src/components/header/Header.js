@@ -1,5 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks,
+} from "body-scroll-lock";
 import {
   HeaderWrapper,
   ContentContainer,
@@ -22,6 +27,8 @@ import AccountMenu from "../accountMenu/AccountMenu";
 import SiteMenu from "./siteMenu/SiteMenu";
 
 function Header(props) {
+  const node = useRef();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
   const [signInModalOpen, setSignInModalOpen] = useState(false);
@@ -38,7 +45,12 @@ function Header(props) {
     <HeaderWrapper>
       <SiteMenu />
       <ContentContainer>
-        <MenuButton openMenu={() => setMobileMenuOpen(true)} />
+        <MenuButton
+          openMenu={() => {
+            disableBodyScroll(node);
+            setMobileMenuOpen(true);
+          }}
+        />
         <LogoContainer>
           <Logo />
         </LogoContainer>
@@ -53,7 +65,14 @@ function Header(props) {
         </NavigationContainer>
       </NavigationWrapper>
       {mobileMenuOpen && (
-        <MobileMenu closeMenu={() => setMobileMenuOpen(false)} />
+        <MobileMenu
+          node={node}
+          closeMenu={() => {
+            enableBodyScroll(node);
+            clearAllBodyScrollLocks();
+            setMobileMenuOpen(false);
+          }}
+        />
       )}
       {signUpModalOpen && (
         <SignUp
