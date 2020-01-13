@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { openSignUpModal, closeModal } from "../../actions/modalAction";
 import { auth } from "../../firebase";
+import Modal from "../modal/Modal";
 import {
   SignInForm,
   Label,
@@ -8,9 +11,8 @@ import {
   BottomText,
   LinkButton,
 } from "./SignInStyles";
-import Modal from "../modal/Modal";
 
-function SignUp(props) {
+function SignIn(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,7 +22,7 @@ function SignUp(props) {
     auth
       .signInWithEmailAndPassword(email, password)
       .then(function() {
-        props.closeSignIn();
+        props.closeModal();
       })
       .catch(function(error) {
         let errorCode = error.code;
@@ -31,10 +33,7 @@ function SignUp(props) {
   }
 
   return (
-    <Modal
-      text={"Sign in and begin your treasure hunt."}
-      close={props.closeSignIn}
-    >
+    <Modal text={"Sign in and begin your treasure hunt."}>
       <SignInForm onSubmit={onSubmitForm}>
         <Label htmlFor="email">Email address</Label>
         <Input
@@ -57,17 +56,10 @@ function SignUp(props) {
       </SignInForm>
       <BottomText>
         Don't have an account?{" "}
-        <LinkButton
-          onClick={() => {
-            props.closeSignIn();
-            props.openSignUp();
-          }}
-        >
-          Sign Up
-        </LinkButton>
+        <LinkButton onClick={props.openSignUpModal}>Sign Up</LinkButton>
       </BottomText>
     </Modal>
   );
 }
 
-export default SignUp;
+export default connect(null, { openSignUpModal, closeModal })(SignIn);

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { openSignInModal, closeModal } from "../../actions/modalAction";
 import { auth, firestore } from "../../firebase";
 import {
   SignUpForm,
@@ -37,7 +39,7 @@ function SignUp(props) {
               uid: createdUser.user.uid,
               favorites: [],
             });
-          props.closeSignUp();
+          props.closeModal();
         })
         .catch(function(error) {
           let errorCode = error.code;
@@ -82,17 +84,10 @@ function SignUp(props) {
       </SignUpForm>
       <BottomText>
         Already have an account?{" "}
-        <LinkButton
-          onClick={() => {
-            props.closeSignUp();
-            props.openSignIn();
-          }}
-        >
-          Sign In
-        </LinkButton>
+        <LinkButton onClick={props.openSignInModal}>Sign In</LinkButton>
       </BottomText>
     </Modal>
   );
 }
 
-export default SignUp;
+export default connect(null, { openSignInModal, closeModal })(SignUp);

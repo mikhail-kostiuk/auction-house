@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { closeModal } from "../../actions/modalAction";
 import Logo from "../logo/Logo";
 import {
   ModalOverlay,
@@ -14,7 +16,7 @@ function Modal(props) {
     <ModalOverlay>
       <ModalContainer>
         <CloseButton>
-          <CloseIcon onClick={props.close}>×</CloseIcon>
+          <CloseIcon onClick={props.closeModal}>×</CloseIcon>
         </CloseButton>
         <LogoContainer>
           <Logo />
@@ -26,4 +28,4 @@ function Modal(props) {
   );
 }
 
-export default Modal;
+export default connect(null, { closeModal })(Modal);

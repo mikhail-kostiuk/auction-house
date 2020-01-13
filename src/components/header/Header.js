@@ -5,16 +5,6 @@ import {
   enableBodyScroll,
   clearAllBodyScrollLocks,
 } from "body-scroll-lock";
-import {
-  HeaderWrapper,
-  ContentContainer,
-  SearchContainer,
-  LogoContainer,
-  AccountActions,
-  AuthButtons,
-  NavigationContainer,
-  NavigationWrapper,
-} from "./HeaderStyles";
 import Logo from "../logo/Logo";
 import Search from "../search/Search";
 import MenuButton from "../mobileMenu/menuButton/MenuButton";
@@ -25,19 +15,31 @@ import SignUp from "../signUp/SignUp";
 import SignIn from "../signIn/SignIn";
 import AccountMenu from "../accountMenu/AccountMenu";
 import SiteMenu from "./siteMenu/SiteMenu";
+import { openSignUpModal, openSignInModal } from "../../actions/modalAction";
+import {
+  HeaderWrapper,
+  ContentContainer,
+  SearchContainer,
+  LogoContainer,
+  AccountActions,
+  AuthButtons,
+  NavigationContainer,
+  NavigationWrapper,
+} from "./HeaderStyles";
 
 function Header(props) {
-  const node = useRef();
+  const { signUpModalOpen, signInModalOpen } = props.modal;
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [signUpModalOpen, setSignUpModalOpen] = useState(false);
-  const [signInModalOpen, setSignInModalOpen] = useState(false);
+
+  const node = useRef();
+
   const accountActions = props.auth.user ? (
     <AccountMenu />
   ) : (
     <AuthButtons>
-      <Button onClick={() => setSignInModalOpen(true)} text={"Sign In"} />
-      <Button onClick={() => setSignUpModalOpen(true)} text={"Sign Up"} />
+      <Button onClick={props.openSignInModal} text={"Sign In"} />
+      <Button onClick={props.openSignUpModal} text={"Sign Up"} />
     </AuthButtons>
   );
 
@@ -74,18 +76,8 @@ function Header(props) {
           }}
         />
       )}
-      {signUpModalOpen && (
-        <SignUp
-          closeSignUp={() => setSignUpModalOpen(false)}
-          openSignIn={() => setSignInModalOpen(true)}
-        />
-      )}
-      {signInModalOpen && (
-        <SignIn
-          closeSignIn={() => setSignInModalOpen(false)}
-          openSignUp={() => setSignUpModalOpen(true)}
-        />
-      )}
+      {signUpModalOpen && <SignUp />}
+      {signInModalOpen && <SignIn />}
     </HeaderWrapper>
   );
 }
@@ -93,7 +85,10 @@ function Header(props) {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
+    modal: state.modal,
   };
 };
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, { openSignUpModal, openSignInModal })(
+  Header
+);
