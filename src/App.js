@@ -12,6 +12,7 @@ import { loginUser, logoutUser } from "./actions/authActions";
 import { setFavorites } from "./actions/itemsActions";
 import Contacts from "./pages/contacts/Contacts";
 import Favorites from "./pages/favorites/Favorites";
+import MyBids from "./pages/myBids/MyBids";
 
 function App() {
   useEffect(() => {
@@ -46,6 +47,7 @@ function App() {
           <Route exact path="/sell" component={Sell} />
           <Route exact path="/item" component={Item} />
           <Route exact path="/favorites" component={Favorites} />
+          <Route exact path="/my-bids" component={MyBids} />
           <Route exact path="/contacts" component={Contacts} />
         </BrowserRouter>
       </ThemeProvider>
