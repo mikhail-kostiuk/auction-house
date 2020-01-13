@@ -37,6 +37,7 @@ function SignUp(props) {
             .doc(createdUser.user.uid)
             .set({
               uid: createdUser.user.uid,
+              email: createdUser.user.email,
               favorites: [],
             });
           props.closeModal();
