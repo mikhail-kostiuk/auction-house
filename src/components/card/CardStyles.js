@@ -8,8 +8,8 @@ export const CardWrapper = styled.div`
 
 export const FavoriteButton = styled.button`
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
   z-index: 10;
   display: flex;
   justify-content: space-around;
@@ -54,27 +54,40 @@ export const Image = styled.img`
 
 export const Title = styled.span`
   display: block;
-  height: 72px;
+  height: 54px;
   margin: 0;
   margin-top: 10px;
   color: ${props => props.theme.bluegrey1};
-  font-size: 15px;
-  line-height: 24px;
+  font-size: 13px;
+  line-height: 18px;
   letter-spacing: 0.5px;
   text-transform: capitalize;
   white-space: pre-wrap;
   overflow: hidden;
+
+  @media screen and (min-width: 470px) {
+    height: 72px;
+    font-size: 15px;
+    line-height: 24px;
+  }
 `;
 
 export const Details = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 10px;
 `;
 
 export const BidsInfo = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+
+  @media screen and (min-width: 900px) {
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 export const CurrentBid = styled.span`
@@ -87,9 +100,17 @@ export const CurrentBid = styled.span`
 
 export const Bids = styled.span`
   display: block;
-  margin-left: 10px;
   color: ${props => props.theme.bluegrey4};
   font-size: 14px;
+
+  @media screen and (min-width: 400px) {
+    font-size: 14px;
+  }
+
+  @media screen and (min-width: 900px) {
+    margin-left: 10px;
+    font-size: 14px;
+  }
 `;
 
 export const TimeLeft = styled.span`
