@@ -6,10 +6,11 @@ export const PageContent = styled.div`
 `;
 
 export const SidebarContainer = styled.div`
+  display: none;
   flex-shrink: 0;
   width: 210px;
-
-  display: none;
+  padding-top: 30px;
+  margin-right: 30px;
 
   @media screen and (min-width: 768px) {
     display: block;

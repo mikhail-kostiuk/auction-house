@@ -6,7 +6,7 @@ export const NavigationList = styled.ul`
   padding: 0;
   margin: 0;
   margin-left: ${props => (props.nested ? "20px" : 0)};
-  color: #0097ba;
+  color: ${props => props.theme.bluegrey5};
   font-size: 15px;
   list-style-type: none;
 `;
@@ -16,7 +16,7 @@ export const NavigationListItem = styled.li`
   cursor: pointer;
 
   &:hover {
-    color: ${props => props.theme.blue1};
+    color: ${props => props.theme.bluegrey1};
   }
 `;
 
