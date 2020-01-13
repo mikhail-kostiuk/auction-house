@@ -31,7 +31,7 @@ export const Icon = styled.div`
 `;
 
 export const CardLink = styled(Link)`
-  padding: 20px 10px;
+  display: block;
 `;
 
 export const ImageContainer = styled.div`
