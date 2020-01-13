@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { openSignInModal } from "../../actions/modalAction";
 import queryString from "query-string";
 import { firestore } from "../../firebase";
 import PageTemplate from "../pageTemplate/PageTemplate";
@@ -46,7 +47,6 @@ function Item(props) {
   const [error, setError] = useState(null);
 
   const [timeLeft, setTimeLeft] = useState(100);
-
   useInterval(() => {
     setTimeLeft(timeLeft - 1);
   }, 1000);
@@ -81,7 +81,16 @@ function Item(props) {
   }, [id, props.history]);
 
   function validateBid(bid) {
+    if (!user) {
+      props.openSignInModal();
+      return false;
+    }
     const minimumBid = Math.round(item.currentBid + item.startingBid * 0.1);
+
+    if (user.uid === item.ownerID) {
+      setError("You can't bid on your own item");
+      return false;
+    }
 
     if (bid < minimumBid) {
       setError(`The next minimum bid is $${minimumBid}`);
@@ -211,4 +220,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Item);
+export default connect(mapStateToProps, { openSignInModal })(Item);
