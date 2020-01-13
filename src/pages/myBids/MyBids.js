@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { openSignInModal } from "../../actions/modalAction";
 import { firestore } from "../../firebase";
 import { PageContent } from "./MyBidsStyles";
 import PageTemplate from "../pageTemplate/PageTemplate";
-import Gallery from "../../components/galleries/gallery/Gallery";
+import Gallery from "../../components/gallery/Gallery";
 
 function MyBids(props) {
   const [items, setItems] = useState(null);
 
   useEffect(() => {
     const { user } = props.auth;
-    const resultSet = [];
 
     if (user) {
+      const resultSet = [];
+
       firestore
         .collection("items")
         .where("lastBidder", "==", user.uid)
@@ -25,9 +27,10 @@ function MyBids(props) {
           setItems(resultSet);
         });
     } else {
-      props.history.push("/not-found");
+      setItems(null);
+      props.openSignInModal();
     }
-  }, [props.auth, props.history]);
+  }, [props]);
 
   return (
     <PageTemplate pageTitle="My Bids">
@@ -44,4 +47,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(MyBids);
+export default connect(mapStateToProps, { openSignInModal })(MyBids);
