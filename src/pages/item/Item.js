@@ -61,7 +61,7 @@ function Item(props) {
         if (doc.exists) {
           unsubscribe = itemRef.onSnapshot(function(doc) {
             setItem(doc.data());
-            setTimeLeft(doc.data().endDate.seconds - Date.now() / 1000);
+            setTimeLeft((doc.data().endDate - Date.now()) / 1000);
           });
           console.log("Document data:", doc.data());
         } else {

@@ -26,7 +26,7 @@ function Card(props) {
   const { user } = props.auth;
   const { favorites } = props.items;
 
-  const [timeLeft, setTimeLeft] = useState(endDate.seconds - Date.now() / 1000);
+  const [timeLeft, setTimeLeft] = useState((endDate - Date.now()) / 1000);
 
   useInterval(() => {
     setTimeLeft(timeLeft - 60000);
