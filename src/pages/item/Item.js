@@ -53,15 +53,32 @@ function Item(props) {
 
   useEffect(() => {
     const itemRef = firestore.collection("items").doc(id);
-    const unsubscribe = itemRef.onSnapshot(function(doc) {
-      setItem(doc.data());
-      setTimeLeft(doc.data().endDate.seconds - Date.now() / 1000);
-    });
+    let unsubscribe;
+
+    itemRef
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          unsubscribe = itemRef.onSnapshot(function(doc) {
+            setItem(doc.data());
+            setTimeLeft(doc.data().endDate.seconds - Date.now() / 1000);
+          });
+          console.log("Document data:", doc.data());
+        } else {
+          // doc.data() will be undefined in this case
+          props.history.push("/not-found");
+        }
+      })
+      .catch(function(error) {
+        console.log("Error getting document:", error);
+      });
 
     return () => {
-      unsubscribe();
+      if (unsubscribe) {
+        unsubscribe();
+      }
     };
-  }, [id]);
+  }, [id, props.history]);
 
   function validateBid(bid) {
     const minimumBid = Math.round(item.currentBid + item.startingBid * 0.1);
