@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
 import categories from "../../data/categories.json";
 import {
