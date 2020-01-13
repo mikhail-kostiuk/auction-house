@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import Home from "./pages/home/Home";
@@ -13,6 +13,7 @@ import { setFavorites } from "./actions/itemsActions";
 import Contacts from "./pages/contacts/Contacts";
 import Favorites from "./pages/favorites/Favorites";
 import MyBids from "./pages/myBids/MyBids";
+import NotFound from "./pages/notFound/NotFound";
 
 function App() {
   useEffect(() => {
@@ -43,12 +44,16 @@ function App() {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/sell" component={Sell} />
-          <Route exact path="/item" component={Item} />
-          <Route exact path="/favorites" component={Favorites} />
-          <Route exact path="/my-bids" component={MyBids} />
-          <Route exact path="/contacts" component={Contacts} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/sell" component={Sell} />
+            <Route exact path="/item" component={Item} />
+            <Route exact path="/favorites" component={Favorites} />
+            <Route exact path="/my-bids" component={MyBids} />
+            <Route exact path="/contacts" component={Contacts} />
+            <Route exact path="/not-found" component={NotFound} />
+            <Redirect to="not-found" />
+          </Switch>
         </BrowserRouter>
       </ThemeProvider>
     </Provider>
