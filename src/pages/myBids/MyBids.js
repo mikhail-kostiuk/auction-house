@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { openSignInModal } from "../../actions/modalAction";
 import { firestore } from "../../firebase";
 import { PageContent } from "./MyBidsStyles";
 import PageTemplate from "../pageTemplate/PageTemplate";
@@ -28,7 +27,6 @@ function MyBids(props) {
         });
     } else {
       setItems(null);
-      props.openSignInModal();
     }
   }, [props]);
 
@@ -47,4 +45,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { openSignInModal })(MyBids);
+export default connect(mapStateToProps)(MyBids);

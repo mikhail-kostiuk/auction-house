@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { openSignInModal } from "../../actions/modalAction";
 import { firestore } from "../../firebase";
 import { PageContent } from "./FavoritesStyles";
 import PageTemplate from "../pageTemplate/PageTemplate";
@@ -35,7 +34,6 @@ function Favorites(props) {
       });
     } else {
       setItems(null);
-      props.openSignInModal();
     }
   }, [props]);
 
@@ -55,4 +53,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { openSignInModal })(Favorites);
+export default connect(mapStateToProps)(Favorites);
