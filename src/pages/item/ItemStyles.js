@@ -42,7 +42,7 @@ export const Title = styled.h1`
 
 export const DescriptionTitle = styled.span`
   display: block;
-  padding-top: 20px;
+  /* padding-top: 20px; */
   margin-top: 20px;
   /* border-top: 1px solid ${props => props.theme.bluegrey8}; */
 
@@ -84,16 +84,22 @@ export const Right = styled.div`
 `;
 
 export const ImageContainer = styled.div`
-  width: 100%;
+  position: relative;
+  height: 0;
+  padding-bottom: 100%;
   margin-top: 20px;
 `;
 
 export const Image = styled.img`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: block;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
 `;
 
 export const LotInfo = styled.div`
