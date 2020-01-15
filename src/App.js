@@ -14,6 +14,7 @@ import Contacts from "./pages/contacts/Contacts";
 import Favorites from "./pages/favorites/Favorites";
 import MyBids from "./pages/myBids/MyBids";
 import NotFound from "./pages/notFound/NotFound";
+import MyAuctions from "./pages/myAuctions/MyAuctions";
 
 function App() {
   useEffect(() => {
@@ -50,6 +51,7 @@ function App() {
             <Route exact path="/item" component={Item} />
             <Route exact path="/favorites" component={Favorites} />
             <Route exact path="/my-bids" component={MyBids} />
+            <Route exact path="/my-auctions" component={MyAuctions} />
             <Route exact path="/contacts" component={Contacts} />
             <Route exact path="/not-found" component={NotFound} />
             <Redirect to="not-found" />
