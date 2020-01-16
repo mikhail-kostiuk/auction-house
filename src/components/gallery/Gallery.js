@@ -12,7 +12,7 @@ import {
 } from "./GalleryStyles";
 
 function Gallery(props) {
-  const { items, title, maxColumns } = props;
+  const { items, title, maxColumns, handleSortOrderChange } = props;
 
   return (
     items && (
@@ -22,13 +22,13 @@ function Gallery(props) {
           <select
             name="sort"
             id="sort"
-            defaultValue="TIME_FURTHEST"
-            onChange={e => props.setSortOrder(e.target.value)}
+            defaultValue="TIME_SOONEST"
+            onChange={e => handleSortOrderChange(e.target.value)}
           >
-            <option value="TIME_FURTHEST">Time: Ending Furthest</option>
             <option value="TIME_SOONEST">Time: Ending Soonest</option>
-            <option value="PRICE_HIGHEST">Price: Highest</option>
+            <option value="TIME_FURTHEST">Time: Ending Furthest</option>
             <option value="PRICE_LOWEST">Price: Lowest</option>
+            <option value="PRICE_HIGHEST">Price: Highest</option>
           </select>
         </form>
         <GalleryList>
@@ -38,34 +38,6 @@ function Gallery(props) {
             </GalleryItem>
           ))}
         </GalleryList>
-        <Pagination>
-          <Button disabled={props.currentPage < 2} onClick={props.prev}>
-            <ArrowIcon
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 14"
-              fill="currentColor"
-            >
-              <path d="M0,7" />
-              <path d="M1.41,8.41,7,14l1.41-1.41L2.82,7,8.41,1.41,7,0,1.41,5.59,0,7" />
-            </ArrowIcon>
-            Previous
-          </Button>
-          <CurrentPage>{`Page ${props.currentPage} of ${props.totalPages}`}</CurrentPage>
-          <Button
-            disabled={props.currentPage === props.totalPages}
-            onClick={props.next}
-          >
-            Next{" "}
-            <ArrowIcon
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 14"
-              fill="currentColor"
-            >
-              <path d="M8.41,7" />
-              <path d="M7,5.59,1.41,0,0,1.41,5.59,7,0,12.59,1.41,14,7,8.41,8.41,7" />
-            </ArrowIcon>
-          </Button>
-        </Pagination>
       </GalleryWrapper>
     )
   );
