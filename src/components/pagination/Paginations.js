@@ -22,7 +22,7 @@ function Paginations(props) {
         </ArrowIcon>
         Previous
       </Button>
-      <CurrentPage>{`Page ${props.currentPage} of ${props.totalPages}`}</CurrentPage>
+      <CurrentPage>{`Page ${currentPage} of ${totalPages}`}</CurrentPage>
       <Button disabled={currentPage === totalPages} onClick={getNextItems}>
         Next{" "}
         <ArrowIcon

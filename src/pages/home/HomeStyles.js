@@ -16,3 +16,11 @@ export const SidebarContainer = styled.div`
     display: block;
   }
 `;
+
+export const GalleryContainer = styled.div`
+  width: 100%;
+`;
+
+export const PaginationContainer = styled.div`
+  margin-top: 30px;
+`;
