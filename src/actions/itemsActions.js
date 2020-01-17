@@ -7,10 +7,10 @@ export const setFavorites = items => {
   };
 };
 
-export const addToFavorites = (id, uid, favorites) => {
+export const addToFavorites = (itemRef, uid, favorites) => {
   return dispatch => {
     const updatedFavorites = [...favorites];
-    updatedFavorites.push(id);
+    updatedFavorites.push(itemRef);
 
     const userRef = firestore.collection("users").doc(uid);
 
@@ -27,10 +27,11 @@ export const addToFavorites = (id, uid, favorites) => {
   };
 };
 
-export const removeFromFavorites = (id, uid, favorites) => {
+export const removeFromFavorites = (itemRef, uid, favorites) => {
   return dispatch => {
     const updatedFavorites = [...favorites];
-    updatedFavorites.splice(favorites.indexOf(id), 1);
+    const index = favorites.findIndex(ref => ref.id === itemRef.id);
+    updatedFavorites.splice(index, 1);
 
     const userRef = firestore.collection("users").doc(uid);
 

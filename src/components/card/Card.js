@@ -4,6 +4,7 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "../../actions/itemsActions";
+import { firestore } from "../../firebase";
 import useInterval from "../../hooks/useInterval";
 import { showApproximateTimeLeft } from "../../helpers/showTimeLeft";
 import {
@@ -28,11 +29,19 @@ function Card(props) {
 
   const [timeLeft, setTimeLeft] = useState((endDate - Date.now()) / 1000);
 
+  const itemRef = firestore
+    .collection("lots")
+    .doc("active")
+    .collection("items")
+    .doc(id);
+
   useInterval(() => {
     setTimeLeft(timeLeft - 60000);
   }, 60000);
 
-  const inFavorites = user ? favorites.includes(id) : false;
+  const inFavorites = user
+    ? favorites.filter(ref => ref.id === itemRef.id).length
+    : false;
 
   const favoriteIcon = inFavorites ? (
     <svg
@@ -65,9 +74,9 @@ function Card(props) {
     e.preventDefault();
 
     if (inFavorites) {
-      props.removeFromFavorites(id, user.uid, favorites);
+      props.removeFromFavorites(itemRef, user.uid, favorites);
     } else {
-      props.addToFavorites(id, user.uid, favorites);
+      props.addToFavorites(itemRef, user.uid, favorites);
     }
   }
 

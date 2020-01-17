@@ -15,22 +15,22 @@ function Favorites(props) {
     if (user) {
       const firestoreReadPromises = [];
 
-      favorites.forEach(itemId => {
-        firestoreReadPromises.push(
-          firestore
-            .collection("items")
-            .doc(itemId)
-            .get()
-        );
+      favorites.forEach(itemRef => {
+        firestoreReadPromises.push(itemRef.get());
       });
 
       Promise.all(firestoreReadPromises).then(documentsSnapshots => {
-        const resultSet = [];
+        const result = [];
 
-        documentsSnapshots.forEach(doc =>
-          resultSet.push({ id: doc.id, ...doc.data() })
-        );
-        setItems(resultSet);
+        documentsSnapshots.forEach(doc => {
+          const data = doc.data();
+
+          if (data) {
+            result.push({ id: doc.id, ...data });
+          }
+        });
+
+        setItems(result);
       });
     } else {
       setItems(null);
