@@ -29,7 +29,7 @@ function App() {
           .get()
           .then(function(querySnapshot) {
             user = querySnapshot.docs[0].data();
-            store.dispatch(loginUser({ uid: user.uid }));
+            store.dispatch(loginUser({ uid: user.uid, email: user.email }));
             store.dispatch(setFavorites(user.favorites));
           })
           .catch(function(error) {
