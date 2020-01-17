@@ -61,6 +61,14 @@ export const SubmenuListItem = styled.li`
   }
 `;
 
+export const UserEmail = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: ${props => props.theme.yellow1};
+`;
+
 export const SubmenuLink = styled(Link)`
   display: block;
   padding: 20px;

@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from "react";
+import { connect } from "react-redux";
 import {
   AccountSubmenuList,
   Arrow,
   SubmenuListItem,
+  UserEmail,
   SubmenuLink,
   LogoutButton,
 } from "./AccountSubmenuStyles";
@@ -10,7 +12,9 @@ import { auth } from "../../../firebase";
 
 function AccountSubmenu(props) {
   const node = useRef();
+  const { user } = props.auth;
   const { myAccountButton, submenuOpen, closeSubmenu } = props;
+  console.log(props);
 
   useEffect(() => {
     const handleClickOutside = e => {
@@ -52,7 +56,10 @@ function AccountSubmenu(props) {
     <AccountSubmenuList ref={node}>
       <Arrow />
       <SubmenuListItem>
-        <SubmenuLink to="/">My Auctions</SubmenuLink>
+        <UserEmail>{user.email}</UserEmail>
+      </SubmenuListItem>
+      <SubmenuListItem>
+        <SubmenuLink to="/my-auctions">My Auctions</SubmenuLink>
       </SubmenuListItem>
       <SubmenuListItem>
         <SubmenuLink to="/">Won Items</SubmenuLink>
@@ -67,4 +74,10 @@ function AccountSubmenu(props) {
   );
 }
 
-export default AccountSubmenu;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps)(AccountSubmenu);
