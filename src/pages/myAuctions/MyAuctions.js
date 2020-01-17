@@ -9,7 +9,6 @@ function MyAuctions(props) {
   const [items, setItems] = useState(null);
 
   useEffect(() => {
-    console.log("effect");
     const { user } = props.auth;
 
     if (user) {

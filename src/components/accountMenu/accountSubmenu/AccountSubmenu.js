@@ -14,7 +14,6 @@ function AccountSubmenu(props) {
   const node = useRef();
   const { user } = props.auth;
   const { myAccountButton, submenuOpen, closeSubmenu } = props;
-  console.log(props);
 
   useEffect(() => {
     const handleClickOutside = e => {
