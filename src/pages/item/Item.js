@@ -47,26 +47,45 @@ function Item(props) {
   const [error, setError] = useState(null);
 
   const [timeLeft, setTimeLeft] = useState(100);
+
   useInterval(() => {
     setTimeLeft(timeLeft - 1);
   }, 1000);
 
   useEffect(() => {
-    const itemRef = firestore.collection("items").doc(id);
+    const activeItemRef = firestore
+      .collection("lots")
+      .doc("active")
+      .collection("items")
+      .doc(id);
+
+    const inactiveItemRef = firestore
+      .collection("lots")
+      .doc("inactive")
+      .collection("items")
+      .doc(id);
     let unsubscribe;
 
-    itemRef
+    // Search the item in the "active" collection
+    activeItemRef
       .get()
       .then(function(doc) {
         if (doc.exists) {
-          unsubscribe = itemRef.onSnapshot(function(doc) {
+          unsubscribe = activeItemRef.onSnapshot(function(doc) {
             setItem(doc.data());
             setTimeLeft((doc.data().endDate - Date.now()) / 1000);
           });
-          console.log("Document data:", doc.data());
         } else {
-          // doc.data() will be undefined in this case
-          props.history.push("/not-found");
+          // Search the item in the "inactive" collection then
+          inactiveItemRef.get().then(function(doc) {
+            if (doc.exists) {
+              setItem(doc.data());
+              setTimeLeft((doc.data().endDate - Date.now()) / 1000);
+            } else {
+              // The item with this id doesn't exist
+              props.history.push("/not-found");
+            }
+          });
         }
       })
       .catch(function(error) {
@@ -107,12 +126,16 @@ function Item(props) {
     const newBid = parseInt(n, 10);
 
     if (validateBid(newBid)) {
-      const itemRef = firestore.collection("items").doc(id);
+      const itemRef = firestore
+        .collection("lots")
+        .doc("active")
+        .collection("items")
+        .doc(id);
 
       itemRef.update({
         bidsCount: item.bidsCount + 1,
         currentBid: newBid,
-        lastBidder: user.uid,
+        lastBidderId: user.uid,
       });
     } else {
       return;
