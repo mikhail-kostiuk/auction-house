@@ -43,11 +43,10 @@ function WithdrawFunds(props) {
         .then(function(doc) {
           if (doc.exists) {
             const funds = doc.data().funds;
-            console.log(funds);
             const amountToWithdraw = amount;
 
-            if (amountToWithdraw < 0) {
-              setError(`You can't withdraw more than ${funds}`);
+            if (amountToWithdraw > funds) {
+              setError(`You can't withdraw more than ${funds}$`);
               setTimeout(() => setError(null), 5000);
             } else {
               userRef.update({ funds: funds - amountToWithdraw }).then(() => {
