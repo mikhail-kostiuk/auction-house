@@ -1,6 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { openWithdrawFundsModal } from "../../../actions/modalActions";
+import {
+  openAddFundsModal,
+  openWithdrawFundsModal,
+} from "../../../actions/modalActions";
 import { auth } from "../../../firebase";
 import {
   AccountSubmenuList,
@@ -75,10 +78,22 @@ function AccountSubmenu(props) {
         <SubmenuLink to="/sell">Sell Item</SubmenuLink>
       </SubmenuListItem>
       <SubmenuListItem>
-        <Button>Add Funds</Button>
+        <Button
+          onClick={e => {
+            props.closeSubmenu();
+            props.openAddFundsModal();
+          }}
+        >
+          Add Funds
+        </Button>
       </SubmenuListItem>
       <SubmenuListItem>
-        <Button onClick={e => props.openWithdrawFundsModal()}>
+        <Button
+          onClick={e => {
+            props.closeSubmenu();
+            props.openWithdrawFundsModal();
+          }}
+        >
           Withdraw Funds
         </Button>
       </SubmenuListItem>
@@ -96,6 +111,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { openWithdrawFundsModal })(
-  AccountSubmenu
-);
+export default connect(mapStateToProps, {
+  openAddFundsModal,
+  openWithdrawFundsModal,
+})(AccountSubmenu);

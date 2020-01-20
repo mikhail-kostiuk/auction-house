@@ -27,11 +27,13 @@ import {
   NavigationContainer,
   NavigationWrapper,
 } from "./HeaderStyles";
+import AddFunds from "../addFunds/AddFunds";
 
 function Header(props) {
   const {
     signUpModalOpen,
     signInModalOpen,
+    addFundsModalOpen,
     withdrawFundsModalOpen,
   } = props.modal;
 
@@ -83,6 +85,7 @@ function Header(props) {
       )}
       {signUpModalOpen && <SignUp />}
       {signInModalOpen && <SignIn />}
+      {addFundsModalOpen && <AddFunds />}
       {withdrawFundsModalOpen && <WithdrawFunds />}
     </HeaderWrapper>
   );

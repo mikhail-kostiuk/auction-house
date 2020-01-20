@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { closeModal } from "../../actions/modalActions";
-import { withdrawFunds } from "../../actions/fundsActions";
+import { addFunds } from "../../actions/fundsActions";
 import Modal from "../modal/Modal";
 import { firestore } from "../../firebase";
-import { Form, Label, Input, Button, Error } from "./WithdrawFundsStyles";
+import {
+  Form,
+  Label,
+  Input,
+  CardDetails,
+  FormFieldContainer,
+  Button,
+  Error,
+} from "./AddFundsStyles";
 
-function WithdrawFunds(props) {
+function AddFunds(props) {
   const { user } = props.auth;
   const [cardNumber, setCardNumber] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvv, setCvv] = useState("");
   const [amount, setAmount] = useState(0);
   const [error, setError] = useState("");
 
@@ -20,8 +30,21 @@ function WithdrawFunds(props) {
       return false;
     }
 
+    if (expiryDate.trim() === "") {
+      setError("Please enter expiry date");
+      setTimeout(() => setError(null), 5000);
+
+      return false;
+    }
+    if (cvv.trim() === "") {
+      setError("Please enter cvv number");
+      setTimeout(() => setError(null), 5000);
+
+      return false;
+    }
+
     if (amount === 0) {
-      setError("Please enter the amount of money you want to withdraw");
+      setError("Please enter the amount of money you want to add");
       setTimeout(() => setError(null), 5000);
 
       return false;
@@ -43,17 +66,12 @@ function WithdrawFunds(props) {
         .then(function(doc) {
           if (doc.exists) {
             const funds = doc.data().funds;
-            const amountToWithdraw = amount;
+            const amountToAdd = parseInt(amount, 10);
 
-            if (amountToWithdraw > funds) {
-              setError(`You can't withdraw more than ${funds}$`);
-              setTimeout(() => setError(null), 5000);
-            } else {
-              userRef.update({ funds: funds - amountToWithdraw }).then(() => {
-                props.withdrawFunds(amountToWithdraw);
-                props.closeModal();
-              });
-            }
+            userRef.update({ funds: funds + amountToAdd }).then(() => {
+              props.addFunds(amountToAdd);
+              props.closeModal();
+            });
           } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -66,17 +84,41 @@ function WithdrawFunds(props) {
   }
 
   return (
-    <Modal text={"Withdraw funds from your account."}>
+    <Modal text={"Add funds to your account."}>
       <Form onSubmit={onFormSubmit}>
         <Label htmlFor="cardNumber">Card number</Label>
         <Input
+          autoFocus
           type="number"
           name="cardNumber"
           id="cardNumber"
           value={cardNumber}
           onChange={e => setCardNumber(e.target.value)}
         />
-        <Label htmlFor="amount">Amount to withdraw</Label>
+        <CardDetails>
+          <FormFieldContainer>
+            <Label htmlFor="expiryDate">Expiry date</Label>
+            <Input
+              placeholder="MM/YY"
+              type="text"
+              name="expiryDate"
+              id="expiryDate"
+              value={expiryDate}
+              onChange={e => setExpiryDate(e.target.value)}
+            />
+          </FormFieldContainer>
+          <FormFieldContainer>
+            <Label htmlFor="cvv">CVV</Label>
+            <Input
+              type="text"
+              name="cvv"
+              id="cvv"
+              value={cvv}
+              onChange={e => setCvv(e.target.value)}
+            />
+          </FormFieldContainer>
+        </CardDetails>
+        <Label htmlFor="amount">Amount to add</Label>
         <Input
           type="number"
           name="amount"
@@ -91,7 +133,7 @@ function WithdrawFunds(props) {
           }}
         />
         {error && <Error>{error}</Error>}
-        <Button type="submit">Withdraw</Button>
+        <Button type="submit">Add</Button>
       </Form>
     </Modal>
   );
@@ -103,6 +145,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { closeModal, withdrawFunds })(
-  WithdrawFunds
-);
+export default connect(mapStateToProps, { closeModal, addFunds })(AddFunds);
