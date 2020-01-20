@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { openSignInModal, closeModal } from "../../actions/modalAction";
+import { openSignInModal, closeModal } from "../../actions/modalActions";
 import { auth, firestore } from "../../firebase";
 import {
   SignUpForm,

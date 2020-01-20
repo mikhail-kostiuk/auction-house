@@ -12,6 +12,19 @@ export const openSignInModal = () => {
   };
 };
 
+export const openAddFundsModal = () => {
+  return dispatch => {
+    dispatch({ type: actionTypes.OPEN_ADD_FUNDS_MODAL });
+  };
+};
+
+export const openWithdrawFundsModal = () => {
+  console.log("action");
+  return dispatch => {
+    dispatch({ type: actionTypes.OPEN_WITHDRAW_FUNDS_MODAL });
+  };
+};
+
 export const closeModal = () => {
   return dispatch => {
     dispatch({ type: actionTypes.CLOSE_MODAL });
