@@ -1,18 +1,23 @@
 import React, { useRef, useEffect } from "react";
 import { connect } from "react-redux";
+import { openWithdrawFundsModal } from "../../../actions/modalActions";
+import { auth } from "../../../firebase";
 import {
   AccountSubmenuList,
   Arrow,
   SubmenuListItem,
+  UserInfo,
   UserEmail,
+  UserFunds,
   SubmenuLink,
+  Button,
   LogoutButton,
 } from "./AccountSubmenuStyles";
-import { auth } from "../../../firebase";
 
 function AccountSubmenu(props) {
   const node = useRef();
   const { user } = props.auth;
+  const { funds } = props.funds;
   const { myAccountButton, submenuOpen, closeSubmenu } = props;
 
   useEffect(() => {
@@ -55,7 +60,10 @@ function AccountSubmenu(props) {
     <AccountSubmenuList ref={node}>
       <Arrow />
       <SubmenuListItem>
-        <UserEmail>{user.email}</UserEmail>
+        <UserInfo>
+          <UserEmail>{user.email}</UserEmail>
+          <UserFunds>{funds}$</UserFunds>
+        </UserInfo>
       </SubmenuListItem>
       <SubmenuListItem>
         <SubmenuLink to="/my-auctions">My Auctions</SubmenuLink>
@@ -67,6 +75,14 @@ function AccountSubmenu(props) {
         <SubmenuLink to="/sell">Sell Item</SubmenuLink>
       </SubmenuListItem>
       <SubmenuListItem>
+        <Button>Add Funds</Button>
+      </SubmenuListItem>
+      <SubmenuListItem>
+        <Button onClick={e => props.openWithdrawFundsModal()}>
+          Withdraw Funds
+        </Button>
+      </SubmenuListItem>
+      <SubmenuListItem>
         <LogoutButton onClick={logout}>Log Out</LogoutButton>
       </SubmenuListItem>
     </AccountSubmenuList>
@@ -76,7 +92,10 @@ function AccountSubmenu(props) {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
+    funds: state.funds,
   };
 };
 
-export default connect(mapStateToProps)(AccountSubmenu);
+export default connect(mapStateToProps, { openWithdrawFundsModal })(
+  AccountSubmenu
+);

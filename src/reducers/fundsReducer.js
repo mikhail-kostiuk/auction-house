@@ -12,6 +12,7 @@ const fundsReducer = (state = initialState, action) => {
         funds: state.funds + action.payload,
       };
     case actionTypes.WITHDRAW_FUNDS:
+      console.log(action.payload);
       return {
         ...state,
         funds: state.funds - action.payload,

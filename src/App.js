@@ -10,6 +10,7 @@ import store from "./store";
 import { auth, firestore } from "./firebase";
 import { loginUser, logoutUser } from "./actions/authActions";
 import { setFavorites } from "./actions/itemsActions";
+import { addFunds } from "./actions/fundsActions";
 import Contacts from "./pages/contacts/Contacts";
 import Favorites from "./pages/favorites/Favorites";
 import MyBids from "./pages/myBids/MyBids";
@@ -30,6 +31,7 @@ function App() {
           .then(function(querySnapshot) {
             user = querySnapshot.docs[0].data();
             store.dispatch(loginUser({ uid: user.uid, email: user.email }));
+            store.dispatch(addFunds(user.funds));
             store.dispatch(setFavorites(user.favorites));
           })
           .catch(function(error) {

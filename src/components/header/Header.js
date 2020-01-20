@@ -13,9 +13,10 @@ import Button from "./button/Button";
 import Navigation from "./navigation/Navigation";
 import SignUp from "../signUp/SignUp";
 import SignIn from "../signIn/SignIn";
+import WithdrawFunds from "../withdrawFunds/WithdrawFunds";
 import AccountMenu from "../accountMenu/AccountMenu";
 import SiteMenu from "./siteMenu/SiteMenu";
-import { openSignUpModal, openSignInModal } from "../../actions/modalAction";
+import { openSignUpModal, openSignInModal } from "../../actions/modalActions";
 import {
   HeaderWrapper,
   ContentContainer,
@@ -28,7 +29,11 @@ import {
 } from "./HeaderStyles";
 
 function Header(props) {
-  const { signUpModalOpen, signInModalOpen } = props.modal;
+  const {
+    signUpModalOpen,
+    signInModalOpen,
+    withdrawFundsModalOpen,
+  } = props.modal;
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -78,6 +83,7 @@ function Header(props) {
       )}
       {signUpModalOpen && <SignUp />}
       {signInModalOpen && <SignIn />}
+      {withdrawFundsModalOpen && <WithdrawFunds />}
     </HeaderWrapper>
   );
 }

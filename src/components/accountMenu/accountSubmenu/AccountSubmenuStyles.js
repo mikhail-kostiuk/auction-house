@@ -61,12 +61,21 @@ export const SubmenuListItem = styled.li`
   }
 `;
 
-export const UserEmail = styled.span`
+export const UserInfo = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
+`;
+
+export const UserEmail = styled.span`
   color: ${props => props.theme.yellow1};
+`;
+
+export const UserFunds = styled.span`
+  margin-top: 6px;
+  font-size: 18px;
 `;
 
 export const SubmenuLink = styled(Link)`
@@ -75,13 +84,16 @@ export const SubmenuLink = styled(Link)`
   color: inherit;
 `;
 
-export const LogoutButton = styled.button`
+export const Button = styled.button`
   width: 100%;
   padding: 20px;
   border: none;
   background: none;
-  color: ${props => props.theme.blue5};
   text-align: start;
-  font-weight: 700;
   cursor: pointer;
+`;
+
+export const LogoutButton = styled(Button)`
+  color: ${props => props.theme.blue5};
+  font-weight: 700;
 `;
