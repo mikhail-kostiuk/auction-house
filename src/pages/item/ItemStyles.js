@@ -137,6 +137,10 @@ export const BidsInfo = styled.div`
 
 export const CurrentBid = styled.span`
   font-size: 28px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  color: ${props => (props.userBid ? "#fff" : "#000")};
+  background-color: ${props => (props.userBid ? props.theme.yellow1 : "none")};
 `;
 
 export const Bids = styled.span`

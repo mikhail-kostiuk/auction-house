@@ -5,6 +5,7 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "../../actions/itemsActions";
+import { addFunds, withdrawFunds } from "../../actions/fundsActions";
 import queryString from "query-string";
 import { firestore } from "../../firebase";
 import PageTemplate from "../pageTemplate/PageTemplate";
@@ -46,6 +47,7 @@ function Item(props) {
 
   const { user } = props.auth;
   const { favorites } = props.items;
+  const { funds } = props.funds;
 
   const [item, setItem] = useState(null);
   const [directBid, setDirectBid] = useState(0);
@@ -80,8 +82,9 @@ function Item(props) {
           unsubscribe = activeItemRef.onSnapshot(function(doc) {
             setItem(doc.data());
             setTimeLeft((doc.data().endDate - Date.now()) / 1000);
-            setActualItemRef(activeItemRef);
           });
+
+          setActualItemRef(activeItemRef);
         } else {
           // Search the item in the "inactive" collection then
           inactiveItemRef.get().then(function(doc) {
@@ -107,6 +110,13 @@ function Item(props) {
     };
   }, [id, props.history]);
 
+  function isUserLastBidder(lastBidderId) {
+    if (!user) {
+      return false;
+    }
+    return item.lastBidderId === user.uid;
+  }
+
   function isItemInFavorites() {
     if (!user) {
       return false;
@@ -120,6 +130,12 @@ function Item(props) {
   }
 
   function toggleFavorites() {
+    if (!user) {
+      props.openSignInModal();
+
+      return;
+    }
+
     if (isItemInFavorites()) {
       props.removeFromFavorites(actualItemRef, user.uid, favorites);
     } else {
@@ -157,6 +173,22 @@ function Item(props) {
       return false;
     }
 
+    // In an actual application, the amount of funds should be checked on the backend!
+    if (isUserLastBidder()) {
+      // Current user increases his own last bid
+      if (bid > funds + item.currentBid) {
+        setError("You don't have enough funds for this bid");
+        setTimeout(() => setError(null), 5000);
+
+        return false;
+      }
+    } else if (bid > funds) {
+      setError("You don't have enough funds for this bid");
+      setTimeout(() => setError(null), 5000);
+
+      return false;
+    }
+
     setError(null);
 
     return true;
@@ -166,6 +198,53 @@ function Item(props) {
     const newBid = parseInt(n, 10);
 
     if (validateBid(newBid)) {
+      const lastBid = item.currentBid;
+      const lastBidderRef = firestore
+        .collection("users")
+        .doc(item.lastBidderId);
+      const currentUserRef = firestore.collection("users").doc(user.uid);
+
+      lastBidderRef
+        .get()
+        .then(function(doc) {
+          if (doc.exists) {
+            const lastBidderFunds = doc.data().funds;
+
+            if (lastBidderRef.id === currentUserRef.id) {
+              // Current user increases his own last bid
+              lastBidderRef.update({
+                funds: lastBidderFunds - newBid + lastBid,
+              });
+            } else {
+              // Refund money to the last bidder
+              lastBidderRef.update({ funds: lastBidderFunds + lastBid });
+
+              // Extract money from the current user's account
+              currentUserRef
+                .get()
+                .then(function(doc) {
+                  if (doc.exists) {
+                    const currentUserFunds = doc.data().funds;
+
+                    currentUserRef.update({ funds: currentUserFunds - newBid });
+                  } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                  }
+                })
+                .catch(function(error) {
+                  console.log("Error getting document:", error);
+                });
+            }
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+          }
+        })
+        .catch(function(error) {
+          console.log("Error getting document:", error);
+        });
+
       const itemRef = firestore
         .collection("lots")
         .doc("active")
@@ -177,6 +256,8 @@ function Item(props) {
         currentBid: newBid,
         lastBidderId: user.uid,
       });
+
+      setDirectBid(0);
     } else {
       return;
     }
@@ -221,7 +302,9 @@ function Item(props) {
             </LotInfo>
             <Form onSubmit={onFormSubmit}>
               <BidsInfo>
-                <CurrentBid>${item.currentBid}</CurrentBid>
+                <CurrentBid userBid={isUserLastBidder()}>
+                  ${item.currentBid}
+                </CurrentBid>
                 <Bids>{item.bidsCount} bids</Bids>
               </BidsInfo>
               <BidControls>
@@ -284,6 +367,7 @@ const mapStateToProps = state => {
   return {
     auth: state.auth,
     items: state.items,
+    funds: state.funds,
   };
 };
 
@@ -291,4 +375,6 @@ export default connect(mapStateToProps, {
   openSignInModal,
   addToFavorites,
   removeFromFavorites,
+  addFunds,
+  withdrawFunds,
 })(Item);
