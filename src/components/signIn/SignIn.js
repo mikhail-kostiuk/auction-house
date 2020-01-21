@@ -51,7 +51,6 @@ function SignIn(props) {
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
-        <Label htmlFor="confirmPassword">Confirm password</Label>
         <Button type="submit">Sign In</Button>
       </SignInForm>
       <BottomText>
