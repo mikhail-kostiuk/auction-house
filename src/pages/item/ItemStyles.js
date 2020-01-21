@@ -210,11 +210,11 @@ export const Input = styled.input`
   height: 40px;
   padding: 4px 8px;
   margin-top: 20px;
-  border: 1px solid ${props => (props.error ? "red" : props.theme.bluegrey8)};
+  border: 1px solid ${props => props.theme.bluegrey8};
 
   &:focus {
     border: 1px;
-    outline-color: ${props => (props.error ? "red" : props.theme.bluegrey8)};
+    outline-color: ${props => props.theme.blue5};
   }
 `;
 

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { openSignInModal } from "../../actions/modalActions";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "../../actions/itemsActions";
 import queryString from "query-string";
 import { firestore } from "../../firebase";
 import PageTemplate from "../pageTemplate/PageTemplate";
@@ -40,13 +44,14 @@ function Item(props) {
   const parsedQuery = queryString.parse(props.location.search);
   const { id } = parsedQuery;
 
-  const user = props.auth.user;
+  const { user } = props.auth;
+  const { favorites } = props.items;
 
   const [item, setItem] = useState(null);
   const [directBid, setDirectBid] = useState(0);
-  const [error, setError] = useState(null);
-
   const [timeLeft, setTimeLeft] = useState(100);
+  const [actualItemRef, setActualItemRef] = useState(null);
+  const [error, setError] = useState(null);
 
   useInterval(() => {
     setTimeLeft(timeLeft - 1);
@@ -64,6 +69,7 @@ function Item(props) {
       .doc("inactive")
       .collection("items")
       .doc(id);
+
     let unsubscribe;
 
     // Search the item in the "active" collection
@@ -74,6 +80,7 @@ function Item(props) {
           unsubscribe = activeItemRef.onSnapshot(function(doc) {
             setItem(doc.data());
             setTimeLeft((doc.data().endDate - Date.now()) / 1000);
+            setActualItemRef(activeItemRef);
           });
         } else {
           // Search the item in the "inactive" collection then
@@ -81,6 +88,7 @@ function Item(props) {
             if (doc.exists) {
               setItem(doc.data());
               setTimeLeft((doc.data().endDate - Date.now()) / 1000);
+              setActualItemRef(inactiveItemRef);
             } else {
               // The item with this id doesn't exist
               props.history.push("/not-found");
@@ -98,6 +106,26 @@ function Item(props) {
       }
     };
   }, [id, props.history]);
+
+  function isItemInFavorites() {
+    if (!user) {
+      return false;
+    }
+
+    if (favorites.filter(ref => ref.id === id).length === 0) {
+      return false;
+    }
+
+    return true;
+  }
+
+  function toggleFavorites() {
+    if (isItemInFavorites()) {
+      props.removeFromFavorites(actualItemRef, user.uid, favorites);
+    } else {
+      props.addToFavorites(actualItemRef, user.uid, favorites);
+    }
+  }
 
   function validateBid(bid) {
     if (!user) {
@@ -234,13 +262,16 @@ function Item(props) {
                     onChange={e => {
                       setDirectBid(e.target.value);
                     }}
-                    error={error}
                   />
                   <BidButton>Place bid</BidButton>
                   {error && <Error>{error}</Error>}
                 </BidDirectly>
               </BidControls>
-              <AddButton>Add to favorites</AddButton>
+              <AddButton type="button" onClick={toggleFavorites}>
+                {isItemInFavorites()
+                  ? "Remove from favorites"
+                  : "Add to favorites"}
+              </AddButton>
             </Form>
           </Right>
         </PageContent>
@@ -252,7 +283,12 @@ function Item(props) {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
+    items: state.items,
   };
 };
 
-export default connect(mapStateToProps, { openSignInModal })(Item);
+export default connect(mapStateToProps, {
+  openSignInModal,
+  addToFavorites,
+  removeFromFavorites,
+})(Item);
