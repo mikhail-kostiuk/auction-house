@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { openSignInModal } from "../../actions/modalAction";
+import { openSignInModal } from "../../actions/modalActions";
 import queryString from "query-string";
 import { firestore } from "../../firebase";
 import PageTemplate from "../pageTemplate/PageTemplate";
@@ -102,12 +102,23 @@ function Item(props) {
   function validateBid(bid) {
     if (!user) {
       props.openSignInModal();
+
       return false;
     }
+
+    if (timeLeft <= 0) {
+      setError("This lot is closed for bidding");
+      setTimeout(() => setError(null), 5000);
+
+      return false;
+    }
+
     const minimumBid = Math.round(item.currentBid + item.startingBid * 0.1);
 
     if (user.uid === item.ownerID) {
       setError("You can't bid on your own item");
+      setTimeout(() => setError(null), 5000);
+
       return false;
     }
 
@@ -116,10 +127,11 @@ function Item(props) {
       setTimeout(() => setError(null), 5000);
 
       return false;
-    } else {
-      setError(null);
-      return true;
     }
+
+    setError(null);
+
+    return true;
   }
 
   function bid(n) {
