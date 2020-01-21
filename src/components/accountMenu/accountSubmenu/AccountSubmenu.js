@@ -20,8 +20,7 @@ import {
 function AccountSubmenu(props) {
   const node = useRef();
   const { user } = props.auth;
-  const { funds } = props.funds;
-  const { myAccountButton, submenuOpen, closeSubmenu } = props;
+  const { myAccountButton, submenuOpen, closeSubmenu, funds } = props;
 
   useEffect(() => {
     const handleClickOutside = e => {
@@ -107,7 +106,6 @@ function AccountSubmenu(props) {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    funds: state.funds,
   };
 };
 

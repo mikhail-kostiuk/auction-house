@@ -1,4 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import { addFunds, withdrawFunds } from "../../actions/fundsActions";
+import { firestore } from "../../firebase";
+import AccountSubmenu from "./accountSubmenu/AccountSubmenu";
 import {
   MenuList,
   MenuListItem,
@@ -8,11 +12,30 @@ import {
   Button,
   MenuTitle,
 } from "./AccountMenuStyles";
-import AccountSubmenu from "./accountSubmenu/AccountSubmenu";
 
-function AccountMenu() {
+function AccountMenu(props) {
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const myAccountButton = useRef();
+
+  const { user } = props.auth;
+  const { funds } = props.funds;
+
+  useEffect(() => {
+    const userRef = firestore.collection("users").doc(user.uid);
+    const unsubscribe = userRef.onSnapshot(function(doc) {
+      const userData = doc.data();
+      if (funds !== userData.funds) {
+        if (funds < userData.funds) {
+          props.addFunds(userData.funds + funds);
+        } else {
+          props.withdrawFunds(funds - userData.funds);
+        }
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [user.uid, funds, props]);
 
   return (
     <div>
@@ -84,6 +107,7 @@ function AccountMenu() {
           </Button>
           {submenuOpen && (
             <AccountSubmenu
+              funds={funds}
               myAccountButton={myAccountButton}
               submenuOpen={submenuOpen}
               closeSubmenu={() => setSubmenuOpen(false)}
@@ -95,4 +119,13 @@ function AccountMenu() {
   );
 }
 
-export default AccountMenu;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+    funds: state.funds,
+  };
+};
+
+export default connect(mapStateToProps, { addFunds, withdrawFunds })(
+  AccountMenu
+);
