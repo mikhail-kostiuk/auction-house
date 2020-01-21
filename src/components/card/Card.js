@@ -24,6 +24,7 @@ import {
 
 function Card(props) {
   const { id, imageUrl, title, currentBid, bidsCount, endDate } = props.item;
+  const { userBid } = props;
   const { user } = props.auth;
   const { favorites } = props.items;
 
@@ -102,7 +103,7 @@ function Card(props) {
         <Title>{title}</Title>
         <Details>
           <BidsInfo>
-            <CurrentBid>{`$${currentBid}`}</CurrentBid>
+            <CurrentBid userBid={userBid}>{`$${currentBid}`}</CurrentBid>
             <Bids>{showBidsCount(bidsCount)}</Bids>
           </BidsInfo>
           <TimeLeft>{showApproximateTimeLeft(timeLeft)}</TimeLeft>

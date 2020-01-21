@@ -92,10 +92,13 @@ export const BidsInfo = styled.div`
 
 export const CurrentBid = styled.span`
   display: block;
+  padding: 2px;
+  border-radius: 4px;
   margin: 0;
-  color: #000;
+  color: ${props => (props.userBid ? "#fff" : "#000")};
   font-size: 16px;
   letter-spacing: 1px;
+  background-color: ${props => (props.userBid ? props.theme.yellow1 : "none")};
 `;
 
 export const Bids = styled.span`

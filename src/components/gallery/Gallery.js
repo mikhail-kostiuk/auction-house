@@ -1,18 +1,23 @@
 import React from "react";
+import { connect } from "react-redux";
 import Card from "../card/Card";
 import {
   GalleryWrapper,
   GalleryTitle,
   GalleryList,
   GalleryItem,
-  Pagination,
-  Button,
-  ArrowIcon,
-  CurrentPage,
 } from "./GalleryStyles";
 
 function Gallery(props) {
   const { items, title, maxColumns, handleSortOrderChange } = props;
+  const { user } = props.auth;
+
+  function isUserLastBidder(lastBidderId) {
+    if (!user) {
+      return false;
+    }
+    return lastBidderId === user.uid;
+  }
 
   return (
     items && (
@@ -34,7 +39,7 @@ function Gallery(props) {
         <GalleryList>
           {items.map(item => (
             <GalleryItem maxColumns={maxColumns} key={item.id}>
-              <Card item={item} />
+              <Card item={item} userBid={isUserLastBidder(item.lastBidderId)} />
             </GalleryItem>
           ))}
         </GalleryList>
@@ -43,4 +48,10 @@ function Gallery(props) {
   );
 }
 
-export default Gallery;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps)(Gallery);
