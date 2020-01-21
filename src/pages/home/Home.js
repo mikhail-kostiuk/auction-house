@@ -75,6 +75,7 @@ function Home(props) {
           next = query.startAfter(lastVisible).limit(itemsPerPage);
         }
 
+        setCurrentPage(1);
         setResultSet({ items: result, cursor: { next } });
       });
   }, [selectedCategories, sortOrder]);
@@ -96,7 +97,6 @@ function Home(props) {
       const next = basicQuery.startAfter(lastVisible).limit(itemsPerPage);
       const prev = basicQuery.endBefore(firstVisible).limitToLast(itemsPerPage);
 
-      setCurrentPage(1);
       setResultSet({ items: result, cursor: { next, prev } });
     });
   }
