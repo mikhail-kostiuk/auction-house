@@ -13,6 +13,9 @@ function SiteMenu() {
       <MenuContainer>
         <Menu>
           <MenuItem>
+            <MenuLink to="/explore">Explore Auctions</MenuLink>
+          </MenuItem>
+          <MenuItem>
             <MenuLink to="/contacts">Contacts</MenuLink>
           </MenuItem>
         </Menu>

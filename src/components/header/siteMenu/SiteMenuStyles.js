@@ -33,7 +33,9 @@ export const Menu = styled.ul`
   list-style-type: none;
 `;
 
-export const MenuItem = styled.li``;
+export const MenuItem = styled.li`
+  margin-right: 20px;
+`;
 
 export const MenuLink = styled(Link)`
   color: inherit;
