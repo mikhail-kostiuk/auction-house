@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const Menu = styled.div`
   position: absolute;
@@ -83,6 +84,7 @@ export const BackIcon = styled.svg`
 export const MenuList = styled.ul`
   padding: 0;
   margin: 0;
+  margin-top: 44px;
   color: ${props => props.theme.bluegrey1};
   list-style-type: none;
 `;
@@ -99,9 +101,11 @@ export const MenuListItem = styled.li`
   }
 `;
 
-export const MenuListLink = styled.a`
+export const MenuListLink = styled(Link)`
   display: block;
   height: 100%;
   width: 100%;
+  padding: 2px 0;
   color: inherit;
+  font-weight: ${props => (props.bold ? "700" : "400")};
 `;

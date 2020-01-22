@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import { connect } from "react-redux";
+import { setCategory, setSubcategory } from "../../actions/categoryActions";
 import categories from "../../data/categories.json";
 import {
   Menu,
@@ -63,6 +64,18 @@ function MobileMenu(props) {
       </Header>
       {activeCategories && (
         <MenuList>
+          <MenuListItem key="viewAll">
+            <MenuListLink
+              bold
+              onClick={() => {
+                props.closeMenu();
+                props.setSubcategory(null);
+              }}
+              to="/explore"
+            >
+              View all
+            </MenuListLink>
+          </MenuListItem>
           {categories.map(category => {
             const name = category.name;
 
@@ -84,12 +97,32 @@ function MobileMenu(props) {
       )}
       {activeSubcategories && (
         <MenuList>
+          <MenuListItem key="viewAll">
+            <MenuListLink
+              bold
+              onClick={() => {
+                props.closeMenu();
+                props.setCategory(headerTitle);
+              }}
+              to="/explore"
+            >
+              View all
+            </MenuListLink>
+          </MenuListItem>
           {activeSubcategories.map(category => {
             const name = category.name;
 
             return (
               <MenuListItem key={name}>
-                <MenuListLink href="#">{name}</MenuListLink>
+                <MenuListLink
+                  onClick={() => {
+                    props.closeMenu();
+                    props.setSubcategory(name);
+                  }}
+                  to="/explore"
+                >
+                  {name}
+                </MenuListLink>
               </MenuListItem>
             );
           })}
@@ -99,4 +132,7 @@ function MobileMenu(props) {
   );
 }
 
-export default MobileMenu;
+export default connect(null, {
+  setCategory,
+  setSubcategory,
+})(MobileMenu);
