@@ -95,6 +95,7 @@ export const MenuListItem = styled.li`
   align-items: center;
   padding: 12px;
   border-bottom: 1px solid ${props => props.theme.bluegrey8};
+  text-align: left;
 
   &:active {
     background-color: ${props => props.theme.bluegrey8};
@@ -107,5 +108,8 @@ export const MenuListLink = styled(Link)`
   width: 100%;
   padding: 2px 0;
   color: inherit;
-  font-weight: ${props => (props.bold ? "700" : "400")};
+`;
+
+export const ViewAllLink = styled(MenuListLink)`
+  font-weight: 700;
 `;

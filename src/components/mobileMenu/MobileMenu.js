@@ -14,6 +14,7 @@ import {
   MenuList,
   MenuListItem,
   MenuListLink,
+  ViewAllLink,
 } from "./MobileMenuStyles";
 
 function MobileMenu(props) {
@@ -65,8 +66,7 @@ function MobileMenu(props) {
       {activeCategories && (
         <MenuList>
           <MenuListItem key="viewAll">
-            <MenuListLink
-              bold
+            <ViewAllLink
               onClick={() => {
                 props.closeMenu();
                 props.setSubcategory(null);
@@ -74,7 +74,7 @@ function MobileMenu(props) {
               to="/explore"
             >
               View all
-            </MenuListLink>
+            </ViewAllLink>
           </MenuListItem>
           {categories.map(category => {
             const name = category.name;
@@ -98,8 +98,7 @@ function MobileMenu(props) {
       {activeSubcategories && (
         <MenuList>
           <MenuListItem key="viewAll">
-            <MenuListLink
-              bold
+            <ViewAllLink
               onClick={() => {
                 props.closeMenu();
                 props.setCategory(headerTitle);
@@ -107,7 +106,7 @@ function MobileMenu(props) {
               to="/explore"
             >
               View all
-            </MenuListLink>
+            </ViewAllLink>
           </MenuListItem>
           {activeSubcategories.map(category => {
             const name = category.name;
