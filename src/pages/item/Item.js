@@ -78,7 +78,7 @@ function Item(props) {
     activeItemRef
       .get()
       .then(function(doc) {
-        if (doc.exists) {
+        if (doc.data()) {
           unsubscribe = activeItemRef.onSnapshot(function(doc) {
             setItem(doc.data());
             setTimeLeft((doc.data().endDate - Date.now()) / 1000);
@@ -88,7 +88,7 @@ function Item(props) {
         } else {
           // Search the item in the "inactive" collection then
           inactiveItemRef.get().then(function(doc) {
-            if (doc.exists) {
+            if (doc.data()) {
               setItem(doc.data());
               setTimeLeft((doc.data().endDate - Date.now()) / 1000);
               setActualItemRef(inactiveItemRef);
@@ -159,7 +159,7 @@ function Item(props) {
 
     const minimumBid = Math.round(item.currentBid + item.startingBid * 0.1);
 
-    if (user.uid === item.ownerID) {
+    if (user.uid === item.ownerId) {
       setError("You can't bid on your own item");
       setTimeout(() => setError(null), 5000);
 
@@ -198,52 +198,76 @@ function Item(props) {
     const newBid = parseInt(n, 10);
 
     if (validateBid(newBid)) {
-      const lastBid = item.currentBid;
-      const lastBidderRef = firestore
-        .collection("users")
-        .doc(item.lastBidderId);
       const currentUserRef = firestore.collection("users").doc(user.uid);
 
-      lastBidderRef
-        .get()
-        .then(function(doc) {
-          if (doc.exists) {
-            const lastBidderFunds = doc.data().funds;
+      if (item.lastBidderId) {
+        const lastBid = item.currentBid;
+        const lastBidderRef = firestore
+          .collection("users")
+          .doc(item.lastBidderId);
 
-            if (lastBidderRef.id === currentUserRef.id) {
-              // Current user increases his own last bid
-              lastBidderRef.update({
-                funds: lastBidderFunds - newBid + lastBid,
+        lastBidderRef
+          .get()
+          .then(function(doc) {
+            if (doc.exists) {
+              const lastBidderFunds = doc.data().funds;
+
+              if (lastBidderRef.id === currentUserRef.id) {
+                // Current user increases his own last bid
+                lastBidderRef.update({
+                  funds: lastBidderFunds - newBid + lastBid,
+                });
+              } else {
+                // Refund money to the last bidder
+                lastBidderRef.update({ funds: lastBidderFunds + lastBid });
+
+                // Extract money from the current user's account
+                currentUserRef
+                  .get()
+                  .then(function(doc) {
+                    if (doc.exists) {
+                      const currentUserFunds = doc.data().funds;
+
+                      currentUserRef.update({
+                        funds: currentUserFunds - newBid,
+                      });
+                    } else {
+                      // doc.data() will be undefined in this case
+                      console.log("No such document!");
+                    }
+                  })
+                  .catch(function(error) {
+                    console.log("Error getting document:", error);
+                  });
+              }
+            } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+            }
+          })
+          .catch(function(error) {
+            console.log("Error getting document:", error);
+          });
+      } else {
+        // Extract money from the current user's account
+        currentUserRef
+          .get()
+          .then(function(doc) {
+            if (doc.exists) {
+              const currentUserFunds = doc.data().funds;
+
+              currentUserRef.update({
+                funds: currentUserFunds - newBid,
               });
             } else {
-              // Refund money to the last bidder
-              lastBidderRef.update({ funds: lastBidderFunds + lastBid });
-
-              // Extract money from the current user's account
-              currentUserRef
-                .get()
-                .then(function(doc) {
-                  if (doc.exists) {
-                    const currentUserFunds = doc.data().funds;
-
-                    currentUserRef.update({ funds: currentUserFunds - newBid });
-                  } else {
-                    // doc.data() will be undefined in this case
-                    console.log("No such document!");
-                  }
-                })
-                .catch(function(error) {
-                  console.log("Error getting document:", error);
-                });
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
             }
-          } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-          }
-        })
-        .catch(function(error) {
-          console.log("Error getting document:", error);
-        });
+          })
+          .catch(function(error) {
+            console.log("Error getting document:", error);
+          });
+      }
 
       const itemRef = firestore
         .collection("lots")
