@@ -1,7 +1,10 @@
 import styled from "styled-components";
 
 export const Page = styled.div`
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
+  height: 100vh;
 `;
 
 export const PageContentContainer = styled.div`
@@ -28,4 +31,7 @@ export const PageTitle = styled.h1`
   @media screen and (min-width: 768px) {
     margin: 20px 0 20px 0;
   }
+`;
+export const FooterContainer = styled.div`
+  margin-top: auto;
 `;

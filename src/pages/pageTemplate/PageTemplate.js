@@ -1,6 +1,12 @@
 import React from "react";
 import Header from "../../components/header/Header";
-import { Page, PageContentContainer, PageTitle } from "./PageTemplateStyles";
+import Footer from "../../components/footer/Footer";
+import {
+  Page,
+  PageContentContainer,
+  PageTitle,
+  FooterContainer,
+} from "./PageTemplateStyles";
 
 function PageTemplate(props) {
   const { pageTitle } = props;
@@ -11,6 +17,9 @@ function PageTemplate(props) {
         {pageTitle && <PageTitle>{props.pageTitle}</PageTitle>}
         {props.children}
       </PageContentContainer>
+      <FooterContainer>
+        <Footer />
+      </FooterContainer>
     </Page>
   );
 }
