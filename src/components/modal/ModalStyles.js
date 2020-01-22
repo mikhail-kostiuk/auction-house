@@ -10,7 +10,7 @@ export const ModalOverlay = styled.div`
   justify-content: space-around;
   align-items: center;
   background-color: rgba(41, 41, 41, 0.5);
-  z-index: 20;
+  z-index: 50;
 `;
 
 export const ModalContainer = styled.div`

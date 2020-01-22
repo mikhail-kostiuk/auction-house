@@ -5,7 +5,7 @@ export const NavigationWrapper = styled.nav``;
 
 export const NavigationList = styled.ul`
   position: relative;
-  z-index: 30;
+  z-index: 20;
   display: flex;
   padding: 0;
   margin: 0;
@@ -52,7 +52,7 @@ export const NavigationLink = styled(Link)`
   &::before {
     content: "";
     position: absolute;
-    z-index: 31;
+    z-index: 21;
     bottom: -11px;
     left: 0;
     display: none;
@@ -65,7 +65,7 @@ export const NavigationLink = styled(Link)`
 
 export const NavigationNestedList = styled.ul`
   position: absolute;
-  z-index: 29;
+  z-index: 19;
   top: 38px;
   left: -1px;
   right: -1px;
