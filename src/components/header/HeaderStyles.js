@@ -76,10 +76,10 @@ export const NavigationWrapper = styled.div`
 `;
 
 export const NavigationContainer = styled.div`
-  padding: 10px;
+  padding: 0 10px;
 
   @media screen and (min-width: 768px) {
-    padding: 10px 20px;
+    padding: 0 20px;
   }
 
   @media screen and (min-width: 1200px) {
