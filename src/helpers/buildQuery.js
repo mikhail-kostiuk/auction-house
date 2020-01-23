@@ -1,12 +1,9 @@
 import { firestore } from "../firebase";
 
-export const buildBasicQuery = (sortOrder, selectedCategories) => {
+export const buildSortQuery = (sortOrder, selectedCategories) => {
   let query;
 
-  const itemsRef = firestore
-    .collection("lots")
-    .doc("active")
-    .collection("items");
+  const itemsRef = firestore.collection("items");
 
   let sortField;
   let sortDirection;
@@ -36,11 +33,13 @@ export const buildBasicQuery = (sortOrder, selectedCategories) => {
   if (selectedCategories.category) {
     query = itemsRef
       .orderBy(sortField, sortDirection)
-      .where("category", "==", selectedCategories.category);
+      .where("category", "==", selectedCategories.category)
+      .where("closed", "==", false);
   } else if (selectedCategories.subcategory) {
     query = itemsRef
       .orderBy(sortField, sortDirection)
-      .where("subcategory", "==", selectedCategories.subcategory);
+      .where("subcategory", "==", selectedCategories.subcategory)
+      .where("closed", "==", false);
   } else {
     query = itemsRef.orderBy(sortField, sortDirection);
   }
