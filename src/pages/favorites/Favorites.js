@@ -10,28 +10,20 @@ function Favorites(props) {
 
   useEffect(() => {
     const { user } = props.auth;
-    const { favorites } = props.items;
 
     if (user) {
-      const firestoreReadPromises = [];
+      firestore
+        .collection("items")
+        .where("favorites", "array-contains", user.uid)
+        .get()
+        .then(querySnapshot => {
+          const result = [];
+          querySnapshot.docs.forEach(itemDoc => {
+            result.push({ id: itemDoc.id, ...itemDoc.data() });
+          });
 
-      favorites.forEach(itemRef => {
-        firestoreReadPromises.push(itemRef.get());
-      });
-
-      Promise.all(firestoreReadPromises).then(documentsSnapshots => {
-        const result = [];
-
-        documentsSnapshots.forEach(doc => {
-          const data = doc.data();
-
-          if (data) {
-            result.push({ id: doc.id, ...data });
-          }
+          setItems(result);
         });
-
-        setItems(result);
-      });
     } else {
       setItems(null);
     }

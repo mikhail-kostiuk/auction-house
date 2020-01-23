@@ -15,9 +15,8 @@ function MyBids(props) {
       const result = [];
 
       firestore
-        .collection("lots")
-        .doc("active")
         .collection("items")
+        .where("closed", "==", false)
         .where("lastBidderId", "==", user.uid)
         .get()
         .then(function(querySnapshot) {

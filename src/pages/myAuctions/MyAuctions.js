@@ -16,7 +16,7 @@ function MyAuctions(props) {
 
       firestore
         .collection("items")
-        .where("ownerID", "==", user.uid)
+        .where("ownerId", "==", user.uid)
         .get()
         .then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {

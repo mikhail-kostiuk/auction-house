@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { firestore } from "../../firebase";
-import { buildBasicQuery } from "../../helpers/buildQuery";
+import { buildSortQuery } from "../../helpers/buildQuery";
 import PageTemplate from "../pageTemplate/PageTemplate";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Gallery from "../../components/gallery/Gallery";
@@ -29,30 +29,28 @@ function Search(props) {
   const itemsPerPage = 6;
 
   useEffect(() => {
-    const query = buildBasicQuery(sortOrder, selectedCategories);
+    const query = buildSortQuery(sortOrder, selectedCategories);
     const result = [];
 
-    // If category or subcategory is selected, use items array length returned
-    // by query to calculate total pages
-    if (selectedCategories.category || selectedCategories.subcategory) {
-      query.get().then(querySnapshot => {
-        const totalItems = querySnapshot.docs.length;
+    firestore
+      .collection("counters")
+      .doc("items")
+      .get()
+      .then(countersDoc => {
+        const selectedCategory = selectedCategories.subcategory
+          ? selectedCategories.subcategory
+          : selectedCategories.category;
+
+        const counters = countersDoc.data();
+
+        const totalItems = selectedCategory
+          ? counters[selectedCategory]
+          : counters.total;
+
         const totalPages = Math.ceil(totalItems / itemsPerPage);
+
         setTotalPages(totalPages ? totalPages : 1);
       });
-    } else {
-      // If category or subcategory is not selected, use internal collection
-      // counter to calculate total pages
-      firestore
-        .collection("lots")
-        .doc("active")
-        .get()
-        .then(doc => {
-          const totalItems = doc.data().numberOfDocs;
-          const totalPages = Math.ceil(totalItems / itemsPerPage);
-          setTotalPages(totalPages ? totalPages : 1);
-        });
-    }
 
     // Get initial first items
     query
@@ -81,7 +79,7 @@ function Search(props) {
 
   function getItems(cursorQuery) {
     const result = [];
-    let basicQuery = buildBasicQuery(sortOrder, selectedCategories);
+    let query = buildSortQuery(sortOrder, selectedCategories);
 
     cursorQuery.get().then(function(documentSnapshots) {
       documentSnapshots.forEach(function(doc) {
@@ -93,8 +91,8 @@ function Search(props) {
         documentSnapshots.docs[documentSnapshots.docs.length - 1];
       let firstVisible = documentSnapshots.docs[0];
 
-      const next = basicQuery.startAfter(lastVisible).limit(itemsPerPage);
-      const prev = basicQuery.endBefore(firstVisible).limitToLast(itemsPerPage);
+      const next = query.startAfter(lastVisible).limit(itemsPerPage);
+      const prev = query.endBefore(firstVisible).limitToLast(itemsPerPage);
 
       setResultSet({ items: result, cursor: { next, prev } });
     });
