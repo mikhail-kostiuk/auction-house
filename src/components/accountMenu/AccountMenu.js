@@ -19,6 +19,7 @@ function AccountMenu(props) {
 
   const { user } = props.auth;
   const { funds } = props.funds;
+  const { addFunds, withdrawFunds } = props;
 
   useEffect(() => {
     const userRef = firestore.collection("users").doc(user.uid);
@@ -26,16 +27,16 @@ function AccountMenu(props) {
       const userData = doc.data();
       if (funds !== userData.funds) {
         if (funds < userData.funds) {
-          props.addFunds(userData.funds + funds);
+          addFunds(userData.funds - funds);
         } else {
-          props.withdrawFunds(funds - userData.funds);
+          withdrawFunds(funds - userData.funds);
         }
       }
     });
     return () => {
       unsubscribe();
     };
-  }, [user.uid, funds, props]);
+  }, [user.uid, funds, addFunds, withdrawFunds]);
 
   return (
     <div>
