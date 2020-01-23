@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import {
-  addToFavorites,
-  removeFromFavorites,
-} from "../../actions/itemsActions";
+import { openSignInModal } from "../../actions/modalActions";
 import firebase, { firestore } from "../../firebase";
 import useInterval from "../../hooks/useInterval";
 import { showApproximateTimeLeft } from "../../helpers/showTimeLeft";
@@ -162,7 +159,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  addToFavorites,
-  removeFromFavorites,
-})(Card);
+export default connect(mapStateToProps, { openSignInModal })(Card);

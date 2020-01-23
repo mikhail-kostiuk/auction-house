@@ -6,7 +6,6 @@ import { theme } from "./theme";
 import store from "./store";
 import { auth, firestore } from "./firebase";
 import { loginUser, logoutUser } from "./actions/authActions";
-import { setFavorites } from "./actions/itemsActions";
 import { addFunds } from "./actions/fundsActions";
 import Home from "./pages/home/Home";
 import Sell from "./pages/sell/Sell";
@@ -34,7 +33,6 @@ function App() {
             user = querySnapshot.docs[0].data();
             store.dispatch(loginUser({ uid: user.uid, email: user.email }));
             store.dispatch(addFunds(user.funds));
-            store.dispatch(setFavorites(user.favorites));
           })
           .catch(function(error) {
             console.log("Error getting documents: ", error);

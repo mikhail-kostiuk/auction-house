@@ -38,7 +38,7 @@ function SignUp(props) {
             .set({
               uid: createdUser.user.uid,
               email: createdUser.user.email,
-              favorites: [],
+              funds: 0,
             });
           props.closeModal();
         })
