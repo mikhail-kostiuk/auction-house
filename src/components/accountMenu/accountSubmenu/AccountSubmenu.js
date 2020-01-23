@@ -71,7 +71,7 @@ function AccountSubmenu(props) {
         <SubmenuLink to="/my-auctions">My Auctions</SubmenuLink>
       </SubmenuListItem>
       <SubmenuListItem>
-        <SubmenuLink to="/">Won Items</SubmenuLink>
+        <SubmenuLink to="/won-items">Won Items</SubmenuLink>
       </SubmenuListItem>
       <SubmenuListItem>
         <SubmenuLink to="/sell">Sell Item</SubmenuLink>
