@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
   addToFavorites,
   removeFromFavorites,
 } from "../../actions/itemsActions";
-import { firestore } from "../../firebase";
+import firebase, { firestore } from "../../firebase";
 import useInterval from "../../hooks/useInterval";
 import { showApproximateTimeLeft } from "../../helpers/showTimeLeft";
 import {
@@ -23,28 +23,58 @@ import {
 } from "./CardStyles";
 
 function Card(props) {
-  const { id, imageUrl, title, currentBid, bidsCount, endDate } = props.item;
   const { userBid } = props;
   const { user } = props.auth;
-  const { favorites } = props.items;
+  const [item, setItem] = useState(props.item);
+  const [timeLeft, setTimeLeft] = useState((item.endDate - Date.now()) / 1000);
 
-  const [timeLeft, setTimeLeft] = useState((endDate - Date.now()) / 1000);
+  useInterval(
+    () => {
+      setTimeLeft(timeLeft - 60000);
+    },
+    item.closed ? null : 60000
+  );
 
-  const itemRef = firestore
-    .collection("lots")
-    .doc("active")
-    .collection("items")
-    .doc(id);
+  useEffect(() => {
+    const itemRef = firestore.collection("items").doc(item.id);
 
-  useInterval(() => {
-    setTimeLeft(timeLeft - 60000);
-  }, 60000);
+    let unsubscribe;
 
-  const inFavorites = user
-    ? favorites.filter(ref => ref.id === itemRef.id).length
-    : false;
+    itemRef
+      .get()
+      .then(function(itemDoc) {
+        if (itemDoc.exists) {
+          const itemData = itemDoc.data();
 
-  const favoriteIcon = inFavorites ? (
+          if (itemData.closed) {
+            setItem({ id: itemDoc.id, ...itemData });
+          } else {
+            unsubscribe = itemRef.onSnapshot(function(itemDoc) {
+              setItem({ id: itemDoc.id, ...itemDoc.data() });
+            });
+          }
+        } else {
+          setItem(null);
+        }
+      })
+      .catch(function(error) {
+        console.log("Error getting document:", error);
+      });
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [item.id]);
+
+  function isItemInFavorites() {
+    return user
+      ? item.favorites.filter(userId => userId === user.uid).length
+      : false;
+  }
+
+  const favoriteIcon = isItemInFavorites() ? (
     <svg
       aria-hidden="true"
       focusable="false"
@@ -74,10 +104,22 @@ function Card(props) {
   function toggleFavorite(e) {
     e.preventDefault();
 
-    if (inFavorites) {
-      props.removeFromFavorites(itemRef, user.uid, favorites);
+    if (!user) {
+      props.openSignInModal();
+
+      return;
+    }
+
+    const itemRef = firestore.collection("items").doc(item.id);
+
+    if (isItemInFavorites()) {
+      itemRef.update({
+        favorites: firebase.firestore.FieldValue.arrayRemove(user.uid),
+      });
     } else {
-      props.addToFavorites(itemRef, user.uid, favorites);
+      itemRef.update({
+        favorites: firebase.firestore.FieldValue.arrayUnion(user.uid),
+      });
     }
   }
 
@@ -96,15 +138,15 @@ function Card(props) {
       <FavoriteButton onClick={toggleFavorite}>
         <Icon>{favoriteIcon}</Icon>
       </FavoriteButton>
-      <CardLink to={`/item?id=${id}`}>
+      <CardLink to={`/item?id=${item.id}`}>
         <ImageContainer>
-          <Image src={imageUrl} alt={title} />
+          <Image src={item.imageUrl} alt={item.title} />
         </ImageContainer>
-        <Title>{title}</Title>
+        <Title>{item.title}</Title>
         <Details>
           <BidsInfo>
-            <CurrentBid userBid={userBid}>{`$${currentBid}`}</CurrentBid>
-            <Bids>{showBidsCount(bidsCount)}</Bids>
+            <CurrentBid userBid={userBid}>{`$${item.currentBid}`}</CurrentBid>
+            <Bids>{showBidsCount(item.bidsCount)}</Bids>
           </BidsInfo>
           <TimeLeft>{showApproximateTimeLeft(timeLeft)}</TimeLeft>
         </Details>
