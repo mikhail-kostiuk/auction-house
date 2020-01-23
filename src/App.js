@@ -16,6 +16,7 @@ import Favorites from "./pages/favorites/Favorites";
 import MyBids from "./pages/myBids/MyBids";
 import NotFound from "./pages/notFound/NotFound";
 import MyAuctions from "./pages/myAuctions/MyAuctions";
+import WonItems from "./pages/wonItems/WonItems";
 import Explore from "./pages/explore/Explore";
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
             <Route exact path="/favorites" component={Favorites} />
             <Route exact path="/my-bids" component={MyBids} />
             <Route exact path="/my-auctions" component={MyAuctions} />
+            <Route exact path="/won-items" component={WonItems} />
             <Route exact path="/contacts" component={Contacts} />
             <Route exact path="/not-found" component={NotFound} />
             <Redirect to="not-found" />
