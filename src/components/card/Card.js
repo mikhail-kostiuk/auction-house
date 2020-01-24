@@ -20,14 +20,15 @@ import {
 } from "./CardStyles";
 
 function Card(props) {
-  const { userBid } = props;
   const { user } = props.auth;
   const [item, setItem] = useState(props.item);
-  const [timeLeft, setTimeLeft] = useState((item.endDate - Date.now()) / 1000);
+  const [timeLeft, setTimeLeft] = useState(
+    Math.round((item.endDate - Date.now()) / 1000)
+  );
 
   useInterval(
     () => {
-      setTimeLeft(timeLeft - 60000);
+      setTimeLeft(timeLeft - 60);
     },
     item.closed ? null : 60000
   );
@@ -120,6 +121,13 @@ function Card(props) {
     }
   }
 
+  function isUserLastBidder(lastBidderId) {
+    if (!user) {
+      return false;
+    }
+    return lastBidderId === user.uid;
+  }
+
   function showBidsCount(bidsCount) {
     if (!bidsCount) {
       return null;
@@ -142,7 +150,7 @@ function Card(props) {
         <Title>{item.title}</Title>
         <Details>
           <BidsInfo>
-            <CurrentBid userBid={userBid}>{`$${
+            <CurrentBid userBid={isUserLastBidder(item.lastBidderId)}>{`$${
               item.bidsCount ? item.currentBid : item.startingBid
             }`}</CurrentBid>
             <Bids>{showBidsCount(item.bidsCount)}</Bids>
@@ -157,7 +165,6 @@ function Card(props) {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    items: state.items,
   };
 };
 

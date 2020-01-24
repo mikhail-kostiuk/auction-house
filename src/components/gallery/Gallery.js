@@ -10,14 +10,6 @@ import {
 
 function Gallery(props) {
   const { items, title, maxColumns, handleSortOrderChange } = props;
-  const { user } = props.auth;
-
-  function isUserLastBidder(lastBidderId) {
-    if (!user) {
-      return false;
-    }
-    return lastBidderId === user.uid;
-  }
 
   return (
     items && (
@@ -39,7 +31,7 @@ function Gallery(props) {
         <GalleryList>
           {items.map(item => (
             <GalleryItem maxColumns={maxColumns} key={item.id}>
-              <Card item={item} userBid={isUserLastBidder(item.lastBidderId)} />
+              <Card item={item} />
             </GalleryItem>
           ))}
         </GalleryList>
