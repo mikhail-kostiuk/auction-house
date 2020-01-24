@@ -7,17 +7,10 @@ const initialState = {
 
 const itemsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_CATEGORY:
+    case actionTypes.SET_CATEGORIES:
       return {
         ...state,
-        category: action.payload,
-        subcategory: null,
-      };
-    case actionTypes.SET_SUBCATEGORY:
-      return {
-        ...state,
-        category: null,
-        subcategory: action.payload,
+        ...action.payload,
       };
     default:
       return state;

@@ -9,5 +9,4 @@ export const CLOSE_MODAL = "CLOSE_MODAL";
 export const ADD_FUNDS = "ADD_FUNDS";
 export const WITHDRAW_FUNDS = "WITHDRAW_FUNDS";
 
-export const SET_CATEGORY = "SET_CATEGORY";
-export const SET_SUBCATEGORY = "SET_SUBCATEGORY";
+export const SET_CATEGORIES = "SET_CATEGORIES";

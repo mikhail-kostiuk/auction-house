@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import {
   Navigation,
@@ -8,33 +8,25 @@ import {
   BackButton,
   BackIcon,
 } from "./SidebarNavigationStyles";
-import { setCategory, setSubcategory } from "../../../actions/categoryActions";
+import { setCategories } from "../../../actions/categoryActions";
 import categories from "../../../data/categories.json";
 
 function SidebarNavigation(props) {
-  const [activeCategories, setActiveCategories] = useState(categories);
-  const [activeSubcategories, setActiveSubcategories] = useState(null);
-
-  function showSubcategories(name) {
-    const category = categories.filter(category => category.name === name)[0];
-
-    setActiveCategories(null);
-    setActiveSubcategories(category.subcategories);
-  }
-
-  function showAllCategories() {
-    setActiveCategories(categories);
-    setActiveSubcategories(null);
-    props.setCategory(null);
-  }
+  const selectedCategories = props.category;
+  const activeCategories = selectedCategories.category ? null : categories;
+  const activeSubcategories = selectedCategories.category
+    ? categories.filter(
+        category => category.name === selectedCategories.category
+      )[0].subcategories
+    : null;
 
   return (
     <Navigation>
       {activeSubcategories && (
         <BackButton
           onClick={() => {
-            showAllCategories();
-            props.setCategory(null);
+            // showAllCategories();
+            props.setCategories({ category: null, subcategory: null });
           }}
         >
           <BackIcon
@@ -51,17 +43,18 @@ function SidebarNavigation(props) {
       {activeCategories && (
         <NavigationList>
           {categories.map(category => {
-            const name = category.name;
-
             return (
               <NavigationListItem
-                key={name}
+                key={category.name}
                 onClick={() => {
-                  showSubcategories(name);
-                  props.setCategory(name);
+                  // showSubcategories(name);
+                  props.setCategories({
+                    category: category.name,
+                    subcategory: null,
+                  });
                 }}
               >
-                {name}
+                {category.name}
                 <ArrowIcon
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 14 14"
@@ -78,16 +71,17 @@ function SidebarNavigation(props) {
       {activeSubcategories && (
         <NavigationList nested>
           {activeSubcategories.map(subcategory => {
-            const name = subcategory.name;
-
             return (
               <NavigationListItem
-                key={name}
+                key={subcategory.name}
                 onClick={() => {
-                  props.setSubcategory(name);
+                  props.setCategories({
+                    category: selectedCategories.category,
+                    subcategory: subcategory.name,
+                  });
                 }}
               >
-                {name}
+                {subcategory.name}
               </NavigationListItem>
             );
           })}
@@ -97,7 +91,12 @@ function SidebarNavigation(props) {
   );
 }
 
-export default connect(null, {
-  setCategory,
-  setSubcategory,
+const mapStateToProps = state => {
+  return {
+    category: state.category,
+  };
+};
+
+export default connect(mapStateToProps, {
+  setCategories,
 })(SidebarNavigation);

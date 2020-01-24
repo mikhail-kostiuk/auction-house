@@ -30,15 +30,15 @@ export const buildSortQuery = (sortOrder, selectedCategories) => {
       break;
   }
 
-  if (selectedCategories.category) {
-    query = itemsRef
-      .orderBy(sortField, sortDirection)
-      .where("category", "==", selectedCategories.category)
-      .where("closed", "==", false);
-  } else if (selectedCategories.subcategory) {
+  if (selectedCategories.subcategory) {
     query = itemsRef
       .orderBy(sortField, sortDirection)
       .where("subcategory", "==", selectedCategories.subcategory)
+      .where("closed", "==", false);
+  } else if (selectedCategories.category) {
+    query = itemsRef
+      .orderBy(sortField, sortDirection)
+      .where("category", "==", selectedCategories.category)
       .where("closed", "==", false);
   } else {
     query = itemsRef.orderBy(sortField, sortDirection);

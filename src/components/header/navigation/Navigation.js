@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setCategory, setSubcategory } from "../../../actions/categoryActions";
+import { setCategories } from "../../../actions/categoryActions";
 import navigationData from "../../../data/categories.json";
 import {
   NavigationWrapper,
@@ -17,12 +17,14 @@ function Navigation(props) {
     <NavigationWrapper>
       <NavigationList>
         {navigationData.map(category => {
-          const name = category.name;
           return (
             <NavigationListItem key={category.name}>
               <NavigationLink
                 onClick={() => {
-                  props.setCategory(name);
+                  props.setCategories({
+                    category: category.name,
+                    subcategory: null,
+                  });
                 }}
                 to="/explore"
               >
@@ -30,16 +32,18 @@ function Navigation(props) {
               </NavigationLink>
               <NavigationNestedList>
                 {category.subcategories.map(subcategory => {
-                  const name = subcategory.name;
                   return (
-                    <NavigationNestedListItem key={name}>
+                    <NavigationNestedListItem key={subcategory.name}>
                       <NavigationNestedLink
                         onClick={() => {
-                          props.setSubcategory(name);
+                          props.setCategories({
+                            category: category.name,
+                            subcategory: subcategory.name,
+                          });
                         }}
                         to="/explore"
                       >
-                        {name}
+                        {subcategory.name}
                       </NavigationNestedLink>
                     </NavigationNestedListItem>
                   );
@@ -54,6 +58,5 @@ function Navigation(props) {
 }
 
 export default connect(null, {
-  setCategory,
-  setSubcategory,
+  setCategories,
 })(Navigation);

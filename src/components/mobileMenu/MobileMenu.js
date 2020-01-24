@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { setCategory, setSubcategory } from "../../actions/categoryActions";
+import { setCategories } from "../../actions/categoryActions";
 import categories from "../../data/categories.json";
 import {
   Menu,
@@ -69,7 +69,7 @@ function MobileMenu(props) {
             <ViewAllLink
               onClick={() => {
                 props.closeMenu();
-                props.setSubcategory(null);
+                props.setCategories({ category: null, subcategory: null });
               }}
               to="/explore"
             >
@@ -101,7 +101,10 @@ function MobileMenu(props) {
             <ViewAllLink
               onClick={() => {
                 props.closeMenu();
-                props.setCategory(headerTitle);
+                props.setCategories({
+                  category: headerTitle,
+                  subcategory: null,
+                });
               }}
               to="/explore"
             >
@@ -116,7 +119,10 @@ function MobileMenu(props) {
                 <MenuListLink
                   onClick={() => {
                     props.closeMenu();
-                    props.setSubcategory(name);
+                    props.setCategories({
+                      category: headerTitle,
+                      subcategory: name,
+                    });
                   }}
                   to="/explore"
                 >
@@ -132,6 +138,5 @@ function MobileMenu(props) {
 }
 
 export default connect(null, {
-  setCategory,
-  setSubcategory,
+  setCategories,
 })(MobileMenu);
