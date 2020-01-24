@@ -142,7 +142,9 @@ function Card(props) {
         <Title>{item.title}</Title>
         <Details>
           <BidsInfo>
-            <CurrentBid userBid={userBid}>{`$${item.currentBid}`}</CurrentBid>
+            <CurrentBid userBid={userBid}>{`$${
+              item.bidsCount ? item.currentBid : item.startingBid
+            }`}</CurrentBid>
             <Bids>{showBidsCount(item.bidsCount)}</Bids>
           </BidsInfo>
           <TimeLeft>{showApproximateTimeLeft(timeLeft)}</TimeLeft>
