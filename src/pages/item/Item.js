@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { openSignInModal } from "../../actions/modalActions";
-import {
-  addToFavorites,
-  removeFromFavorites,
-} from "../../actions/itemsActions";
 import { addFunds, withdrawFunds } from "../../actions/fundsActions";
 import queryString from "query-string";
-import { firestore } from "../../firebase";
+import firebase, { firestore } from "../../firebase";
 import PageTemplate from "../pageTemplate/PageTemplate";
 import useInterval from "../../hooks/useInterval";
 import { showPreciseTimeLeft } from "../../helpers/showTimeLeft";
@@ -46,13 +42,10 @@ function Item(props) {
   const { id } = parsedQuery;
 
   const { user } = props.auth;
-  const { favorites } = props.items;
-  const { funds } = props.funds;
 
   const [item, setItem] = useState(null);
   const [directBid, setDirectBid] = useState(0);
   const [timeLeft, setTimeLeft] = useState(100);
-  const [actualItemRef, setActualItemRef] = useState(null);
   const [error, setError] = useState(null);
 
   useInterval(() => {
@@ -60,43 +53,22 @@ function Item(props) {
   }, 1000);
 
   useEffect(() => {
-    const activeItemRef = firestore
-      .collection("lots")
-      .doc("active")
-      .collection("items")
-      .doc(id);
-
-    const inactiveItemRef = firestore
-      .collection("lots")
-      .doc("inactive")
-      .collection("items")
-      .doc(id);
+    const itemRef = firestore.collection("items").doc(id);
 
     let unsubscribe;
 
-    // Search the item in the "active" collection
-    activeItemRef
+    itemRef
       .get()
-      .then(function(doc) {
-        if (doc.data()) {
-          unsubscribe = activeItemRef.onSnapshot(function(doc) {
-            setItem(doc.data());
-            setTimeLeft((doc.data().endDate - Date.now()) / 1000);
+      .then(function(itemDoc) {
+        if (itemDoc.exists) {
+          unsubscribe = itemRef.onSnapshot(function(itemDoc) {
+            setItem(itemDoc.data());
+            setTimeLeft(
+              Math.round((itemDoc.data().endDate - Date.now()) / 1000)
+            );
           });
-
-          setActualItemRef(activeItemRef);
         } else {
-          // Search the item in the "inactive" collection then
-          inactiveItemRef.get().then(function(doc) {
-            if (doc.data()) {
-              setItem(doc.data());
-              setTimeLeft((doc.data().endDate - Date.now()) / 1000);
-              setActualItemRef(inactiveItemRef);
-            } else {
-              // The item with this id doesn't exist
-              props.history.push("/not-found");
-            }
-          });
+          props.history.push("/not-found");
         }
       })
       .catch(function(error) {
@@ -111,22 +83,13 @@ function Item(props) {
   }, [id, props.history]);
 
   function isUserLastBidder(lastBidderId) {
-    if (!user) {
-      return false;
-    }
-    return item.lastBidderId === user.uid;
+    return user ? item.lastBidderId === user.uid : false;
   }
 
   function isItemInFavorites() {
-    if (!user) {
-      return false;
-    }
-
-    if (favorites.filter(ref => ref.id === id).length === 0) {
-      return false;
-    }
-
-    return true;
+    return user
+      ? item.favorites.filter(userId => userId === user.uid).length
+      : false;
   }
 
   function toggleFavorites() {
@@ -136,14 +99,20 @@ function Item(props) {
       return;
     }
 
+    const itemRef = firestore.collection("items").doc(id);
+
     if (isItemInFavorites()) {
-      props.removeFromFavorites(actualItemRef, user.uid, favorites);
+      itemRef.update({
+        favorites: firebase.firestore.FieldValue.arrayRemove(user.uid),
+      });
     } else {
-      props.addToFavorites(actualItemRef, user.uid, favorites);
+      itemRef.update({
+        favorites: firebase.firestore.FieldValue.arrayUnion(user.uid),
+      });
     }
   }
 
-  function validateBid(bid) {
+  async function validateBid(bid) {
     if (!user) {
       props.openSignInModal();
 
@@ -157,14 +126,18 @@ function Item(props) {
       return false;
     }
 
-    const minimumBid = Math.round(item.currentBid + item.startingBid * 0.1);
-
     if (user.uid === item.ownerId) {
       setError("You can't bid on your own item");
       setTimeout(() => setError(null), 5000);
 
       return false;
     }
+
+    const minimumBid = Math.round(
+      item.bidsCount
+        ? item.startingBid
+        : item.currentBid + item.startingBid * 0.1
+    );
 
     if (bid < minimumBid) {
       setError(`The next minimum bid is $${minimumBid}`);
@@ -173,31 +146,36 @@ function Item(props) {
       return false;
     }
 
-    // In an actual application, the amount of funds should be checked on the backend!
+    const currentUserRef = firestore.collection("users").doc(user.uid);
+    const currentUserSnapshot = await currentUserRef.get();
+    const currentUserFunds = currentUserSnapshot.data().funds;
+
     if (isUserLastBidder()) {
       // Current user increases his own last bid
-      if (bid > funds + item.currentBid) {
+      if (bid > currentUserFunds + item.currentBid) {
         setError("You don't have enough funds for this bid");
         setTimeout(() => setError(null), 5000);
 
         return false;
       }
-    } else if (bid > funds) {
-      setError("You don't have enough funds for this bid");
-      setTimeout(() => setError(null), 5000);
+    } else {
+      // Last bid wasn't made by the current user
+      if (bid > currentUserFunds) {
+        setError("You don't have enough funds for this bid");
+        setTimeout(() => setError(null), 5000);
 
-      return false;
+        return false;
+      }
     }
 
     setError(null);
-
+    console.log("before true");
     return true;
   }
 
-  function bid(n) {
+  async function bid(n) {
     const newBid = parseInt(n, 10);
-
-    if (validateBid(newBid)) {
+    if (await validateBid(newBid)) {
       const currentUserRef = firestore.collection("users").doc(user.uid);
 
       if (item.lastBidderId) {
@@ -269,11 +247,7 @@ function Item(props) {
           });
       }
 
-      const itemRef = firestore
-        .collection("lots")
-        .doc("active")
-        .collection("items")
-        .doc(id);
+      const itemRef = firestore.collection("items").doc(id);
 
       itemRef.update({
         bidsCount: item.bidsCount + 1,
@@ -294,7 +268,7 @@ function Item(props) {
 
   return (
     <PageTemplate>
-      <BackLink to="/">
+      <BackLink to="/explore">
         <ArrowIcon>
           <svg
             aria-hidden="true"
@@ -327,7 +301,7 @@ function Item(props) {
             <Form onSubmit={onFormSubmit}>
               <BidsInfo>
                 <CurrentBid userBid={isUserLastBidder()}>
-                  ${item.currentBid}
+                  ${item.bidsCount ? item.currentBid : item.startingBid}
                 </CurrentBid>
                 <Bids>{item.bidsCount} bids</Bids>
               </BidsInfo>
@@ -337,26 +311,67 @@ function Item(props) {
                   <QuickBidButton
                     type="button"
                     onClick={() =>
-                      bid(Math.round(item.currentBid + item.startingBid * 0.1))
+                      bid(
+                        Math.round(
+                          item.bidsCount
+                            ? item.currentBid + item.startingBid * 0.1
+                            : item.startingBid
+                        )
+                      )
                     }
                   >
-                    ${Math.round(item.currentBid + item.startingBid * 0.1)}
+                    $
+                    {Math.round(
+                      item.bidsCount
+                        ? item.currentBid + item.startingBid * 0.1
+                        : item.startingBid
+                    )}
                   </QuickBidButton>
                   <QuickBidButton
                     type="button"
                     onClick={() =>
-                      bid(Math.round(item.currentBid + item.startingBid * 0.5))
+                      bid(
+                        Math.round(
+                          Math.round(
+                            item.bidsCount
+                              ? item.currentBid + item.startingBid * 0.5
+                              : item.startingBid
+                          )
+                        )
+                      )
                     }
                   >
-                    ${Math.round(item.currentBid + item.startingBid * 0.5)}
+                    $
+                    {Math.round(
+                      Math.round(
+                        item.bidsCount
+                          ? item.currentBid + item.startingBid * 0.5
+                          : item.startingBid
+                      )
+                    )}
                   </QuickBidButton>
                   <QuickBidButton
                     type="button"
                     onClick={() =>
-                      bid(Math.round(item.currentBid + item.startingBid))
+                      bid(
+                        Math.round(
+                          Math.round(
+                            item.bidsCount
+                              ? item.currentBid + item.startingBid
+                              : item.startingBid
+                          )
+                        )
+                      )
                     }
                   >
-                    ${Math.round(item.currentBid + item.startingBid)}
+                    $
+                    {Math.round(
+                      Math.round(
+                        item.bidsCount
+                          ? item.currentBid + item.startingBid
+                          : item.startingBid
+                      )
+                    )}
                   </QuickBidButton>
                 </QuickBidButtons>
                 <BidDirectly>
@@ -390,15 +405,12 @@ function Item(props) {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    items: state.items,
     funds: state.funds,
   };
 };
 
 export default connect(mapStateToProps, {
   openSignInModal,
-  addToFavorites,
-  removeFromFavorites,
   addFunds,
   withdrawFunds,
 })(Item);
