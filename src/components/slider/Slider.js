@@ -11,7 +11,7 @@ import {
 } from "./SliderStyles";
 import Slide from "./slide/Slide";
 
-function Slider() {
+function Slider(props) {
   const [currentSlide, setCurrentSlide] = useState(6);
   const [items, setItems] = useState([]);
   // const [slideDirection, setSlideDirection] = useState("left");
@@ -20,9 +20,22 @@ function Slider() {
 
   useEffect(() => {
     const resultSet = [];
+    let query;
 
-    firestore
-      .collection("items")
+    switch (props.order) {
+      case "endDate":
+        query = firestore.collection("items").orderBy("endDate", "asc");
+        break;
+      case "bidsCount":
+        query = firestore.collection("items").where("bidsCount", "==", 0);
+        break;
+
+      default:
+        break;
+    }
+
+    query
+      .where("closed", "==", false)
       .limit(totalSlides)
       .get()
       .then(function(querySnapshot) {
@@ -32,7 +45,7 @@ function Slider() {
         });
         setItems(resultSet);
       });
-  }, []);
+  }, [props.order]);
 
   function slideToRight() {
     setCurrentSlide(currentSlide - 1);

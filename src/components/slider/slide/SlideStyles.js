@@ -37,15 +37,19 @@ export const DetailsContainer = styled.div`
 `;
 
 export const Details = styled.div`
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; */
 `;
 
 export const CurrentBid = styled.span`
-  display: block;
-  color: ${props => props.theme.bluegrey3};
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
   font-size: 15px;
+  color: ${props => (props.userBid ? "#fff" : "#000")};
+  padding: ${props => (props.userBid ? "2px 4px" : 0)};
+  background-color: ${props => (props.userBid ? props.theme.yellow1 : "none")};
 `;
 
 export const TimeLeft = styled.span`
