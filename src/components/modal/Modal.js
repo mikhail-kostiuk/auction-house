@@ -15,8 +15,8 @@ function Modal(props) {
   return (
     <ModalOverlay>
       <ModalContainer>
-        <CloseButton>
-          <CloseIcon onClick={props.closeModal}>×</CloseIcon>
+        <CloseButton onClick={props.closeModal}>
+          <CloseIcon>×</CloseIcon>
         </CloseButton>
         <LogoContainer>
           <Logo />
