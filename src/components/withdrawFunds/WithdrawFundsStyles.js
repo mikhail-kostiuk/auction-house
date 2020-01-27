@@ -24,13 +24,13 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
+  width: 100%;
   height: 40px;
   padding: 4px 8px;
   border: 1px solid ${props => props.theme.bluegrey8};
 
   &:focus {
-    border: 1px;
-    outline-color: ${props => props.theme.blue5};
+    border: 1px solid ${props => props.theme.blue5};
   }
 `;
 

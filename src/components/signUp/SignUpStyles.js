@@ -27,8 +27,7 @@ export const Input = styled.input`
   border: 1px solid ${props => props.theme.bluegrey8};
 
   &:focus {
-    border: 1px;
-    outline-color: ${props => props.theme.blue5};
+    border: 1px solid ${props => props.theme.blue5};
   }
 `;
 
