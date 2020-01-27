@@ -10,7 +10,9 @@ import {
   Title,
   DetailsContainer,
   Details,
+  BidDetails,
   CurrentBid,
+  BidsCount,
   TimeLeft,
   ItemLink,
 } from "./SlideStyles";
@@ -66,17 +68,28 @@ function Slide(props) {
     return lastBidderId === user.uid;
   }
 
+  function showBidsCount(bidsCount) {
+    if (bidsCount === 1) {
+      return `${bidsCount} bid`;
+    } else {
+      return `${bidsCount} bids`;
+    }
+  }
+
   return (
     <SlideWrapper>
       <ImageContainer>
         <Image src={item.imageUrl} alt={item.title} />
       </ImageContainer>
-      <Title>Hand Painted Asian Lacquer jewelry Box</Title>
+      <Title>{item.title}</Title>
       <DetailsContainer>
         <Details>
-          <CurrentBid userBid={isUserLastBidder(item.lastBidderId)}>{`$${
-            item.bidsCount ? item.currentBid : item.startingBid
-          }`}</CurrentBid>
+          <BidDetails>
+            <CurrentBid userBid={isUserLastBidder(item.lastBidderId)}>{`$${
+              item.bidsCount ? item.currentBid : item.startingBid
+            }`}</CurrentBid>
+            <BidsCount>{showBidsCount(item.bidsCount)}</BidsCount>
+          </BidDetails>
           <TimeLeft>{showApproximateTimeLeft(timeLeft)}</TimeLeft>
         </Details>
         <ItemLink to={`/item?id=${item.id}`}>Explore</ItemLink>

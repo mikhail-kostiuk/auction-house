@@ -12,10 +12,6 @@ export const Title = styled.h2`
   font-size: 24px;
   font-weight: 400;
   letter-spacing: 0.5px;
-
-  @media screen and (min-width: 768px) {
-    margin: 30px 0 20px 0;
-  }
 `;
 
 export const SlideContainer = styled.li`
@@ -74,9 +70,11 @@ export const List = styled.ul`
 
 export const ArrowButton = styled.button`
   position: absolute;
+  z-index: 35;
   top: 10px;
   display: none;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
   width: 40px;
   height: 330px;
   padding: 0;

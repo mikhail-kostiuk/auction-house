@@ -57,7 +57,7 @@ function Slider(props) {
 
   return (
     <SliderWrapper totalSlides={totalSlides} currentSlide={currentSlide}>
-      <Title>Auctions closing soon</Title>
+      <Title>{props.title}</Title>
       <List totalSlides={totalSlides} currentSlide={currentSlide}>
         <ArrowButtonLeft
           onClick={slideToRight}
