@@ -7,6 +7,7 @@ import {
   SignInForm,
   Label,
   Input,
+  Error,
   Button,
   BottomText,
   LinkButton,
@@ -15,6 +16,7 @@ import {
 function SignIn(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   function onSubmitForm(e) {
     e.preventDefault();
@@ -29,6 +31,9 @@ function SignIn(props) {
         let errorMessage = error.message;
         console.log(errorCode);
         console.log(errorMessage);
+
+        setError(errorMessage);
+        setTimeout(() => setError(null), 5000);
       });
   }
 
@@ -51,6 +56,7 @@ function SignIn(props) {
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
+        {error && <Error>{error}</Error>}
         <Button type="submit">Sign In</Button>
       </SignInForm>
       <BottomText>

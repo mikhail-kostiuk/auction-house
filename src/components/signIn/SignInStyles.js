@@ -31,6 +31,13 @@ export const Input = styled.input`
   }
 `;
 
+export const Error = styled.span`
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  color: red;
+`;
+
 export const Button = styled.button`
   height: 40px;
   border: none;

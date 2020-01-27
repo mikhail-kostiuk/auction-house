@@ -7,6 +7,7 @@ import {
   Label,
   Input,
   Button,
+  Error,
   BottomText,
   LinkButton,
 } from "./SignUpStyles";
@@ -16,6 +17,7 @@ function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(null);
 
   function isInputValid() {
     if (password !== confirmPassword) {
@@ -47,6 +49,9 @@ function SignUp(props) {
           let errorMessage = error.message;
           console.log(errorCode);
           console.log(errorMessage);
+
+          setError(errorMessage);
+          setTimeout(() => setError(null), 5000);
         });
     }
   }
@@ -81,6 +86,7 @@ function SignUp(props) {
           value={confirmPassword}
           onChange={e => setConfirmPassword(e.target.value)}
         />
+        {error && <Error>{error}</Error>}
         <Button type="submit">Sign up</Button>
       </SignUpForm>
       <BottomText>
