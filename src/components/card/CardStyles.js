@@ -11,22 +11,27 @@ export const FavoriteButton = styled.button`
   top: 10px;
   right: 10px;
   z-index: 10;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
   width: 30px;
   height: 30px;
+  padding: 0;
   border: none;
   border-radius: 50%;
   background-color: ${props => props.theme.blue10};
 `;
 
 export const Icon = styled.div`
-  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   color: ${props => props.theme.yellow2};
+  font-size: 20px;
 
   & svg {
-    height: 100%;
+    display: block;
+    width: 1em;
+    height: 1em;
   }
 `;
 
