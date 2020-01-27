@@ -64,6 +64,13 @@ export const Image = styled.img`
   object-fit: contain;
 `;
 
+export const Error = styled.span`
+  display: block;
+  margin-top: 30px;
+  text-align: center;
+  color: red;
+`;
+
 export const Button = styled.button`
   white-space: nowrap;
   width: 100%;

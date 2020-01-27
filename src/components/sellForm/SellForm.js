@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { openSignInModal } from "../../actions/modalActions";
 import categories from "../../data/categories.json";
 import { storage, firestore } from "../../firebase";
 import {
@@ -10,6 +12,7 @@ import {
   Select,
   ImageContainer,
   Image,
+  Error,
   Button,
 } from "./SellFormStyles.js";
 
@@ -26,6 +29,9 @@ function SellForm(props) {
   const [startingBid, setStartingBid] = useState(10);
   const [image, setImage] = useState(null);
   const [imagePreviewURL, setImagePreviewURL] = useState(null);
+  const [error, setError] = useState(null);
+
+  const { user } = props.auth;
 
   function onCategoryChange(e) {
     const selectId = e.target.id;
@@ -37,7 +43,7 @@ function SellForm(props) {
           category => category.name === selectedOption
         )[0];
         setCategory(selectedCategory);
-        setSubcategory(selectedCategory.subcategories);
+        setSubcategory(selectedCategory.subcategories[0]);
         setSubcategories(selectedCategory.subcategories);
         break;
 
@@ -53,91 +59,135 @@ function SellForm(props) {
     }
   }
 
+  function validateForm() {
+    if (!title.trim()) {
+      setError("Please enter the title");
+      setTimeout(() => setError(null), 5000);
+      return false;
+    }
+
+    if (!description.trim()) {
+      setError("Please enter the description");
+      setTimeout(() => setError(null), 5000);
+      return false;
+    }
+
+    if (startingBid < 10) {
+      setError("The minimum starting bid is 10$");
+      setTimeout(() => setError(null), 5000);
+      return false;
+    }
+
+    if (!image) {
+      setError("Please choose an image");
+      setTimeout(() => setError(null), 5000);
+      return false;
+    }
+
+    setError(null);
+
+    return true;
+  }
+
   function onFormSubmit(e) {
     e.preventDefault();
-    // var storageRef = storage.ref();
-    // File or Blob named mountains.jpg
-    var file = image;
 
-    // Create the file metadata
-    var metadata = {
-      contentType: "image/jpeg",
-    };
+    if (!user) {
+      props.openSignInModal();
 
-    // Upload file and metadata to the object 'images/mountains.jpg'
-    var uploadTask = storage
-      .ref(`images`)
-      .child(file.name)
-      .put(file, metadata);
+      return;
+    }
 
-    // Listen for state changes, errors, and completion of the upload.
-    uploadTask.on(
-      "state_changed", // or 'state_changed'
-      function(snapshot) {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        switch (snapshot.state) {
-          case "paused": // or 'paused'
-            console.log("Upload is paused");
-            break;
-          case "running": // or 'running'
-            console.log("Upload is running");
-            break;
-          default:
-            break;
+    if (validateForm()) {
+      // var storageRef = storage.ref();
+      // File or Blob named mountains.jpg
+      var file = image;
+
+      // Create the file metadata
+      var metadata = {
+        contentType: "image/jpeg",
+      };
+
+      // Upload file and metadata to the object 'images/mountains.jpg'
+      var uploadTask = storage
+        .ref(`images`)
+        .child(file.name)
+        .put(file, metadata);
+
+      // Listen for state changes, errors, and completion of the upload.
+      uploadTask.on(
+        "state_changed", // or 'state_changed'
+        function(snapshot) {
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused": // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case "running": // or 'running'
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        function(error) {
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
+
+            case "storage/canceled":
+              // User canceled the upload
+              break;
+
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+
+            default:
+              break;
+          }
+        },
+        function() {
+          // Upload completed successfully, now we can get the download URL
+          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            console.log("File available at", downloadURL);
+            let date = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+            firestore
+              .collection("items")
+              .add({
+                title,
+                category: category.name,
+                subcategory: subcategory.name,
+                description,
+                imageUrl: downloadURL,
+                endDate: date.getTime(),
+                startingBid: parseInt(startingBid, 10),
+                currentBid: parseInt(startingBid, 10),
+                lastBidderId: null,
+                bidsCount: 0,
+                ownerId: user.uid,
+                ownerEmail: user.email,
+                favorites: [],
+                closed: false,
+              })
+              .then(function(docRef) {
+                props.history.push(`/item?id=${docRef.id}`);
+                console.log("Document successfully written!");
+              })
+              .catch(function(error) {
+                console.error("Error writing document: ", error);
+              });
+          });
         }
-      },
-      function(error) {
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        switch (error.code) {
-          case "storage/unauthorized":
-            // User doesn't have permission to access the object
-            break;
-
-          case "storage/canceled":
-            // User canceled the upload
-            break;
-
-          case "storage/unknown":
-            // Unknown error occurred, inspect error.serverResponse
-            break;
-
-          default:
-            break;
-        }
-      },
-      function() {
-        // Upload completed successfully, now we can get the download URL
-        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-          console.log("File available at", downloadURL);
-          let date = new Date();
-          date.setDate(date.getDate() + 7);
-
-          firestore
-            .collection("items")
-            .add({
-              title,
-              category: category.name,
-              subcategory: subcategory.name,
-              description,
-              startingBid: parseInt(startingBid, 10),
-              currentBid: parseInt(startingBid, 10),
-              bidsCount: 0,
-              endDate: date,
-              imageUrl: downloadURL,
-              ownerID: props.auth.user.uid,
-            })
-            .then(function() {
-              console.log("Document successfully written!");
-            })
-            .catch(function(error) {
-              console.error("Error writing document: ", error);
-            });
-        });
-      }
-    );
+      );
+    }
   }
 
   return (
@@ -148,7 +198,7 @@ function SellForm(props) {
         title="name"
         id="name"
         value={title}
-        onChange={e => setTitle(e.target.value.trim())}
+        onChange={e => setTitle(e.target.value)}
       />
 
       <Label htmlFor="categories">Select category</Label>
@@ -179,7 +229,7 @@ function SellForm(props) {
         title="description"
         id="description"
         value={description}
-        onChange={e => setDescription(e.target.value.trim())}
+        onChange={e => setDescription(e.target.value)}
       />
       <Label htmlFor="startingBid">Starting bid</Label>
       <Input
@@ -187,7 +237,7 @@ function SellForm(props) {
         title="startingBid"
         id="startingBid"
         value={startingBid}
-        onChange={e => setStartingBid(e.target.value.trim())}
+        onChange={e => setStartingBid(e.target.value)}
       />
       <Label htmlFor="image">Image of the item</Label>
       {imagePreviewURL && (
@@ -206,6 +256,7 @@ function SellForm(props) {
           }
         }}
       />
+      {error && <Error>{error}</Error>}
       <Button type="submit">Place Item</Button>
     </FormWrapper>
   );
@@ -217,4 +268,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SellForm);
+export default connect(mapStateToProps, { openSignInModal })(
+  withRouter(SellForm)
+);
