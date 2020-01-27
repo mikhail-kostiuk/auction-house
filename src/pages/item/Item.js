@@ -135,8 +135,8 @@ function Item(props) {
 
     const minimumBid = Math.round(
       item.bidsCount
-        ? item.startingBid
-        : item.currentBid + item.startingBid * 0.1
+        ? item.currentBid + item.startingBid * 0.1
+        : item.startingBid
     );
 
     if (bid < minimumBid) {
