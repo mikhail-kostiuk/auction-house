@@ -41,7 +41,9 @@ export const buildSortQuery = (sortOrder, selectedCategories) => {
       .where("category", "==", selectedCategories.category)
       .where("closed", "==", false);
   } else {
-    query = itemsRef.orderBy(sortField, sortDirection);
+    query = itemsRef
+      .orderBy(sortField, sortDirection)
+      .where("closed", "==", false);
   }
 
   return query;
