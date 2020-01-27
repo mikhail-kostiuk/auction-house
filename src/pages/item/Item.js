@@ -335,7 +335,7 @@ function Item(props) {
                           Math.round(
                             item.bidsCount
                               ? item.currentBid + item.startingBid * 0.5
-                              : item.startingBid
+                              : item.startingBid + item.startingBid * 0.5
                           )
                         )
                       )
@@ -346,7 +346,7 @@ function Item(props) {
                       Math.round(
                         item.bidsCount
                           ? item.currentBid + item.startingBid * 0.5
-                          : item.startingBid
+                          : item.startingBid + item.startingBid * 0.5
                       )
                     )}
                   </QuickBidButton>
@@ -358,7 +358,7 @@ function Item(props) {
                           Math.round(
                             item.bidsCount
                               ? item.currentBid + item.startingBid
-                              : item.startingBid
+                              : item.startingBid + item.startingBid
                           )
                         )
                       )
@@ -369,7 +369,7 @@ function Item(props) {
                       Math.round(
                         item.bidsCount
                           ? item.currentBid + item.startingBid
-                          : item.startingBid
+                          : item.startingBid + item.startingBid
                       )
                     )}
                   </QuickBidButton>
