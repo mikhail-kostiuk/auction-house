@@ -4,9 +4,9 @@ import {
   Navigation,
   NavigationList,
   NavigationListItem,
-  ArrowIcon,
   BackButton,
   BackIcon,
+  NextIcon,
 } from "./SidebarNavigationStyles";
 import { setCategories } from "../../../actions/categoryActions";
 import categories from "../../../data/categories.json";
@@ -29,14 +29,7 @@ function SidebarNavigation(props) {
             props.setCategories({ category: null, subcategory: null });
           }}
         >
-          <BackIcon
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 14 14"
-            fill="currentColor"
-          >
-            <path d="M0,7" />
-            <path d="M1.41,8.41,7,14l1.41-1.41L2.82,7,8.41,1.41,7,0,1.41,5.59,0,7" />
-          </BackIcon>
+          <BackIcon />
           All Categories
         </BackButton>
       )}
@@ -55,14 +48,7 @@ function SidebarNavigation(props) {
                 }}
               >
                 {category.name}
-                <ArrowIcon
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 14 14"
-                  fill="currentColor"
-                >
-                  <path d="M8.41,7" />
-                  <path d="M7,5.59,1.41,0,0,1.41,5.59,7,0,12.59,1.41,14,7,8.41,8.41,7" />
-                </ArrowIcon>
+                <NextIcon />
               </NavigationListItem>
             );
           })}

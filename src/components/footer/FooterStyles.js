@@ -1,4 +1,7 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { ReactComponent as Facebook } from "../../assets/svg/facebook.svg";
+import { ReactComponent as Twitter } from "../../assets/svg/twitter.svg";
+import { ReactComponent as Pinterest } from "../../assets/svg/pinterest.svg";
 
 export const FooterWrapper = styled.footer`
   background-color: ${props => props.theme.bluegrey10};
@@ -34,14 +37,21 @@ export const SocialMediaLink = styled.a`
   cursor: pointer;
 `;
 
-export const Icon = styled.div`
+const IconStyles = css`
+  display: block;
+  width: 1em;
+  height: 1em;
   font-size: 40px;
+`;
 
-  & svg {
-    display: block;
-    width: 1em;
-    height: 1em;
-  }
+export const FacebookIcon = styled(Facebook)`
+  ${IconStyles}
+`;
+export const TwitterIcon = styled(Twitter)`
+  ${IconStyles}
+`;
+export const PinterestIcon = styled(Pinterest)`
+  ${IconStyles}
 `;
 
 export const Copyright = styled.p`

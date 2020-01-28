@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { openSignInModal } from "../../actions/modalActions";
 import { addFunds, withdrawFunds } from "../../actions/fundsActions";
-import { ReactComponent as TriangleArrowIcon } from "../../assets/svg/triangle-arrow.svg";
 import queryString from "query-string";
 import firebase, { firestore } from "../../firebase";
 import PageTemplate from "../pageTemplate/PageTemplate";
@@ -270,9 +269,7 @@ function Item(props) {
   return (
     <PageTemplate>
       <BackLink to="/explore">
-        <ArrowIcon>
-          <TriangleArrowIcon />
-        </ArrowIcon>
+        <ArrowIcon />
         Back to Search
       </BackLink>
       {item && (

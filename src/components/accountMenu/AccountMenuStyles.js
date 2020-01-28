@@ -1,5 +1,9 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
+import { ReactComponent as HollowHeart } from "../../assets/svg/hollow-heart.svg";
+import { ReactComponent as MyBids } from "../../assets/svg/my-bids.svg";
+import { ReactComponent as User } from "../../assets/svg/user.svg";
+import { ReactComponent as TriangleArrow } from "../../assets/svg/triangle-arrow.svg";
 
 export const MenuList = styled.ul`
   display: flex;
@@ -38,35 +42,41 @@ export const MenuLink = styled(Link)`
   }
 `;
 
-export const Icon = styled.div`
+const IconStyles = css`
+  display: block;
+  width: 1em;
+  height: 1em;
   color: ${props => props.theme.blue1};
   font-size: 20px;
-
-  & svg {
-    display: block;
-    width: 1em;
-    height: 1em;
-  }
 `;
-export const ArrowIcon = styled.div`
+
+export const FavoritesIcon = styled(HollowHeart)`
+  ${IconStyles}
+`;
+
+export const MyBidsIcon = styled(MyBids)`
+  ${IconStyles}
+`;
+
+export const UserIcon = styled(User)`
+  ${IconStyles}
+`;
+
+export const ArrowIcon = styled(TriangleArrow)`
   position: absolute;
   top: 8px;
   right: 4px;
-  height: 16px;
+  display: block;
+  width: 1em;
+  height: 0.5em;
   color: ${props => props.theme.blue1};
   font-size: 12px;
+  transform: rotate(180deg);
 
   @media screen and (min-width: 440px) {
     top: 4px;
     right: 4px;
     right: 14px;
-  }
-
-  & svg {
-    display: block;
-    width: 1em;
-    height: 0.5em;
-    transform: rotate(180deg);
   }
 `;
 

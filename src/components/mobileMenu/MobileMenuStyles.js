@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { ReactComponent as Arrow } from "../../assets/svg/arrow.svg";
+import { ReactComponent as Cross } from "../../assets/svg/cross.svg";
 
 export const Menu = styled.div`
   position: absolute;
@@ -39,16 +41,31 @@ export const HeaderTitle = styled.div`
   text-overflow: ellipsis;
 `;
 
-export const ArrowIcon = styled.svg`
-  width: 20px;
-  height: 20px;
+export const BackIcon = styled(Arrow)`
+  display: block;
+  width: 0.625em;
+  height: 1em;
+  margin-right: 10px;
+  color: #fff;
+  font-size: 12px;
+  transform: rotate(180deg);
+`;
+
+export const NextIcon = styled(Arrow)`
+  display: block;
+  width: 0.625em;
+  height: 1em;
   color: ${props => props.theme.blue1};
+  font-size: 20px;
 `;
 
 export const CloseButton = styled.button`
   position: absolute;
   top: 0;
   right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 50px;
   height: 44px;
   padding: 0;
@@ -57,9 +74,12 @@ export const CloseButton = styled.button`
   color: #fff;
 `;
 
-export const CloseIcon = styled.svg`
-  height: 20px;
-  width: 20px;
+export const CloseIcon = styled(Cross)`
+  display: block;
+  width: 1em;
+  height: 1em;
+  color: #fff;
+  font-size: 20px;
 `;
 
 export const BackButton = styled.button`
@@ -74,11 +94,6 @@ export const BackButton = styled.button`
   border: none;
   background: none;
   color: #fff;
-`;
-
-export const BackIcon = styled.svg`
-  width: 20px;
-  height: 20px;
 `;
 
 export const MenuList = styled.ul`

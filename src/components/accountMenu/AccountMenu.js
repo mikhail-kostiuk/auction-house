@@ -2,19 +2,17 @@ import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { addFunds, withdrawFunds } from "../../actions/fundsActions";
 import { firestore } from "../../firebase";
-import { ReactComponent as FavoritesIcon } from "../../assets/svg/favorites.svg";
-import { ReactComponent as MyBidsIcon } from "../../assets/svg/my-bids.svg";
-import { ReactComponent as TriangleArrowIcon } from "../../assets/svg/triangle-arrow.svg";
-import { ReactComponent as UserIcon } from "../../assets/svg/user.svg";
 import AccountSubmenu from "./accountSubmenu/AccountSubmenu";
 import {
   MenuList,
   MenuListItem,
   MenuLink,
-  Icon,
   ArrowIcon,
   Button,
   MenuTitle,
+  FavoritesIcon,
+  MyBidsIcon,
+  UserIcon,
 } from "./AccountMenuStyles";
 
 function AccountMenu(props) {
@@ -46,17 +44,13 @@ function AccountMenu(props) {
     <MenuList>
       <MenuListItem>
         <MenuLink to="/favorites">
-          <Icon>
-            <FavoritesIcon />
-          </Icon>
+          <FavoritesIcon />
           <MenuTitle>Favorites</MenuTitle>
         </MenuLink>
       </MenuListItem>
       <MenuListItem>
         <MenuLink to="/my-bids">
-          <Icon>
-            <MyBidsIcon />
-          </Icon>
+          <MyBidsIcon />
           <MenuTitle>My Bids</MenuTitle>
         </MenuLink>
       </MenuListItem>
@@ -65,12 +59,8 @@ function AccountMenu(props) {
           ref={myAccountButton}
           onClick={() => setSubmenuOpen(!submenuOpen)}
         >
-          <Icon>
-            <UserIcon />
-          </Icon>
-          <ArrowIcon>
-            <TriangleArrowIcon />
-          </ArrowIcon>
+          <UserIcon />
+          <ArrowIcon />
           <MenuTitle>My Account</MenuTitle>
         </Button>
         {submenuOpen && (

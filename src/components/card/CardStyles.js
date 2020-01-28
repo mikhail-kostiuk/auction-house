@@ -1,5 +1,7 @@
+import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { ReactComponent as Heart } from "../../assets/svg/heart.svg";
+import { ReactComponent as HollowHeart } from "../../assets/svg/hollow-heart.svg";
 
 export const CardWrapper = styled.div`
   position: relative;
@@ -11,6 +13,9 @@ export const FavoriteButton = styled.button`
   top: 10px;
   right: 10px;
   z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 30px;
   height: 30px;
   padding: 0;
@@ -19,20 +24,20 @@ export const FavoriteButton = styled.button`
   background-color: ${props => props.theme.blue10};
 `;
 
-export const Icon = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+const HeartStyles = css`
+  display: block;
+  width: 1.1em;
+  height: 1em;
   color: ${props => props.theme.yellow2};
   font-size: 20px;
+`;
 
-  & svg {
-    display: block;
-    width: 1em;
-    height: 1em;
-  }
+export const HeartIcon = styled(Heart)`
+  ${HeartStyles}
+`;
+
+export const HollowHeartIcon = styled(HollowHeart)`
+  ${HeartStyles}
 `;
 
 export const CardLink = styled(Link)`

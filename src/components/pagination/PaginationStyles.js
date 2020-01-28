@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { ReactComponent as Arrow } from "../../assets/svg/arrow.svg";
 
 export const PaginationWrapper = styled.div`
   display: flex;
@@ -44,10 +45,20 @@ export const Button = styled.button`
   }
 `;
 
-export const ArrowIcon = styled.svg`
-  width: 20px;
-  height: 20px;
-  color: ${props => props.theme.bluegrey5};
+const IconStyles = css`
+  display: block;
+  width: 0.625em;
+  height: 1em;
+  font-size: 20px;
+`;
+
+export const PrevIcon = styled(Arrow)`
+  ${IconStyles}
+  transform: rotate(180deg);
+`;
+
+export const NextIcon = styled(Arrow)`
+  ${IconStyles}
 `;
 
 export const CurrentPage = styled.div`

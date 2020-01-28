@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { setCategories } from "../../actions/categoryActions";
 import categories from "../../data/categories.json";
+import { ReactComponent as ArrowIcon } from "../../assets/svg/arrow.svg";
 import {
   Menu,
   Header,
   HeaderTitle,
-  ArrowIcon,
   CloseButton,
   CloseIcon,
   BackButton,
@@ -14,6 +14,7 @@ import {
   MenuList,
   MenuListItem,
   MenuListLink,
+  NextIcon,
   ViewAllLink,
 } from "./MobileMenuStyles";
 
@@ -42,25 +43,12 @@ function MobileMenu(props) {
         <HeaderTitle>{headerTitle}</HeaderTitle>
         {activeSubcategories && (
           <BackButton onClick={showAllCategories}>
-            <BackIcon
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 14"
-              fill="currentColor"
-            >
-              <path d="M0,7" />
-              <path d="M1.41,8.41,7,14l1.41-1.41L2.82,7,8.41,1.41,7,0,1.41,5.59,0,7" />
-            </BackIcon>
+            <BackIcon />
             Back
           </BackButton>
         )}
         <CloseButton onClick={props.closeMenu}>
-          <CloseIcon
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 14 14"
-            fill="currentColor"
-          >
-            <path d="M14,1.41,12.59,0,7,5.59,1.41,0,0,1.41,5.59,7,0,12.59,1.41,14,7,8.41,12.59,14,14,12.59,8.41,7Z" />
-          </CloseIcon>
+          <CloseIcon />
         </CloseButton>
       </Header>
       {activeCategories && (
@@ -82,14 +70,9 @@ function MobileMenu(props) {
             return (
               <MenuListItem key={name} onClick={() => showSubcategories(name)}>
                 {name}
-                <ArrowIcon
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 14 14"
-                  fill="currentColor"
-                >
-                  <path d="M8.41,7" />
-                  <path d="M7,5.59,1.41,0,0,1.41,5.59,7,0,12.59,1.41,14,7,8.41,8.41,7" />
-                </ArrowIcon>
+                <NextIcon>
+                  <ArrowIcon />
+                </NextIcon>
               </MenuListItem>
             );
           })}

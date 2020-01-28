@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { ReactComponent as TriangleArrow } from "../../assets/svg/triangle-arrow.svg";
 
 export const BackLink = styled(Link)`
   display: inline-flex;
@@ -10,18 +11,12 @@ export const BackLink = styled(Link)`
   line-height: 18px;
 `;
 
-export const ArrowIcon = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+export const ArrowIcon = styled(TriangleArrow)`
+  width: 1em;
+  height: 0.5em;
   margin-right: 4px;
   font-size: 12px;
-
-  & svg {
-    width: 1em;
-    height: 0.5em;
-    transform: rotate(270deg);
-  }
+  transform: rotate(270deg);
 `;
 
 export const PageContent = styled.div`
@@ -46,9 +41,7 @@ export const Title = styled.h1`
 
 export const DescriptionTitle = styled.span`
   display: block;
-  /* padding-top: 20px; */
   margin-top: 20px;
-  /* border-top: 1px solid ${props => props.theme.bluegrey8}; */
 
   color: ${props => props.theme.bluegrey1};
   text-transform: uppercase;

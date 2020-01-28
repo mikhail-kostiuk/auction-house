@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { ReactComponent as Arrow } from "../../assets/svg/arrow.svg";
 
 export const SliderWrapper = styled.div`
   &:hover button {
@@ -84,21 +85,32 @@ export const ArrowButton = styled.button`
   font: inherit;
 `;
 
-export const ArrowButtonLeft = styled(ArrowButton)`
+export const ButtonPrev = styled(ArrowButton)`
   &&& {
     display: ${props => (props.currentSlide === 0 ? "none" : "")};
     left: 0;
   }
 `;
 
-export const ArrowButtonRight = styled(ArrowButton)`
+export const ButtonNext = styled(ArrowButton)`
   &&& {
     display: ${props => (props.currentSlide === 12 ? "none" : "")};
     right: 0;
   }
 `;
 
-export const ArrowIcon = styled.svg`
-  width: 30px;
-  height: 30px;
+const IconStyles = css`
+  display: block;
+  width: 0.625em;
+  height: 1em;
+  font-size: 30px;
+`;
+
+export const PrevIcon = styled(Arrow)`
+  ${IconStyles}
+  transform: rotate(180deg);
+`;
+
+export const NextIcon = styled(Arrow)`
+  ${IconStyles}
 `;

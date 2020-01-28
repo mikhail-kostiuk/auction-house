@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { ReactComponent as Search } from "../../../assets/svg/search.svg";
 
 export const InputContainer = styled.div`
   position: relative;
@@ -36,14 +37,16 @@ export const SearchIconContainer = styled.div`
   border: none;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
-  color: #fff;
   background-color: ${props => props.theme.blue1};
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.15);
 `;
 
-export const SearchIcon = styled.svg`
-  width: 20px;
-  height: 20px;
+export const SearchIcon = styled(Search)`
+  display: block;
+  width: 1em;
+  height: 1em;
+  color: #fff;
+  font-size: 20px;
 `;
 
 export const HitsList = styled.ul`

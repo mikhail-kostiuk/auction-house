@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { ReactComponent as Arrow } from "../../../assets/svg/arrow.svg";
 
 export const Navigation = styled.nav``;
 
@@ -12,6 +13,8 @@ export const NavigationList = styled.ul`
 `;
 export const NavigationListItem = styled.li`
   position: relative;
+  display: flex;
+  justify-content: space-between;
   padding: 8px 20px 8px 0;
   cursor: pointer;
 
@@ -20,18 +23,21 @@ export const NavigationListItem = styled.li`
   }
 `;
 
-export const BackIcon = styled.svg`
-  width: 10px;
-  height: 10px;
+const IconStyles = css`
+  display: block;
+  width: 0.625em;
+  height: 1em;
+  font-size: 10px;
 `;
 
-export const ArrowIcon = styled.svg`
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: 10px;
-  height: 10px;
-  transform: translateY(-50%);
+export const BackIcon = styled(Arrow)`
+  ${IconStyles}
+  margin-right: 6px;
+  transform: rotate(180deg);
+`;
+
+export const NextIcon = styled(Arrow)`
+  ${IconStyles}
 `;
 
 export const BackButton = styled.button`
@@ -41,10 +47,10 @@ export const BackButton = styled.button`
   margin-bottom: 10px;
   border: none;
   background: none;
-  color: #0097ba;
+  color: ${props => props.theme.bluegrey5};
   cursor: pointer;
 
   &:hover {
-    color: #00677f;
+    color: ${props => props.theme.bluegrey1};
   }
 `;
