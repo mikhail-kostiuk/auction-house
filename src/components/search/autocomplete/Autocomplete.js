@@ -18,20 +18,16 @@ import {
 
 function Autocomplete({ hits, currentRefinement, refine }) {
   const [value, setValue] = useState("");
-  console.log(value);
   return (
     <InputContainer>
-      {/* {console.log(currentRefinement)} */}
       <SearchInput
         autocomplete="off"
         type="search"
         name="search"
         id="search"
         placeholder="Search items"
-        // value={currentRefinement}
         onChange={event => {
           const value = event.currentTarget.value;
-          console.log(currentRefinement);
           setValue(value);
           refine(event.currentTarget.value);
         }}
