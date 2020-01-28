@@ -11,12 +11,16 @@ export const BackLink = styled(Link)`
 `;
 
 export const ArrowIcon = styled.div`
-  height: 14px;
-  margin-bottom: -4px;
-  transform: rotate(90deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 4px;
+  font-size: 12px;
 
   & svg {
-    height: 100%;
+    width: 1em;
+    height: 0.5em;
+    transform: rotate(270deg);
   }
 `;
 

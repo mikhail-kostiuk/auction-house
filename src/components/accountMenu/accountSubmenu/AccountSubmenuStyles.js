@@ -89,6 +89,7 @@ export const Button = styled.button`
   padding: 20px;
   border: none;
   background: none;
+  text-align: left;
   text-align: start;
   cursor: pointer;
 `;
