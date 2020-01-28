@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { firestore } from "../../firebase";
+import { buildSortFunction } from "../../helpers/buildSortFunction";
 import { PageContent } from "./FavoritesStyles";
 import PageTemplate from "../pageTemplate/PageTemplate";
 import Gallery from "../../components/gallery/Gallery";
@@ -22,17 +23,28 @@ function Favorites(props) {
             result.push({ id: itemDoc.id, ...itemDoc.data() });
           });
 
+          result.sort((a, b) => a.endDate - b.endDate);
+
           setItems(result);
         });
     } else {
       setItems(null);
     }
-  }, [props]);
+  }, [props.auth]);
+
+  function handleSortOrderChange(sortOrder) {
+    const sortedItems = [...items].sort(buildSortFunction(sortOrder));
+    setItems(sortedItems);
+  }
 
   return (
     <PageTemplate pageTitle="Favorites">
       <PageContent>
-        <Gallery items={items} maxColumns="4" />
+        <Gallery
+          items={items}
+          maxColumns="4"
+          handleSortOrderChange={handleSortOrderChange}
+        />
       </PageContent>
     </PageTemplate>
   );
