@@ -59,7 +59,7 @@ export const Image = styled.img`
 
 export const Title = styled.span`
   display: block;
-  height: 54px;
+  height: 35px;
   margin: 0;
   margin-top: 10px;
   color: ${props => props.theme.bluegrey1};
@@ -71,7 +71,7 @@ export const Title = styled.span`
   overflow: hidden;
 
   @media screen and (min-width: 470px) {
-    height: 72px;
+    height: 50px;
     font-size: 15px;
     line-height: 24px;
   }
