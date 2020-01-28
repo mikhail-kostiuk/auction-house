@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const MenuList = styled.ul`
   display: flex;
@@ -39,27 +39,34 @@ export const MenuLink = styled(Link)`
 `;
 
 export const Icon = styled.div`
-  height: 20px;
   color: ${props => props.theme.blue1};
+  font-size: 20px;
 
   & svg {
-    height: 100%;
+    display: block;
+    width: 1em;
+    height: 1em;
   }
 `;
 export const ArrowIcon = styled.div`
   position: absolute;
-  top: 2px;
-  right: 0;
+  top: 8px;
+  right: 4px;
   height: 16px;
   color: ${props => props.theme.blue1};
+  font-size: 12px;
 
   @media screen and (min-width: 440px) {
-    top: 0;
+    top: 4px;
+    right: 4px;
     right: 14px;
   }
 
   & svg {
-    height: 100%;
+    display: block;
+    width: 1em;
+    height: 0.5em;
+    transform: rotate(180deg);
   }
 `;
 
