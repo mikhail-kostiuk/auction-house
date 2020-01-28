@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { firestore } from "../../firebase";
 import { buildSortFunction } from "../../helpers/buildSortFunction";
-import { PageContent } from "./FavoritesStyles";
 import PageTemplate from "../pageTemplate/PageTemplate";
 import Gallery from "../../components/gallery/Gallery";
 
@@ -39,13 +38,11 @@ function Favorites(props) {
 
   return (
     <PageTemplate pageTitle="Favorites">
-      <PageContent>
-        <Gallery
-          items={items}
-          maxColumns="4"
-          handleSortOrderChange={handleSortOrderChange}
-        />
-      </PageContent>
+      <Gallery
+        items={items}
+        maxColumns="4"
+        handleSortOrderChange={handleSortOrderChange}
+      />
     </PageTemplate>
   );
 }

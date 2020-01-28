@@ -4,7 +4,6 @@ import { firestore } from "../../firebase";
 import { buildSortFunction } from "../../helpers/buildSortFunction";
 import PageTemplate from "../pageTemplate/PageTemplate";
 import Gallery from "../../components/gallery/Gallery";
-import { PageContent } from "./MyBidsStyles";
 
 function MyBids(props) {
   const [items, setItems] = useState(null);
@@ -42,13 +41,11 @@ function MyBids(props) {
 
   return (
     <PageTemplate pageTitle="My Bids">
-      <PageContent>
-        <Gallery
-          items={items}
-          maxColumns="4"
-          handleSortOrderChange={handleSortOrderChange}
-        />
-      </PageContent>
+      <Gallery
+        items={items}
+        maxColumns="4"
+        handleSortOrderChange={handleSortOrderChange}
+      />
     </PageTemplate>
   );
 }
