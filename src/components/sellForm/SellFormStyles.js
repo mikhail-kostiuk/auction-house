@@ -20,13 +20,13 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
+  width: 100%;
   height: 40px;
   padding: 4px 8px;
   border: 1px solid ${props => props.theme.bluegrey8};
 
   &:focus {
-    border: 1px;
-    outline-color: ${props => props.theme.blue5};
+    border: 1px solid ${props => props.theme.blue5};
   }
 `;
 
@@ -36,8 +36,7 @@ export const Select = styled.select`
   border: 1px solid ${props => props.theme.bluegrey8};
 
   &:focus {
-    border: 1px;
-    outline-color: ${props => props.theme.blue5};
+    border: 1px solid ${props => props.theme.blue5};
   }
 `;
 
@@ -46,8 +45,7 @@ export const TextArea = styled.textarea`
   border: 1px solid ${props => props.theme.bluegrey8};
 
   &:focus {
-    border: 1px;
-    outline-color: ${props => props.theme.blue5};
+    border: 1px solid ${props => props.theme.blue5};
   }
 `;
 
