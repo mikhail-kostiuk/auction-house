@@ -36,6 +36,7 @@ import {
   Error,
   AddButton,
 } from "./ItemStyles";
+import Spinner from "../../components/gallery/spinner/Spinner";
 
 function Item(props) {
   const parsedQuery = queryString.parse(props.location.search);
@@ -43,6 +44,7 @@ function Item(props) {
 
   const { user } = props.auth;
 
+  const [loading, setLoading] = useState(true);
   const [item, setItem] = useState(null);
   const [directBid, setDirectBid] = useState(0);
   const [timeLeft, setTimeLeft] = useState(100);
@@ -53,6 +55,8 @@ function Item(props) {
   }, 1000);
 
   useEffect(() => {
+    setLoading(true);
+
     const itemRef = firestore.collection("items").doc(id);
 
     let unsubscribe;
@@ -66,6 +70,7 @@ function Item(props) {
             setTimeLeft(
               Math.round((itemDoc.data().endDate - Date.now()) / 1000)
             );
+            setLoading(false);
           });
         } else {
           props.history.push("/not-found");
@@ -73,6 +78,7 @@ function Item(props) {
       })
       .catch(function(error) {
         console.log("Error getting document:", error);
+        setLoading(false);
       });
 
     return () => {
@@ -272,120 +278,124 @@ function Item(props) {
         <ArrowIcon />
         Back to Search
       </BackLink>
-      {item && (
-        <PageContent>
-          <Left>
-            <Title>{item.title}</Title>
-            <ImageContainer>
-              <Image src={item.imageUrl} alt={item.title} />
-            </ImageContainer>
-            <DescriptionTitle>Description</DescriptionTitle>
-            <DescriptionText>{item.description}</DescriptionText>
-          </Left>
-          <Right>
-            <LotInfo>
-              <StartingBid>{`Starting bid $${item.startingBid}`}</StartingBid>
-              <TimeLeft>{showPreciseTimeLeft(timeLeft)}</TimeLeft>
-            </LotInfo>
-            <Form onSubmit={onFormSubmit}>
-              <BidsInfo>
-                <CurrentBid userBid={isUserLastBidder()}>
-                  ${item.bidsCount ? item.currentBid : item.startingBid}
-                </CurrentBid>
-                <Bids>{item.bidsCount} bids</Bids>
-              </BidsInfo>
-              <BidControls>
-                <QuickBid>Quick bid</QuickBid>
-                <QuickBidButtons>
-                  <QuickBidButton
-                    type="button"
-                    onClick={() =>
-                      bid(
+      {loading ? (
+        <Spinner />
+      ) : (
+        item && (
+          <PageContent>
+            <Left>
+              <Title>{item.title}</Title>
+              <ImageContainer>
+                <Image src={item.imageUrl} alt={item.title} />
+              </ImageContainer>
+              <DescriptionTitle>Description</DescriptionTitle>
+              <DescriptionText>{item.description}</DescriptionText>
+            </Left>
+            <Right>
+              <LotInfo>
+                <StartingBid>{`Starting bid $${item.startingBid}`}</StartingBid>
+                <TimeLeft>{showPreciseTimeLeft(timeLeft)}</TimeLeft>
+              </LotInfo>
+              <Form onSubmit={onFormSubmit}>
+                <BidsInfo>
+                  <CurrentBid userBid={isUserLastBidder()}>
+                    ${item.bidsCount ? item.currentBid : item.startingBid}
+                  </CurrentBid>
+                  <Bids>{item.bidsCount} bids</Bids>
+                </BidsInfo>
+                <BidControls>
+                  <QuickBid>Quick bid</QuickBid>
+                  <QuickBidButtons>
+                    <QuickBidButton
+                      type="button"
+                      onClick={() =>
+                        bid(
+                          Math.round(
+                            item.bidsCount
+                              ? item.currentBid + item.startingBid * 0.1
+                              : item.startingBid
+                          )
+                        )
+                      }
+                    >
+                      $
+                      {Math.round(
+                        item.bidsCount
+                          ? item.currentBid + item.startingBid * 0.1
+                          : item.startingBid
+                      )}
+                    </QuickBidButton>
+                    <QuickBidButton
+                      type="button"
+                      onClick={() =>
+                        bid(
+                          Math.round(
+                            Math.round(
+                              item.bidsCount
+                                ? item.currentBid + item.startingBid * 0.5
+                                : item.startingBid + item.startingBid * 0.5
+                            )
+                          )
+                        )
+                      }
+                    >
+                      $
+                      {Math.round(
                         Math.round(
                           item.bidsCount
-                            ? item.currentBid + item.startingBid * 0.1
-                            : item.startingBid
+                            ? item.currentBid + item.startingBid * 0.5
+                            : item.startingBid + item.startingBid * 0.5
                         )
-                      )
-                    }
-                  >
-                    $
-                    {Math.round(
-                      item.bidsCount
-                        ? item.currentBid + item.startingBid * 0.1
-                        : item.startingBid
-                    )}
-                  </QuickBidButton>
-                  <QuickBidButton
-                    type="button"
-                    onClick={() =>
-                      bid(
-                        Math.round(
+                      )}
+                    </QuickBidButton>
+                    <QuickBidButton
+                      type="button"
+                      onClick={() =>
+                        bid(
                           Math.round(
-                            item.bidsCount
-                              ? item.currentBid + item.startingBid * 0.5
-                              : item.startingBid + item.startingBid * 0.5
+                            Math.round(
+                              item.bidsCount
+                                ? item.currentBid + item.startingBid
+                                : item.startingBid + item.startingBid
+                            )
                           )
                         )
-                      )
-                    }
-                  >
-                    $
-                    {Math.round(
-                      Math.round(
-                        item.bidsCount
-                          ? item.currentBid + item.startingBid * 0.5
-                          : item.startingBid + item.startingBid * 0.5
-                      )
-                    )}
-                  </QuickBidButton>
-                  <QuickBidButton
-                    type="button"
-                    onClick={() =>
-                      bid(
+                      }
+                    >
+                      $
+                      {Math.round(
                         Math.round(
-                          Math.round(
-                            item.bidsCount
-                              ? item.currentBid + item.startingBid
-                              : item.startingBid + item.startingBid
-                          )
+                          item.bidsCount
+                            ? item.currentBid + item.startingBid
+                            : item.startingBid + item.startingBid
                         )
-                      )
-                    }
-                  >
-                    $
-                    {Math.round(
-                      Math.round(
-                        item.bidsCount
-                          ? item.currentBid + item.startingBid
-                          : item.startingBid + item.startingBid
-                      )
-                    )}
-                  </QuickBidButton>
-                </QuickBidButtons>
-                <BidDirectly>
-                  <Label htmlFor="directBid">Bid directly</Label>
-                  <Input
-                    type="number"
-                    name="directBid"
-                    id="directBid"
-                    value={directBid}
-                    onChange={e => {
-                      setDirectBid(e.target.value);
-                    }}
-                  />
-                  <BidButton>Place bid</BidButton>
-                  {error && <Error>{error}</Error>}
-                </BidDirectly>
-              </BidControls>
-              <AddButton type="button" onClick={toggleFavorites}>
-                {isItemInFavorites()
-                  ? "Remove from favorites"
-                  : "Add to favorites"}
-              </AddButton>
-            </Form>
-          </Right>
-        </PageContent>
+                      )}
+                    </QuickBidButton>
+                  </QuickBidButtons>
+                  <BidDirectly>
+                    <Label htmlFor="directBid">Bid directly</Label>
+                    <Input
+                      type="number"
+                      name="directBid"
+                      id="directBid"
+                      value={directBid}
+                      onChange={e => {
+                        setDirectBid(e.target.value);
+                      }}
+                    />
+                    <BidButton>Place bid</BidButton>
+                    {error && <Error>{error}</Error>}
+                  </BidDirectly>
+                </BidControls>
+                <AddButton type="button" onClick={toggleFavorites}>
+                  {isItemInFavorites()
+                    ? "Remove from favorites"
+                    : "Add to favorites"}
+                </AddButton>
+              </Form>
+            </Right>
+          </PageContent>
+        )
       )}
     </PageTemplate>
   );

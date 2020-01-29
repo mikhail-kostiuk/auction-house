@@ -6,9 +6,12 @@ import PageTemplate from "../pageTemplate/PageTemplate";
 import Gallery from "../../components/gallery/Gallery";
 
 function MyBids(props) {
+  const [loading, setLoading] = useState(true);
   const [items, setItems] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
+
     const { user } = props.auth;
 
     if (user) {
@@ -28,9 +31,11 @@ function MyBids(props) {
           result.sort((a, b) => a.endDate - b.endDate);
 
           setItems(result);
+          setLoading(false);
         });
     } else {
       setItems(null);
+      setLoading(false);
     }
   }, [props.auth]);
 
@@ -42,6 +47,7 @@ function MyBids(props) {
   return (
     <PageTemplate pageTitle="My Bids">
       <Gallery
+        loading={loading}
         items={items}
         maxColumns="4"
         handleSortOrderChange={handleSortOrderChange}

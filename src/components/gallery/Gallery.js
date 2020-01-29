@@ -7,11 +7,14 @@ import {
   GalleryList,
   GalleryItem,
 } from "./GalleryStyles";
+import Spinner from "./spinner/Spinner";
 
 function Gallery(props) {
-  const { items, title, maxColumns, handleSortOrderChange } = props;
+  const { items, title, maxColumns, handleSortOrderChange, loading } = props;
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     items && (
       <GalleryWrapper>
         {title && <GalleryTitle>{title}</GalleryTitle>}

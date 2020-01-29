@@ -13,7 +13,8 @@ import {
   PaginationContainer,
 } from "./ExploreStyles";
 
-function Search(props) {
+function Explore(props) {
+  const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState("TIME_SOONEST");
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,6 +30,8 @@ function Search(props) {
   const itemsPerPage = 12;
 
   useEffect(() => {
+    setLoading(true);
+
     const query = buildSortQuery(sortOrder, selectedCategories);
     const result = [];
 
@@ -74,6 +77,7 @@ function Search(props) {
 
         setCurrentPage(1);
         setResultSet({ items: result, cursor: { next } });
+        setLoading(false);
       });
   }, [selectedCategories, sortOrder]);
 
@@ -129,6 +133,7 @@ function Search(props) {
         </SidebarContainer>
         <GalleryContainer>
           <Gallery
+            loading={loading}
             items={resultSet.items}
             title={getSelectedCategoryName(selectedCategories)}
             maxColumns="3"
@@ -152,4 +157,4 @@ const mapStateToProps = state => {
   return { category: state.category };
 };
 
-export default connect(mapStateToProps)(Search);
+export default connect(mapStateToProps)(Explore);
