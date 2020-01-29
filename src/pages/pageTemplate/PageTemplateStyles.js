@@ -4,15 +4,21 @@ export const Page = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  height: 100vh;
+  min-height: 100vh;
+`;
+
+// For ie11
+export const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const PageContentContainer = styled.div`
   width: 100%;
-  padding: 10px;
+  padding: 10px 10px 20px 10px;
 
   @media screen and (min-width: 768px) {
-    padding: 10px 20px;
+    padding: 10px 20px 30px 20px;
   }
 
   @media screen and (min-width: 1200px) {
