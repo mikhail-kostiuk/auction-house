@@ -26,7 +26,7 @@ function Search(props) {
   });
 
   const selectedCategories = props.category;
-  const itemsPerPage = 6;
+  const itemsPerPage = 12;
 
   useEffect(() => {
     const query = buildSortQuery(sortOrder, selectedCategories);
