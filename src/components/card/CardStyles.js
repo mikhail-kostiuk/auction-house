@@ -113,6 +113,7 @@ export const CurrentBid = styled.span`
 
 export const Bids = styled.span`
   display: block;
+  margin-left: 2px;
   color: ${props => props.theme.bluegrey4};
   font-size: 14px;
 
@@ -129,6 +130,7 @@ export const Bids = styled.span`
 export const TimeLeft = styled.span`
   display: block;
   margin: 0;
+  margin-left: 6px;
   color: red;
   font-size: 14px;
 `;

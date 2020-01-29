@@ -109,9 +109,7 @@ function Card(props) {
   }
 
   function showBidsCount(bidsCount) {
-    if (!bidsCount) {
-      return null;
-    } else if (bidsCount === 1) {
+    if (bidsCount === 1) {
       return `${bidsCount} bid`;
     } else {
       return `${bidsCount} bids`;
