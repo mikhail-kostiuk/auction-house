@@ -11,19 +11,23 @@ import {
   SlideContainer,
 } from "./SliderStyles";
 import Slide from "./slide/Slide";
+import useInterval from "../../hooks/useInterval";
 
 function Slider(props) {
-  const [currentSlide, setCurrentSlide] = useState(6);
-  const [items, setItems] = useState([]);
-  // const [slideDirection, setSlideDirection] = useState("left");
+  const { title, order, delay } = props;
 
-  const totalSlides = 16;
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [items, setItems] = useState([]);
+  const [slideDirection, setSlideDirection] = useState("right");
+  const [autoSlideActive, setAutoSlideActive] = useState(true);
+
+  const totalSlides = 12;
 
   useEffect(() => {
     const resultSet = [];
     let query;
 
-    switch (props.order) {
+    switch (order) {
       case "endDate":
         query = firestore.collection("items").orderBy("endDate", "asc");
         break;
@@ -46,28 +50,60 @@ function Slider(props) {
         });
         setItems(resultSet);
       });
-  }, [props.order]);
+  }, [order]);
+
+  useInterval(() => {
+    if (!autoSlideActive) {
+      return;
+    }
+
+    if (currentSlide <= 0) {
+      setSlideDirection("right");
+    } else if (currentSlide >= 8) {
+      setSlideDirection("left");
+    }
+
+    if (slideDirection === "left") {
+      slideToRight();
+    } else {
+      slideToLeft();
+    }
+  }, delay);
 
   function slideToRight() {
+    if (currentSlide === 0) {
+      return;
+    }
+
     setCurrentSlide(currentSlide - 1);
   }
 
   function slideToLeft() {
+    if (currentSlide === totalSlides - 4) {
+      return;
+    }
+
     setCurrentSlide(currentSlide + 1);
   }
 
   return (
-    <SliderWrapper totalSlides={totalSlides} currentSlide={currentSlide}>
-      <Title>{props.title}</Title>
-      <List totalSlides={totalSlides} currentSlide={currentSlide}>
-        <ButtonPrev
-          onClick={slideToRight}
-          totalSlides={totalSlides}
-          currentSlide={currentSlide}
-        >
+    <SliderWrapper>
+      <Title>{title}</Title>
+      <List
+        currentSlide={currentSlide}
+        onClick={() => {
+          setAutoSlideActive(false);
+          setTimeout(() => setAutoSlideActive(true), 60000);
+        }}
+      >
+        <ButtonPrev onClick={slideToRight} currentSlide={currentSlide}>
           <PrevIcon />
         </ButtonPrev>
-        <ButtonNext onClick={slideToLeft} currentSlide={currentSlide}>
+        <ButtonNext
+          onClick={slideToLeft}
+          currentSlide={currentSlide}
+          totalSlides={totalSlides}
+        >
           <NextIcon />
         </ButtonNext>
         {items.map(item => (

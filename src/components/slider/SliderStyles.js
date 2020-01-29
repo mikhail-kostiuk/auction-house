@@ -94,7 +94,8 @@ export const ButtonPrev = styled(ArrowButton)`
 
 export const ButtonNext = styled(ArrowButton)`
   &&& {
-    display: ${props => (props.currentSlide === 12 ? "none" : "")};
+    display: ${props =>
+      props.currentSlide === props.totalSlides - 4 ? "none" : ""};
     right: 0;
   }
 `;
