@@ -45,10 +45,7 @@ function SignUp(props) {
           props.closeModal();
         })
         .catch(function(error) {
-          let errorCode = error.code;
           let errorMessage = error.message;
-          console.log(errorCode);
-          console.log(errorMessage);
 
           setError(errorMessage);
           setTimeout(() => setError(null), 5000);

@@ -19,7 +19,6 @@ export const openAddFundsModal = () => {
 };
 
 export const openWithdrawFundsModal = () => {
-  console.log("action");
   return dispatch => {
     dispatch({ type: actionTypes.OPEN_WITHDRAW_FUNDS_MODAL });
   };
