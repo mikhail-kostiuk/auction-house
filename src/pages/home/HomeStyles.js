@@ -33,7 +33,7 @@ export const SliderContainer = styled.div`
 `;
 
 export const SectionHeader = styled.h2`
-  margin: 20px 0 20px 0;
+  margin: 20px 0 14px 0;
   background-color: #fff;
   color: ${props => props.theme.blue1};
   font-size: 28px;
@@ -42,7 +42,7 @@ export const SectionHeader = styled.h2`
   text-align: center;
 
   @media screen and (min-width: 768px) {
-    margin: 30px 0 30px 0;
+    margin: 30px 0 24px 0;
   }
 `;
 
@@ -71,5 +71,50 @@ export const PopularCategory = styled(Link)`
 
   @media screen and (min-width: 768px) {
     width: 24%;
+  }
+`;
+
+export const AllCategoriesContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const Category = styled.div`
+  width: 50%;
+  padding: 10px;
+
+  @media screen and (min-width: 768px) {
+    width: 33%;
+    padding: 20px;
+  }
+`;
+
+export const CategoryLink = styled(Link)`
+  display: block;
+  cursor: pointer;
+`;
+
+export const CategoryImage = styled.img`
+  width: 100%;
+  padding: 0 10%;
+  margin: 0 auto;
+  border-bottom: 3px solid ${props => props.theme.bluegrey8};
+  display: block;
+
+  @media screen and (min-width: 768px) {
+    padding: 0 10%;
+  }
+`;
+
+export const CategoryTitle = styled.h2`
+  margin: 0;
+  margin-top: 8px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+
+  @media screen and (min-width: 768px) {
+    font-size: 20px;
   }
 `;
