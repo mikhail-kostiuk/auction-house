@@ -53,6 +53,9 @@ function Explore(props) {
         const totalPages = Math.ceil(totalItems / itemsPerPage);
 
         setTotalPages(totalPages ? totalPages : 1);
+      })
+      .catch(function(error) {
+        console.log("Error getting documents: ", error);
       });
 
     // Get initial first items
@@ -78,6 +81,9 @@ function Explore(props) {
         setCurrentPage(1);
         setResultSet({ items: result, cursor: { next } });
         setLoading(false);
+      })
+      .catch(function(error) {
+        console.log("Error getting documents: ", error);
       });
   }, [selectedCategories, sortOrder]);
 
@@ -87,22 +93,27 @@ function Explore(props) {
     const result = [];
     let query = buildSortQuery(sortOrder, selectedCategories);
 
-    cursorQuery.get().then(function(documentSnapshots) {
-      documentSnapshots.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
-        result.push({ id: doc.id, ...doc.data() });
+    cursorQuery
+      .get()
+      .then(function(documentSnapshots) {
+        documentSnapshots.forEach(function(doc) {
+          // doc.data() is never undefined for query doc snapshots
+          result.push({ id: doc.id, ...doc.data() });
+        });
+
+        let lastVisible =
+          documentSnapshots.docs[documentSnapshots.docs.length - 1];
+        let firstVisible = documentSnapshots.docs[0];
+
+        const next = query.startAfter(lastVisible).limit(itemsPerPage);
+        const prev = query.endBefore(firstVisible).limitToLast(itemsPerPage);
+
+        setResultSet({ items: result, cursor: { next, prev } });
+        setLoading(false);
+      })
+      .catch(function(error) {
+        console.log("Error getting documents: ", error);
       });
-
-      let lastVisible =
-        documentSnapshots.docs[documentSnapshots.docs.length - 1];
-      let firstVisible = documentSnapshots.docs[0];
-
-      const next = query.startAfter(lastVisible).limit(itemsPerPage);
-      const prev = query.endBefore(firstVisible).limitToLast(itemsPerPage);
-
-      setResultSet({ items: result, cursor: { next, prev } });
-      setLoading(false);
-    });
   }
 
   function getPrevItems() {

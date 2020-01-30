@@ -31,6 +31,9 @@ function WonItems(props) {
 
           setItems(result);
           setLoading(false);
+        })
+        .catch(function(error) {
+          console.log("Error getting documents: ", error);
         });
     } else {
       setItems(null);

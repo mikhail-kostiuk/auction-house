@@ -49,6 +49,9 @@ function Slider(props) {
           resultSet.push({ id: doc.id, ...doc.data() });
         });
         setItems(resultSet);
+      })
+      .catch(function(error) {
+        console.log("Error getting documents: ", error);
       });
   }, [order]);
 
