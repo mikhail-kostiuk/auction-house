@@ -82,6 +82,8 @@ function Explore(props) {
   }, [selectedCategories, sortOrder]);
 
   function getItems(cursorQuery) {
+    setLoading(true);
+
     const result = [];
     let query = buildSortQuery(sortOrder, selectedCategories);
 
@@ -99,6 +101,7 @@ function Explore(props) {
       const prev = query.endBefore(firstVisible).limitToLast(itemsPerPage);
 
       setResultSet({ items: result, cursor: { next, prev } });
+      setLoading(false);
     });
   }
 
