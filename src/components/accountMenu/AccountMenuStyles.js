@@ -89,7 +89,7 @@ export const Button = styled.button`
   height: 100%;
   padding: 0 12px;
   border: none;
-  background-color: inherit;
+  background-color: ${props => props.theme.bluegrey10};
   color: inherit;
 
   @media screen and (min-width: 440px) {
