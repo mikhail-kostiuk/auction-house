@@ -26,7 +26,7 @@ function Slide(props) {
 
   useInterval(() => {
     setTimeLeft(timeLeft - 60);
-  }, 1000);
+  }, 60000);
 
   useEffect(() => {
     const itemRef = firestore.collection("items").doc(item.id);
